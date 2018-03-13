@@ -1,5 +1,6 @@
 package com.project.casing;
 
+import com.project.insides.archiving.Archive;
 import com.project.insides.files.Parser;
 
 import java.util.Scanner;
@@ -16,10 +17,7 @@ public class Receiver {
         listen();
         if (commandPattern.matcher(receivedCommand).matches()) {
             Parser parser = new Parser(receivedCommand);
-            System.out.println(parser.getInputName());
-            System.out.println(parser.getOutputName());
-            System.out.println(parser.isPacking());
-            System.out.println(parser.isNewNameForOutputFile());
+            Archive.start(parser.getInputName(), parser.getOutputName(), parser.isPacking());
         } else {
             answer = null;
         }

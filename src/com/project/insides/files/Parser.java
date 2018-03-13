@@ -1,5 +1,6 @@
 package com.project.insides.files;
 
+
 public class Parser {
 
     private boolean packing;
