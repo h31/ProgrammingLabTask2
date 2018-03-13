@@ -1,10 +1,10 @@
 package com.project;
 
-import com.project.casing.Receiver;
+import com.project.insides.files.Reader;
 
 public class Main {
     public static void main(String[] args) {
-        Receiver.create();
-        System.out.println(Receiver.getAnswer());
+        Reader reader = new Reader("/Users/sergey/Desktop/settings.md");
+        System.out.println(reader.getAnswer());
     }
 }

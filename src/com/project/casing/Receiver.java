@@ -9,10 +9,11 @@ public class Receiver {
     private static String answer;
 
     public static void create() {
-        Pattern commandPattern = Pattern.compile("pack-rle\\s+(-z|-u)?\\s*(-out\\s+.+\\.*)?\\s*.+\\.(txt|uz)\\s*");
+        Pattern commandPattern =
+                Pattern.compile("pack-rle\\s+(-z|-u)?\\s*(-out\\s+.+\\.(txt|uz))?\\s*.+\\.(txt|uz)\\s*");
         listen();
         if (commandPattern.matcher(receivedCommand).matches()) {
-            //TODO packing/unpacking
+
         } else {
             answer = null;
         }
