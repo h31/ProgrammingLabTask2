@@ -1,11 +1,11 @@
 package com.project.insides;
 
-public class ByteObject {
+public class ArchiveObject {
 
-    private byte element;
+    private char element;
     private int quantity = 1;
 
-    public ByteObject(byte element) {
+    public ArchiveObject(char element) {
         this.element = element;
     }
 
@@ -13,7 +13,7 @@ public class ByteObject {
         this.quantity++;
     }
 
-    public byte getElement() {
+    public char getElement() {
         return element;
     }
 
@@ -32,7 +32,7 @@ public class ByteObject {
 
     @Override
     public boolean equals(Object obj) {
-        return this.getClass() == obj.getClass() && this.element == ((ByteObject) obj).element;
+        return this.getClass() == obj.getClass() && this.element == ((ArchiveObject) obj).element;
     }
 
     @Override
