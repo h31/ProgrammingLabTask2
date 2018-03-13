@@ -3,7 +3,11 @@ package com.project.insides.archiving;
 import com.project.insides.ByteObject;
 import com.project.insides.files.Reader;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class Archive {
@@ -25,7 +29,6 @@ public class Archive {
         try {
             List<ByteObject> buffer = new ArrayList<>();
             for (String aFile : file) {
-
                 byte[] bytesLine = aFile.getBytes("UTF-8");
                 byte lastByte = bytesLine[0];
                 buffer.add(new ByteObject(lastByte));
@@ -34,15 +37,17 @@ public class Archive {
                     if (bytesLine[byteIndex] == lastByte) {
                         lastElement.inc();
                     } else {
-                        buffer.add(new ByteObject(lastByte));
+                        buffer.add(new ByteObject(bytesLine[byteIndex]));
                         lastByte = bytesLine[byteIndex];
                     }
                 }
             }
-            System.out.println(Arrays.toString(file.get(0).getBytes()));
-            System.out.println(buffer);
+            String answerToFile = buffer.toString().replaceAll("([\\[\\],])+", "");
+            Files.write(Paths.get(outputName + ".uz"), Collections.singleton(answerToFile));
         } catch (UnsupportedEncodingException e) {
             throw new IllegalArgumentException("An error occurred while reading the file, invalid encoding");
+        } catch (IOException e) {
+            throw new IllegalArgumentException("File already exists or the name is not correct");
         }
 
     }
