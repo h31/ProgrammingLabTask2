@@ -26,35 +26,52 @@ class Tests {
             "Просто мыыы осооообенннннные.";
 
     @Test
-    void pucking() {
-        Receiver.testMode(String.format("pack-rle -z -out %s %s", ARCHIVE_NAME, PATH_TO_JUST));
-        Receiver.create();
-        assertEquals("completed", Receiver.getAnswer());
-
-        List<String> result;
-        try {
-            result = Files.readAllLines(Paths.get(PATH_TO_ARCHIVE), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Something went wrong");
-        }
-
-        assertEquals(ARCHIVE_FILE, result.get(0));
+    void packing() {
+        justAction(ARCHIVE_NAME, PATH_TO_JUST, PATH_TO_ARCHIVE, ARCHIVE_FILE, "z");
 
     }
 
     @Test
     void unpacking() {
-        Receiver.testMode(String.format("pack-rle -u -out %s %s", JUST_NAME, PATH_TO_ARCHIVE));
+        justAction(JUST_NAME, PATH_TO_ARCHIVE, PATH_TO_JUST, JUST_FILE, "u");
+    }
+
+    private void justAction(String justName, String pathToArchive, String pathToJust, String justFile, String key) {
+        Receiver.testMode(String.format("pack-rle -%s -out %s %s", justName, key, pathToArchive));
         Receiver.create();
         assertEquals("completed", Receiver.getAnswer());
 
         List<String> result;
         try {
-            result = Files.readAllLines(Paths.get(PATH_TO_JUST), StandardCharsets.UTF_8);
+            result = Files.readAllLines(Paths.get(pathToJust), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new IllegalArgumentException("Something went wrong");
         }
-        assertEquals(JUST_FILE, result.get(0));
+        assertEquals(justFile, result.get(0));
     }
 
+    @Test
+    void easyPacking() {
+        easyAction(PATH_TO_JUST, JUST_NAME, ARCHIVE_FILE, ".uz");
+    }
+
+    @Test
+    void easyUnpacking() {
+        easyAction(PATH_TO_ARCHIVE, ARCHIVE_NAME, JUST_FILE, ".txt");
+    }
+
+    private void easyAction(String pathToArchive, String archiveName, String justFile, String expansion) {
+        Receiver.testMode(String.format("pack-rle %s", pathToArchive));
+        Receiver.create();
+        assertEquals("completed", Receiver.getAnswer());
+
+        List<String> result;
+        try {
+            result = Files.readAllLines(Paths.get(archiveName + expansion), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Something went wrong");
+        }
+
+        assertEquals(justFile, result.get(0));
+    }
 }
