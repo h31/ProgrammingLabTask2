@@ -13,18 +13,6 @@ public class ArchiveObject {
         this.quantity++;
     }
 
-    public char getElement() {
-        return element;
-    }
-
-    public boolean sameElement(char other) {
-        return this.element == other;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
     @Override
     public String toString() {
         return String.valueOf(element).concat(quantity != 1 ? "|" + quantity : "");

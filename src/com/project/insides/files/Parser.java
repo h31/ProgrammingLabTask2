@@ -1,12 +1,10 @@
 package com.project.insides.files;
 
-
 import java.util.regex.Pattern;
 
 public class Parser {
 
     private boolean packing;
-    private boolean newNameForOutputFile = false;
     private String outputName;
     private String inputName;
 
@@ -31,13 +29,11 @@ public class Parser {
             case 4: {
                 inputName = values[3];
                 String[] partsFileName = dotPattern.split(values[3]);
-                newNameForOutputFile = true;
                 packing = partsFileName[1].equals("txt");
                 outputName = values[2];
                 break;
             }
             case 5: {
-                newNameForOutputFile = true;
                 packing = values[1].contains("-z");
                 inputName = values[4];
                 outputName = values[3];
@@ -49,10 +45,6 @@ public class Parser {
 
     public boolean isPacking() {
         return packing;
-    }
-
-    public boolean isNewNameForOutputFile() {
-        return newNameForOutputFile;
     }
 
     public String getInputName() {

@@ -3,6 +3,7 @@ package com.project.insides.archiving;
 import com.project.insides.ArchiveObject;
 import com.project.insides.files.Reader;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
@@ -18,30 +19,37 @@ public class Archive {
     private static List<String> file;
 
     public static void start(String inputName, String outputName, boolean packing) {
-        Reader reader = new Reader(inputName);
+        final Reader reader = new Reader(inputName);
         file = reader.getAnswer();
 
-        if (file == null) throw new IllegalArgumentException("Error reading file");
+        assert file != null : "Error reading file";
 
         System.out.printf("Start %s file %s\n", packing ? "packing" : "unpacking", inputName);
         System.out.printf("New file name = %s\n", outputName);
+
         if (packing) {
             packing(outputName);
+            double originalSize = new File(inputName).length();
+            double compressedSize = new File(outputName + ".uz").length();
+            System.out.printf("Original file size = %.0f\n" +
+                            "Archive file size = %.0f\n" +
+                            "The file is compressed by %.2f percent\n",
+                    originalSize, compressedSize, 100 - (compressedSize / originalSize) * 100);
         } else {
             unpacking(outputName);
         }
-        System.out.printf("%s end\n", packing ? "Packing" : "Unpacking");
+        System.out.printf("%s end\n\n", packing ? "Packing" : "Unpacking");
     }
 
     private static void packing(String outputName) {
         try {
-            List<ArchiveObject> buffer = new ArrayList<>();
+            final List<ArchiveObject> buffer = new ArrayList<>();
             for (String line : file) {
-                char[] bytesLine = line.toCharArray();
+                final char[] bytesLine = line.toCharArray();
                 char lastByte = bytesLine[0];
                 buffer.add(new ArchiveObject(lastByte));
                 for (int byteIndex = 1; byteIndex < bytesLine.length; byteIndex++) {
-                    ArchiveObject lastElement = buffer.get(buffer.size() - 1);
+                    final ArchiveObject lastElement = buffer.get(buffer.size() - 1);
                     if (bytesLine[byteIndex] == lastByte) {
                         lastElement.inc();
                     } else {
@@ -51,7 +59,7 @@ public class Archive {
                 }
             }
 
-            StringBuilder answerToFile = new StringBuilder();
+            final StringBuilder answerToFile = new StringBuilder();
             buffer.forEach(answerToFile::append);
             Files.write(Paths.get(outputName + ".uz"), Collections.singleton(answerToFile));
         } catch (UnsupportedEncodingException e) {
@@ -63,17 +71,16 @@ public class Archive {
     }
 
     private static void unpacking(String outputName) {
-        if (file.size() == 0 || file.size() > 1) {
-            throw new IllegalArgumentException("The file is damaged");
-        }
 
-        Matcher matcher = Pattern.compile(".\\|\\d+").matcher(file.get(0));
+        assert file.size() != 0 && file.size() <= 1 : "The file is damaged";
+
+        final Matcher matcher = Pattern.compile(".\\|\\d+").matcher(file.get(0));
         final List<String> matches = new ArrayList<>();
         while (matcher.find()) {
             matches.add(matcher.group(0));
         }
 
-        Pattern delimiter = Pattern.compile("\\|");
+        final Pattern delimiter = Pattern.compile("\\|");
 
         String answerToFile = file.get(0);
         for (String element : matches) {

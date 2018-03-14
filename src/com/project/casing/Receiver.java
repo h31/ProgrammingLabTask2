@@ -7,7 +7,6 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Receiver {
-//pack-rle -z -out newFile /Users/sergey/Desktop/settings.txt
     private static String receivedCommand;
     private static String answer;
     private static boolean testMood = false;
@@ -28,7 +27,7 @@ public class Receiver {
     }
 
     private static void listen() {
-        Scanner inputCommand = new Scanner(System.in);
+        final Scanner inputCommand = new Scanner(System.in);
         receivedCommand = inputCommand.nextLine();
     }
 
