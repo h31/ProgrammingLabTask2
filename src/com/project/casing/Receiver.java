@@ -10,11 +10,14 @@ public class Receiver {
 
     private static String receivedCommand;
     private static String answer;
+    private static boolean testMood = false;
 
     public static void create() {
         Pattern commandPattern =
                 Pattern.compile("pack-rle\\s+(-z|-u)?\\s*(-out\\s+.+)?\\s*.+\\.(txt|uz)\\s*");
-        listen();
+        if (!testMood) {
+            listen();
+        }
         if (commandPattern.matcher(receivedCommand).matches()) {
             Parser parser = new Parser(receivedCommand);
             Archive.start(parser.getInputName(), parser.getOutputName(), parser.isPacking());
@@ -28,7 +31,13 @@ public class Receiver {
         receivedCommand = inputCommand.nextLine();
     }
 
+    public static void testMode(String command) {
+        testMood = true;
+        receivedCommand = command;
+    }
+
     public static String getAnswer() {
         return answer;
     }
+
 }
