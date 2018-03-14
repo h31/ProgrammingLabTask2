@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Archive {
@@ -49,7 +50,9 @@ public class Archive {
                     }
                 }
             }
-            String answerToFile = buffer.toString().replaceAll("([\\[\\],])+", "");
+
+            StringBuilder answerToFile = new StringBuilder();
+            buffer.forEach(answerToFile::append);
             Files.write(Paths.get(outputName + ".uz"), Collections.singleton(answerToFile));
         } catch (UnsupportedEncodingException e) {
             throw new IllegalArgumentException("An error occurred while reading the file, invalid encoding");
@@ -60,32 +63,31 @@ public class Archive {
     }
 
     private static void unpacking(String outputName) {
-        if (file.size() != 0 && (file.size() > 1 || file.get(0).matches("(\\d(\\|\\d+)?\\s?)+"))) {
+        if (file.size() == 0 || file.size() > 1) {
             throw new IllegalArgumentException("The file is damaged");
         }
-        Pattern pattern = Pattern.compile(".\\|\\d+");
-        String[] partsFile = file.get(0).split(" ");
-        StringBuilder buffer = new StringBuilder();
-        for (String part : partsFile) {
-            if (part.isEmpty()) {
-                buffer.append(" ");
-            } else if (pattern.matcher(part).matches()) {
-                int numberOfRepeats = Integer.parseInt(part.split("\\|")[1]);
-                char symbolForRepeat = part.charAt(0);
-                while (numberOfRepeats > 0) {
-                    buffer.append(symbolForRepeat);
-                    numberOfRepeats--;
-                }
-            } else {
-                buffer.append(part);
-            }
+
+        Matcher matcher = Pattern.compile(".\\|\\d+").matcher(file.get(0));
+        final List<String> matches = new ArrayList<>();
+        while (matcher.find()) {
+            matches.add(matcher.group(0));
         }
-        String answerToFile = buffer.toString().replaceAll("\\s+", " ");
+
+        Pattern delimiter = Pattern.compile("\\|");
+
+        String answerToFile = file.get(0);
+        for (String element : matches) {
+            String[] partElement = delimiter.split(element);
+            int quantity = Integer.parseInt(partElement[1]);
+            String symbol = partElement[0];
+            answerToFile = answerToFile
+                    .replace(element, String.join("", Collections.nCopies(quantity, symbol)));
+        }
+
         try {
             Files.write(Paths.get(outputName + ".txt"), Collections.singleton(answerToFile));
         } catch (IOException e) {
             throw new IllegalArgumentException("Unknown error");
         }
     }
-
 }

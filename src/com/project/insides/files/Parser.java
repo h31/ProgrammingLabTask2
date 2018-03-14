@@ -1,6 +1,8 @@
 package com.project.insides.files;
 
 
+import java.util.regex.Pattern;
+
 public class Parser {
 
     private boolean packing;
@@ -11,9 +13,10 @@ public class Parser {
 
     public Parser(String value) {
         String[] values = value.trim().split("\\s+");
+        Pattern dotPattern = Pattern.compile("\\.");
         switch (values.length) {
             case 2: {
-                String[] partsFileName = values[1].split("\\.");
+                String[] partsFileName = dotPattern.split(values[1]);
                 packing = partsFileName[1].equals("txt");
                 outputName = partsFileName[0];
                 inputName = values[1];
@@ -22,12 +25,12 @@ public class Parser {
             case 3: {
                 inputName = values[2];
                 packing = values[1].contains("-z");
-                outputName = inputName.split("\\.")[0];
+                outputName = dotPattern.split(inputName)[0];
                 break;
             }
             case 4: {
                 inputName = values[3];
-                String[] partsFileName = values[3].split("\\.");
+                String[] partsFileName = dotPattern.split(values[3]);
                 newNameForOutputFile = true;
                 packing = partsFileName[1].equals("txt");
                 outputName = values[2];
@@ -40,6 +43,7 @@ public class Parser {
                 outputName = values[3];
                 break;
             }
+            default: throw new IllegalArgumentException("Unknown command");
         }
     }
 

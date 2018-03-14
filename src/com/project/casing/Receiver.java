@@ -7,7 +7,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Receiver {
-
+//pack-rle -z -out newFile /Users/sergey/Desktop/settings.txt
     private static String receivedCommand;
     private static String answer;
     private static boolean testMood = false;
@@ -32,13 +32,13 @@ public class Receiver {
         receivedCommand = inputCommand.nextLine();
     }
 
+    public static String getAnswer() {
+        return answer;
+    }
+
     public static void testMode(String command) {
         testMood = true;
         receivedCommand = command;
-    }
-
-    public static String getAnswer() {
-        return answer;
     }
 
 }
