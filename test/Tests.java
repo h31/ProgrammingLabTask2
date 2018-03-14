@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -73,5 +74,16 @@ class Tests {
         }
 
         assertEquals(justFile, result.get(0));
+    }
+
+    @Test
+    void wrongCommand() {
+        List<String> wrongCommands = Arrays.asList("", "pack-rle", "pack-rle dsfsd", "pack-rle -out dsfdf");
+
+        for (String command : wrongCommands) {
+            Receiver.testMode(command);
+            Receiver.create();
+            assertEquals(null, Receiver.getAnswer());
+        }
     }
 }
