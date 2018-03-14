@@ -19,12 +19,17 @@ public class Archive {
     public static void start(String inputName, String outputName, boolean packing) {
         Reader reader = new Reader(inputName);
         file = reader.getAnswer();
-        System.out.println(reader.getAnswer());
+
+        if (file == null) throw new IllegalArgumentException("Error reading file");
+
+        System.out.printf("Start %s file %s\n", packing ? "packing" : "unpacking", inputName);
+        System.out.printf("New file name = %s\n", outputName);
         if (packing) {
             packing(outputName);
         } else {
             unpacking(outputName);
         }
+        System.out.printf("%s end\n", packing ? "Packing" : "Unpacking");
     }
 
     private static void packing(String outputName) {
@@ -79,7 +84,7 @@ public class Archive {
         try {
             Files.write(Paths.get(outputName + ".txt"), Collections.singleton(answerToFile));
         } catch (IOException e) {
-            throw new IllegalArgumentException("Something"); // TODO ERROR
+            throw new IllegalArgumentException("Unknown error");
         }
     }
 

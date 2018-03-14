@@ -21,6 +21,7 @@ public class Receiver {
         if (commandPattern.matcher(receivedCommand).matches()) {
             Parser parser = new Parser(receivedCommand);
             Archive.start(parser.getInputName(), parser.getOutputName(), parser.isPacking());
+            answer = "completed";
         } else {
             answer = null;
         }

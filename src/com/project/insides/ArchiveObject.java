@@ -17,7 +17,7 @@ public class ArchiveObject {
         return element;
     }
 
-    public boolean sameByte(byte other) {
+    public boolean sameElement(char other) {
         return this.element == other;
     }
 
