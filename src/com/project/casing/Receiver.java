@@ -23,6 +23,7 @@ public class Receiver {
             answer = "completed";
         } else {
             answer = null;
+            System.out.println("Invalid command");
         }
     }
 
