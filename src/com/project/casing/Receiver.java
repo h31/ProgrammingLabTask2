@@ -22,8 +22,7 @@ public class Receiver {
             Archive.start(parser.getInputName(), parser.getOutputName(), parser.isPacking());
             answer = "completed";
         } else {
-            answer = null;
-            System.out.println("Invalid command");
+            throw new IllegalArgumentException("Invalid command");
         }
     }
 

@@ -45,16 +45,16 @@ public class Archive {
         try {
             final List<ArchiveObject> buffer = new ArrayList<>();
             for (String line : file) {
-                final char[] bytesLine = line.toCharArray();
-                char lastByte = bytesLine[0];
-                buffer.add(new ArchiveObject(lastByte));
-                for (int byteIndex = 1; byteIndex < bytesLine.length; byteIndex++) {
+                final char[] elementsOfLine = line.toCharArray();
+                char last = elementsOfLine[0];
+                buffer.add(new ArchiveObject(last));
+                for (int index = 1; index < elementsOfLine.length; index++) {
                     final ArchiveObject lastElement = buffer.get(buffer.size() - 1);
-                    if (bytesLine[byteIndex] == lastByte) {
+                    if (elementsOfLine[index] == last) {
                         lastElement.inc();
                     } else {
-                        buffer.add(new ArchiveObject(bytesLine[byteIndex]));
-                        lastByte = bytesLine[byteIndex];
+                        buffer.add(new ArchiveObject(elementsOfLine[index]));
+                        last = elementsOfLine[index];
                     }
                 }
             }
@@ -66,6 +66,8 @@ public class Archive {
             throw new IllegalArgumentException("An error occurred while reading the file, invalid encoding");
         } catch (IOException e) {
             throw new IllegalArgumentException("File already exists or the name is not correct");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("The file is empty or of unknown characters");
         }
 
     }

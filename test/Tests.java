@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class Tests {
@@ -30,7 +31,6 @@ class Tests {
     @Test
     void packing() {
         justAction(ARCHIVE_NAME, PATH_TO_JUST, PATH_TO_ARCHIVE, ARCHIVE_FILE, "z");
-
     }
 
     @Test
@@ -82,9 +82,10 @@ class Tests {
         List<String> wrongCommands = Arrays.asList("", "pack-rle", "pack-rle dsfsd", "pack-rle -out dsfdf");
 
         for (String command : wrongCommands) {
-            Receiver.testMode(command);
-            Receiver.create();
-            assertEquals(null, Receiver.getAnswer());
+            assertThrows(IllegalArgumentException.class, () -> {
+                Receiver.testMode(command);
+                Receiver.create();
+            });
         }
     }
 }
