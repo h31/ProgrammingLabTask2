@@ -83,9 +83,10 @@ public class Archive {
 
         final List<String> normalArchiveElements = findArchivePattern(file.get(0), true);
         final List<String> deepArchiveElements = findArchivePattern(file.get(0), false);
+        boolean onceCompress = Pattern.compile("(.\\d+&\\|)").matcher(file.get(0)).find();
         final String answerToFile = unpackingLine(normalArchiveElements, deepArchiveElements);
 
-        Reader.write(outputName + (deepArchiveElements.size() == 0 ? ".txt" : ".uz"), answerToFile);
+        Reader.write(outputName + (onceCompress ? ".txt" : ".uz"), answerToFile);
     }
 
     private static String unpackingLine(List<String> normalArchiveElements, List<String> deepArchiveElements) {

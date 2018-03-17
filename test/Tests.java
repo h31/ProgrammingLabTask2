@@ -91,4 +91,26 @@ class Tests {
             });
         }
     }
+
+    @Test
+    void wrongData() {
+        Receiver.testMode("pack-rle -z -out test/files/archiveWrongData test/files/wrongData.txt");
+        Receiver.create();
+        Receiver.testMode("pack-rle -u -out test/files/unpackWrongData test/files/archiveWrongData.uz");
+        Receiver.create();
+        String puckData = "Аляляля? Лалала. В частности, Мама3&| мы4&|ла ра7&|му.";
+        String originalData = "Аляляля? Лалала. В частности, Мама3| мы4|ла ра7|му.";
+        List<String> puckingResult;
+        List<String> unpackingResult;
+        try {
+            puckingResult = Files.readAllLines(Paths.get("test/files/archiveWrongData.uz"),
+                    StandardCharsets.UTF_8);
+            unpackingResult = Files.readAllLines(Paths.get("test/files/unpackWrongData.txt"),
+                    StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Something went wrong = " + e.getMessage());
+        }
+        assertEquals(puckingResult.get(0), puckData);
+        assertEquals(unpackingResult.get(0), originalData);
+    }
 }
