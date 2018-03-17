@@ -21,13 +21,13 @@ public class Archive {
         final Reader reader = new Reader(inputName);
         file = reader.getAnswer();
 
-        assert file != null : "Error reading file";
+        assert file != null && !file.isEmpty() : "Error reading file";
 
         System.out.printf("Start %s file %s\n", packing ? "packing" : "unpacking", inputName);
         System.out.printf("New file name = %s\n", outputName);
 
-        double originalSize = new File(inputName).length();
-        double nowSize = new File(outputName + (packing ? ".uz" : ".txt")).length();
+        double originalSize = (double) new File(inputName).length();
+        double nowSize = (double) new File(outputName + (packing ? ".uz" : ".txt")).length();
 
         if (packing) {
             packing(outputName);
@@ -36,39 +36,25 @@ public class Archive {
                             "The file is compressed by %.2f percent\n",
                     originalSize, nowSize, 100 - (nowSize / originalSize) * 100);
         } else {
+            unpacking(outputName);
             System.out.printf("Archive file size = %.0f\n" +
                             "Unpacking file size = %.0f\n" +
                             "The unpacked file is more by %.2f percent\n",
                     nowSize, originalSize, 100 - (originalSize / nowSize) * 100);
-            unpacking(outputName);
         }
         System.out.printf("%s end\n\n", packing ? "Packing" : "Unpacking");
     }
 
     private static void packing(String outputName) {
-
         final List<ArchiveElement> buffer = new ArrayList<>();
         for (String line : file) {
-            List<String> archiveElements = findArchivePattern(line, true);
-            if (archiveElements.size() != 0) {
-                for (String element : archiveElements) {
+            List<String> packingElements = findArchivePattern(line, true);
+            if (packingElements.size() != 0) {
+                for (String element : packingElements) {
                     line = line.replace(element,  element.replace("|", "|&"));
                 }
             }
-            char[] elementsOfLine = line.toCharArray();
-            if (elementsOfLine.length != 0) {
-                char last = elementsOfLine[0];
-                buffer.add(new ArchiveElement(last));
-                for (int index = 1; index < elementsOfLine.length; index++) {
-                    final ArchiveElement lastElement = buffer.get(buffer.size() - 1);
-                    if (elementsOfLine[index] == last) {
-                        lastElement.inc();
-                    } else {
-                        buffer.add(new ArchiveElement(elementsOfLine[index]));
-                        last = elementsOfLine[index];
-                    }
-                }
-            }
+            packingOneLine(line, buffer);
         }
 
         StringBuilder answerToFile = new StringBuilder();
@@ -85,34 +71,57 @@ public class Archive {
         }
     }
 
-    private static void unpacking(String outputName) {
+    private static void packingOneLine(String line, List<ArchiveElement> buffer) {
+        char[] charsOfLine = line.toCharArray();
+        if (charsOfLine.length != 0) {
+            char lastChar = charsOfLine[0];
+            buffer.add(new ArchiveElement(lastChar));
+            for (int index = 1; index < charsOfLine.length; index++) {
+                final ArchiveElement lastArchiveElement = buffer.get(buffer.size() - 1);
+                if (charsOfLine[index] == lastChar) {
+                    lastArchiveElement.inc();
+                } else {
+                    buffer.add(new ArchiveElement(charsOfLine[index]));
+                    lastChar = charsOfLine[index];
+                }
+            }
+        }
+    }
 
-        assert file.size() != 0 && file.size() <= 1 : "The file is damaged";
+
+
+    private static void unpacking(String outputName) {
+        assert file.size() == 1 : "The file is damaged";
 
         final List<String> normalArchiveElements = findArchivePattern(file.get(0), false);
         final List<String> deepArchiveElements = findArchivePattern(file.get(0), true);
-        final Pattern delimiter = Pattern.compile("\\|");
 
-        String answerToFile = file.get(0);
-        for (String element : normalArchiveElements) {
-            String[] partElement = delimiter.split(element);
-            int quantity = Integer.parseInt(partElement[1]);
-            String symbol = partElement[0];
-            answerToFile = answerToFile
-                    .replace(element, String.join("", Collections.nCopies(quantity, symbol)));
-        }
-
-        for (String element : deepArchiveElements) {
-            String newElement = element.replaceFirst("&", "");
-            answerToFile = answerToFile.replace(element, newElement);
-        }
+        final String answerToFile = unpackingLine(normalArchiveElements, deepArchiveElements);
 
         try {
             Files.write(Paths.get(outputName + (deepArchiveElements.size() == 0 ? ".txt" : ".uz")),
                     Collections.singleton(answerToFile));
         } catch (IOException e) {
-            throw new IllegalArgumentException("Unknown error");
+            throw new IllegalArgumentException(e.getMessage());
         }
+    }
+
+    private static String unpackingLine(List<String> normalArchiveElements, List<String> deepArchiveElements) {
+        String answer = file.get(0);
+        final Pattern delimiter = Pattern.compile("\\|");
+        for (String element : normalArchiveElements) {
+            final String[] partElement = delimiter.split(element);
+            final int quantity = Integer.parseInt(partElement[1]);
+            String symbolForCopies = partElement[0];
+            answer = answer
+                    .replace(element, String.join("", Collections.nCopies(quantity, symbolForCopies)));
+        }
+
+        for (String element : deepArchiveElements) {
+            String newElement = element.replaceFirst("&", "");
+            answer = answer.replace(element, newElement);
+        }
+        return answer;
     }
 
     private static List<String> findArchivePattern(String strForFind, boolean packing) {

@@ -10,6 +10,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class Tests {
@@ -41,7 +42,7 @@ class Tests {
     private void justAction(String fileName, String firstPath, String secondPath, String textOfFile, String key) {
         Receiver.testMode(String.format("pack-rle -%s -out %s %s", fileName, key, firstPath));
         Receiver.create();
-        assertEquals("completed", Receiver.getAnswer());
+        assertTrue(Receiver.getCompleted());
 
         List<String> result;
         try {
@@ -65,7 +66,7 @@ class Tests {
     private void easyAction(String path, String firstName, String secondName, String expansion) {
         Receiver.testMode(String.format("pack-rle %s", path));
         Receiver.create();
-        assertEquals("completed", Receiver.getAnswer());
+        assertTrue(Receiver.getCompleted());
 
         List<String> result;
         try {

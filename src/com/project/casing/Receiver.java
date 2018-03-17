@@ -8,31 +8,26 @@ import java.util.regex.Pattern;
 
 public class Receiver {
     private static String receivedCommand;
-    private static String answer;
+    private static boolean completed = false;
     private static boolean testMode = false;
 
     public static void create() {
         Pattern commandPattern =
                 Pattern.compile("pack-rle\\s+(-z|-u)?\\s*(-out\\s+.+)?\\s*.+\\.(txt|uz)\\s*");
         if (!testMode) {
-            commandListener();
+            receivedCommand = new Scanner(System.in).nextLine();
         }
         if (commandPattern.matcher(receivedCommand).matches()) {
             Parser parser = new Parser(receivedCommand);
             Archive.start(parser.getInputName(), parser.getOutputName(), parser.isPacking());
-            answer = "completed";
+            completed = true;
         } else {
             throw new IllegalArgumentException("Invalid command");
         }
     }
 
-    private static void commandListener() {
-        final Scanner inputCommand = new Scanner(System.in);
-        receivedCommand = inputCommand.nextLine();
-    }
-
-    public static String getAnswer() {
-        return answer;
+    public static boolean getCompleted() {
+        return completed;
     }
 
     public static void testMode(String command) {

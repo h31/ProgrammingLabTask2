@@ -5,7 +5,7 @@ public class ArchiveElement {
     private char element;
     private int quantity = 1;
 
-    public ArchiveElement(char element) {
+    ArchiveElement(char element) {
         this.element = element;
     }
 
