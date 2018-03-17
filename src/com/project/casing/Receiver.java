@@ -9,12 +9,12 @@ import java.util.regex.Pattern;
 public class Receiver {
     private static String receivedCommand;
     private static boolean completed = false;
-    private static boolean testMode = false;
+    private static boolean isTestMode = false;
 
     public static void create() {
         Pattern commandPattern =
                 Pattern.compile("pack-rle\\s+(-z|-u)?\\s*(-out\\s+.+)?\\s*.+\\.(txt|uz)\\s*");
-        if (!testMode) {
+        if (!isTestMode) {
             receivedCommand = new Scanner(System.in).nextLine();
         }
         if (commandPattern.matcher(receivedCommand).matches()) {
@@ -26,12 +26,12 @@ public class Receiver {
         }
     }
 
-    public static boolean getCompleted() {
+    public static boolean isCompleted() {
         return completed;
     }
 
     public static void testMode(String command) {
-        testMode = true;
+        isTestMode = true;
         receivedCommand = command;
     }
 

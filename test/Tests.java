@@ -17,14 +17,16 @@ class Tests {
 
     private static final String PATH_TO_JUST = "test/files/justFile.txt";
     private static final String PATH_TO_ARCHIVE = "test/files/archiveFile.uz";
-    private static final String JUST_NAME = "test/files/justFile";
-    private static final String ARCHIVE_NAME = "test/files/archiveFile";
-    private static final String ARCHIVE_FILE = "Мама|3 мы|4ла ра|7му." +
+    private static final String JUST_NAME = "test/files/justFile-copy";
+    private static final String ARCHIVE_NAME = "test/files/archiveFile-copy";
+    private static final String ARCHIVE_FILE =
+            "Мама3| мы4|ла ра7|му." +
             "Серьезно?" +
-            "Да мне|3 так Сере|6га сказал|3" +
-            ".Аа|3 почему|3 мы говорим как Ма|4сквичи?" +
-            "Просто мы|3 осо|4бен|6ые.";
-    private static final String JUST_FILE = "Мамааа мыыыыла раааааааму.Серьезно?" +
+            "Да мне3| так Сере6|га сказал3|" +
+            ".Аа3| почему3| мы говорим как Ма4|сквичи?" +
+            "Просто мы3| осо4|бен6|ые.";
+    private static final String JUST_FILE =
+            "Мамааа мыыыыла раааааааму.Серьезно?" +
             "Да мнеее так Сереееееега сказаллл." +
             "Аааа почемууу мы говорим как Маааасквичи?" +
             "Просто мыыы осооообенннннные.";
@@ -42,7 +44,7 @@ class Tests {
     private void justAction(String fileName, String firstPath, String secondPath, String textOfFile, String key) {
         Receiver.testMode(String.format("pack-rle -%s -out %s %s", fileName, key, firstPath));
         Receiver.create();
-        assertTrue(Receiver.getCompleted());
+        assertTrue(Receiver.isCompleted());
 
         List<String> result;
         try {
@@ -66,13 +68,13 @@ class Tests {
     private void easyAction(String path, String firstName, String secondName, String expansion) {
         Receiver.testMode(String.format("pack-rle %s", path));
         Receiver.create();
-        assertTrue(Receiver.getCompleted());
+        assertTrue(Receiver.isCompleted());
 
         List<String> result;
         try {
             result = Files.readAllLines(Paths.get(firstName + expansion), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new IllegalArgumentException("Something went wrong");
+            throw new IllegalArgumentException("Something went wrong = " + e.getMessage());
         }
 
         assertEquals(secondName, result.get(0));

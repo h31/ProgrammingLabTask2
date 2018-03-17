@@ -15,7 +15,7 @@ public class ArchiveElement {
 
     @Override
     public String toString() {
-        return String.valueOf(element).concat(quantity != 1 ? "|" + quantity : "");
+        return String.valueOf(element).concat(quantity != 1 ? quantity + "|" : "");
     }
 
     @Override

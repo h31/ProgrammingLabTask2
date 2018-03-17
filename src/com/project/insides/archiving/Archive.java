@@ -3,10 +3,6 @@ package com.project.insides.archiving;
 import com.project.insides.files.Reader;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +47,7 @@ public class Archive {
             List<String> packingElements = findArchivePattern(line, true);
             if (packingElements.size() != 0) {
                 for (String element : packingElements) {
-                    line = line.replace(element,  element.replace("|", "|&"));
+                    line = line.replace(element,  element.replaceFirst("\\|", "&|"));
                 }
             }
             packingOneLine(line, buffer);
@@ -60,15 +56,7 @@ public class Archive {
         StringBuilder answerToFile = new StringBuilder();
         buffer.forEach(answerToFile::append);
 
-        try {
-            Files.write(Paths.get(outputName + ".uz"), Collections.singleton(answerToFile));
-        } catch (UnsupportedEncodingException e) {
-            throw new IllegalArgumentException("An error occurred while reading the file, invalid encoding");
-        } catch (IOException e) {
-            throw new IllegalArgumentException("File already exists or the name is not correct");
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("The file is empty or of unknown characters");
-        }
+        Reader.write(outputName + ".uz", answerToFile.toString());
     }
 
     private static void packingOneLine(String line, List<ArchiveElement> buffer) {
@@ -93,26 +81,18 @@ public class Archive {
     private static void unpacking(String outputName) {
         assert file.size() == 1 : "The file is damaged";
 
-        final List<String> normalArchiveElements = findArchivePattern(file.get(0), false);
-        final List<String> deepArchiveElements = findArchivePattern(file.get(0), true);
-
+        final List<String> normalArchiveElements = findArchivePattern(file.get(0), true);
+        final List<String> deepArchiveElements = findArchivePattern(file.get(0), false);
         final String answerToFile = unpackingLine(normalArchiveElements, deepArchiveElements);
 
-        try {
-            Files.write(Paths.get(outputName + (deepArchiveElements.size() == 0 ? ".txt" : ".uz")),
-                    Collections.singleton(answerToFile));
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e.getMessage());
-        }
+        Reader.write(outputName + (deepArchiveElements.size() == 0 ? ".txt" : ".uz"), answerToFile);
     }
 
     private static String unpackingLine(List<String> normalArchiveElements, List<String> deepArchiveElements) {
         String answer = file.get(0);
-        final Pattern delimiter = Pattern.compile("\\|");
         for (String element : normalArchiveElements) {
-            final String[] partElement = delimiter.split(element);
-            final int quantity = Integer.parseInt(partElement[1]);
-            String symbolForCopies = partElement[0];
+            final String symbolForCopies = String.valueOf(element.charAt(0));
+            final int quantity = Integer.parseInt(element.substring(1, element.length() - 1));
             answer = answer
                     .replace(element, String.join("", Collections.nCopies(quantity, symbolForCopies)));
         }
@@ -126,10 +106,10 @@ public class Archive {
 
     private static List<String> findArchivePattern(String strForFind, boolean packing) {
         final Matcher matcher;
-        if (packing) {
-            matcher = Pattern.compile(".\\|&+\\d+").matcher(strForFind);
+        if (!packing) {
+            matcher = Pattern.compile(".\\d+&+\\|").matcher(strForFind);
         } else {
-            matcher = Pattern.compile(".\\|\\d+").matcher(strForFind);
+            matcher = Pattern.compile(".\\d+\\|").matcher(strForFind);
         }
         final List<String> matches = new ArrayList<>();
         while (matcher.find()) {
