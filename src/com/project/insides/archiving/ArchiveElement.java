@@ -1,11 +1,11 @@
-package com.project.insides;
+package com.project.insides.archiving;
 
-public class ArchiveObject {
+public class ArchiveElement {
 
     private char element;
     private int quantity = 1;
 
-    public ArchiveObject(char element) {
+    public ArchiveElement(char element) {
         this.element = element;
     }
 
@@ -20,7 +20,7 @@ public class ArchiveObject {
 
     @Override
     public boolean equals(Object obj) {
-        return this.getClass() == obj.getClass() && this.element == ((ArchiveObject) obj).element;
+        return this.getClass() == obj.getClass() && this.element == ((ArchiveElement) obj).element;
     }
 
     @Override

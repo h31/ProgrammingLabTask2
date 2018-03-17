@@ -9,13 +9,13 @@ import java.util.regex.Pattern;
 public class Receiver {
     private static String receivedCommand;
     private static String answer;
-    private static boolean testMood = false;
+    private static boolean testMode = false;
 
     public static void create() {
         Pattern commandPattern =
                 Pattern.compile("pack-rle\\s+(-z|-u)?\\s*(-out\\s+.+)?\\s*.+\\.(txt|uz)\\s*");
-        if (!testMood) {
-            listen();
+        if (!testMode) {
+            commandListener();
         }
         if (commandPattern.matcher(receivedCommand).matches()) {
             Parser parser = new Parser(receivedCommand);
@@ -26,7 +26,7 @@ public class Receiver {
         }
     }
 
-    private static void listen() {
+    private static void commandListener() {
         final Scanner inputCommand = new Scanner(System.in);
         receivedCommand = inputCommand.nextLine();
     }
@@ -36,7 +36,7 @@ public class Receiver {
     }
 
     public static void testMode(String command) {
-        testMood = true;
+        testMode = true;
         receivedCommand = command;
     }
 
