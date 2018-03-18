@@ -85,13 +85,10 @@ class SystemTests {
     @Test
     void wrongCommand() {
         List<String> wrongCommands = Arrays.asList("", "pack-rle", "pack-rle dsfsd", "pack-rle -out dsfdf");
-
-        for (String command : wrongCommands) {
-            assertThrows(AssertionError.class, () -> {
-                ConsoleUI.testMode(command);
-                ConsoleUI.create();
-            });
-        }
+        wrongCommands.forEach(command -> assertThrows(AssertionError.class, () -> {
+            ConsoleUI.testMode(command);
+            ConsoleUI.create();
+        }));
     }
 
     @Test

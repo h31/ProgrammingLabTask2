@@ -1,6 +1,5 @@
 package com.project.logic.archiving;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +11,7 @@ public class Archive {
     private static List<String> file;
     private static String streamToFile;
     private static String fileName;
+    private static char shieldingElement = '&';
 
     public static void start(String inputName, String outputName, boolean packing) {
 
@@ -20,21 +20,10 @@ public class Archive {
         System.out.printf("Start %s file %s\n", packing ? "packing" : "unpacking", inputName);
         System.out.printf("New file name = %s\n", outputName);
 
-        double originalSize = (double) new File(inputName).length();
-        double nowSize = (double) new File(outputName + (packing ? ".uz" : ".txt")).length();
-
         if (packing) {
             packing(outputName);
-            System.out.printf("Original file size = %.0f\n" +
-                            "Archive file size = %.0f\n" +
-                            "The file is compressed by %.2f percent\n",
-                    originalSize, nowSize, 100 - (nowSize / originalSize) * 100);
         } else {
             unpacking(outputName);
-            System.out.printf("Archive file size = %.0f\n" +
-                            "Unpacking file size = %.0f\n" +
-                            "The unpacked file is more by %.2f percent\n",
-                    nowSize, originalSize, 100 - (originalSize / nowSize) * 100);
         }
         System.out.printf("%s end\n\n", packing ? "Packing" : "Unpacking");
     }
@@ -55,11 +44,11 @@ public class Archive {
         final List<ArchiveElement> buffer = new ArrayList<>();
         for (String line : file) {
             List<String> packingElements = findArchivePattern(line, true);
-            if (packingElements.size() != 0) {
-                for (String element : packingElements) {
-                    line = line.replace(element, element.replaceFirst("\\|", "&|"));
-                }
+            if (packingElements.size() == 0) packingElements = findArchivePattern(line, false);
+            for (String element : packingElements) {
+                line = line.replace(element, element.replaceFirst("\\|", "&|"));
             }
+
             packingOneLine(line, buffer);
         }
 
@@ -77,7 +66,7 @@ public class Archive {
             buffer.add(new ArchiveElement(lastChar));
             for (int index = 1; index < charsOfLine.length; index++) {
                 final ArchiveElement lastArchiveElement = buffer.get(buffer.size() - 1);
-                if (charsOfLine[index] == lastChar) {
+                if (charsOfLine[index] == lastChar && charsOfLine[index] != shieldingElement) {
                     lastArchiveElement.inc();
                 } else {
                     buffer.add(new ArchiveElement(charsOfLine[index]));
@@ -86,7 +75,6 @@ public class Archive {
             }
         }
     }
-
 
 
     private static void unpacking(String outputName) {
