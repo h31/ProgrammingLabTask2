@@ -1,12 +1,12 @@
-package com.project.casing;
+package com.project.UI;
 
-import com.project.insides.archiving.Archive;
-import com.project.insides.files.Parser;
+import com.project.logic.archiving.Archive;
+import com.project.logic.files.Reader;
 
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class Receiver {
+public class ConsoleUI {
     private static String receivedCommand;
     private static boolean completed = false;
     private static boolean isTestMode = false;
@@ -17,13 +17,14 @@ public class Receiver {
         if (!isTestMode) {
             receivedCommand = new Scanner(System.in).nextLine();
         }
-        if (commandPattern.matcher(receivedCommand).matches()) {
-            Parser parser = new Parser(receivedCommand);
-            Archive.start(parser.getInputName(), parser.getOutputName(), parser.isPacking());
-            completed = true;
-        } else {
-            throw new IllegalArgumentException("Invalid command");
-        }
+        assert commandPattern.matcher(receivedCommand).matches() : "Invalid command";
+
+        Parser parser = new Parser(receivedCommand);
+        Archive.setFile(new Reader(parser.getInputName()).getAnswer());
+        Archive.start(parser.getInputName(), parser.getOutputName(), parser.isPacking());
+        Reader.write(Archive.getFileName(), Archive.getStreamToFile());
+        completed = true;
+
     }
 
     public static boolean isCompleted() {

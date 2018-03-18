@@ -1,6 +1,4 @@
-package com.project.insides.archiving;
-
-import com.project.insides.files.Reader;
+package com.project.logic.archiving;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,10 +10,10 @@ import java.util.regex.Pattern;
 public class Archive {
 
     private static List<String> file;
+    private static String streamToFile;
+    private static String fileName;
 
     public static void start(String inputName, String outputName, boolean packing) {
-        final Reader reader = new Reader(inputName);
-        file = reader.getAnswer();
 
         assert file != null && !file.isEmpty() : "Error reading file";
 
@@ -41,22 +39,35 @@ public class Archive {
         System.out.printf("%s end\n\n", packing ? "Packing" : "Unpacking");
     }
 
+    public static void setFile(List<String> file) {
+        Archive.file = file;
+    }
+
+    public static String getFileName() {
+        return fileName;
+    }
+
+    public static String getStreamToFile() {
+        return streamToFile;
+    }
+
     private static void packing(String outputName) {
         final List<ArchiveElement> buffer = new ArrayList<>();
         for (String line : file) {
             List<String> packingElements = findArchivePattern(line, true);
             if (packingElements.size() != 0) {
                 for (String element : packingElements) {
-                    line = line.replace(element,  element.replaceFirst("\\|", "&|"));
+                    line = line.replace(element, element.replaceFirst("\\|", "&|"));
                 }
             }
             packingOneLine(line, buffer);
         }
 
-        StringBuilder answerToFile = new StringBuilder();
-        buffer.forEach(answerToFile::append);
+        StringBuilder answer = new StringBuilder();
+        buffer.forEach(answer::append);
 
-        Reader.write(outputName + ".uz", answerToFile.toString());
+        fileName = outputName + ".uz";
+        streamToFile = answer.toString();
     }
 
     private static void packingOneLine(String line, List<ArchiveElement> buffer) {
@@ -84,9 +95,10 @@ public class Archive {
         final List<String> normalArchiveElements = findArchivePattern(file.get(0), true);
         final List<String> deepArchiveElements = findArchivePattern(file.get(0), false);
         boolean onceCompress = Pattern.compile("(.\\d+&\\|)").matcher(file.get(0)).find();
-        final String answerToFile = unpackingLine(normalArchiveElements, deepArchiveElements);
+        final String answer = unpackingLine(normalArchiveElements, deepArchiveElements);
 
-        Reader.write(outputName + (onceCompress ? ".txt" : ".uz"), answerToFile);
+        fileName = outputName + (onceCompress ? ".txt" : ".uz");
+        streamToFile = answer;
     }
 
     private static String unpackingLine(List<String> normalArchiveElements, List<String> deepArchiveElements) {

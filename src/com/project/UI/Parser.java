@@ -1,4 +1,4 @@
-package com.project.insides.files;
+package com.project.UI;
 
 import java.util.regex.Pattern;
 
@@ -9,7 +9,7 @@ public class Parser {
     private String outputName;
 
 
-    public Parser(String value) {
+    Parser(String value) {
         String[] values = value.trim().split("\\s+");
         Pattern dotPattern = Pattern.compile("\\.");
         switch (values.length) {

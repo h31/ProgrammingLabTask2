@@ -1,4 +1,6 @@
-import com.project.casing.Receiver;
+package system;
+
+import com.project.UI.ConsoleUI;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -13,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-class Tests {
+class SystemTests {
 
     private static final String PATH_TO_JUST = "test/files/justFile.txt";
     private static final String PATH_TO_ARCHIVE = "test/files/archiveFile.uz";
@@ -42,9 +44,9 @@ class Tests {
     }
 
     private void justAction(String fileName, String firstPath, String secondPath, String textOfFile, String key) {
-        Receiver.testMode(String.format("pack-rle -%s -out %s %s", fileName, key, firstPath));
-        Receiver.create();
-        assertTrue(Receiver.isCompleted());
+        ConsoleUI.testMode(String.format("pack-rle -%s -out %s %s", fileName, key, firstPath));
+        ConsoleUI.create();
+        assertTrue(ConsoleUI.isCompleted());
 
         List<String> result;
         try {
@@ -66,9 +68,9 @@ class Tests {
     }
 
     private void easyAction(String path, String firstName, String secondName, String expansion) {
-        Receiver.testMode(String.format("pack-rle %s", path));
-        Receiver.create();
-        assertTrue(Receiver.isCompleted());
+        ConsoleUI.testMode(String.format("pack-rle %s", path));
+        ConsoleUI.create();
+        assertTrue(ConsoleUI.isCompleted());
 
         List<String> result;
         try {
@@ -85,19 +87,19 @@ class Tests {
         List<String> wrongCommands = Arrays.asList("", "pack-rle", "pack-rle dsfsd", "pack-rle -out dsfdf");
 
         for (String command : wrongCommands) {
-            assertThrows(IllegalArgumentException.class, () -> {
-                Receiver.testMode(command);
-                Receiver.create();
+            assertThrows(AssertionError.class, () -> {
+                ConsoleUI.testMode(command);
+                ConsoleUI.create();
             });
         }
     }
 
     @Test
     void wrongData() {
-        Receiver.testMode("pack-rle -z -out test/files/archiveWrongData test/files/wrongData.txt");
-        Receiver.create();
-        Receiver.testMode("pack-rle -u -out test/files/unpackWrongData test/files/archiveWrongData.uz");
-        Receiver.create();
+        ConsoleUI.testMode("pack-rle -z -out test/files/archiveWrongData test/files/wrongData.txt");
+        ConsoleUI.create();
+        ConsoleUI.testMode("pack-rle -u -out test/files/unpackWrongData test/files/archiveWrongData.uz");
+        ConsoleUI.create();
         String puckData = "Аляляля? Лалала. В частности, Мама3&| мы4&|ла ра7&|му.";
         String originalData = "Аляляля? Лалала. В частности, Мама3| мы4|ла ра7|му.";
         List<String> puckingResult;

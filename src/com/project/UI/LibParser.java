@@ -1,4 +1,4 @@
-package com.project.insides.files;
+package com.project.UI;
 
 public class LibParser {
     // TODO for future

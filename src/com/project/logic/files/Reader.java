@@ -1,4 +1,4 @@
-package com.project.insides.files;
+package com.project.logic.files;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

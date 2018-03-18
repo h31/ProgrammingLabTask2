@@ -1,18 +1,12 @@
 package com.project;
 
-import com.project.casing.Receiver;
-import com.project.insides.files.Reader;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.project.UI.ConsoleUI;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println(System.currentTimeMillis());
-        Receiver.testMode("pack-rle -u -out /Users/sergey/Desktop/out /Users/sergey/Desktop/out.uz");
-        Receiver.create();
+        ConsoleUI.testMode("pack-rle -u -out /Users/sergey/Desktop/out /Users/sergey/Desktop/out.uz");
+        ConsoleUI.create();
         System.out.println(System.currentTimeMillis());
     }
 }
