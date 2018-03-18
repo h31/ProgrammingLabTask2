@@ -9,7 +9,7 @@ public class Parser {
     private String outputName;
 
 
-    Parser(String value) {
+    public Parser(String value) {
         String[] values = value.trim().split("\\s+");
         Pattern dotPattern = Pattern.compile("\\.");
         switch (values.length) {
