@@ -1,14 +1,13 @@
-package com.project.UI;
+package com.project.UI.Parsers;
 
 import java.util.regex.Pattern;
 
-public class Parser {
-
+public class DefaultParser {
     private boolean packing;
     private String inputName;
     private String outputName;
 
-    Parser(String value) {
+    public DefaultParser(String value) {
         String[] values = value.trim().split("\\s+");
         Pattern dotPattern = Pattern.compile("\\.");
         switch (values.length) {
