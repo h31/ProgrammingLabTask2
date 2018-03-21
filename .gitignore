@@ -10,7 +10,7 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
+# Package logic.logic.Files #
 *.jar
 *.war
 *.ear
@@ -93,7 +93,7 @@ fabric.properties
 
 ### Intellij+all Patch ###
 # Ignores the whole idea folder
-# See https://github.com/joeblau/gitignore.io/issues/186 and https://github.com/joeblau/gitignore.io/issues/360
+# See https://github.com/joeblau/gitignore.UI/issues/186 and https://github.com/joeblau/gitignore.UI/issues/360
 
 .idea/
 
