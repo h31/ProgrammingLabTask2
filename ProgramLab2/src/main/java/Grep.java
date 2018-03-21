@@ -22,12 +22,12 @@ public class Grep {
         }
     }
 
-    private List<String> findInLines(String regex, String key) {
+    private List<String> findInLines(String regex, int key) {
         List<String> result = new ArrayList<>();
         Pattern pattern = Pattern.compile(regex);
         for (String line : lines) {
-            if ((key.equals("-r") && pattern.matcher(line).find()) || (key.equals("word") && line.contains(regex))
-                || key.equals("-v") && !pattern.matcher(line).find()) {
+            if ((key == 0 && line.contains(regex)) || (key == 1 && pattern.matcher(line).find())
+                    || key == 2 && !pattern.matcher(line).find()) {
                 result.add(line);
             }
         }
@@ -35,15 +35,25 @@ public class Grep {
     }
 
     public List<String> findOnWord(String word) {
-        return findInLines(word, "word");
+        return findInLines(word, 0);
     }
 
     public List<String> findOnRegex(String regex) {
-        return findInLines(regex, "-r");
+        return findInLines(regex, 1);
     }
 
     public List<String> findExceptRegex(String regex) {
-        return findInLines(regex, "-v");
+        return findInLines(regex, 2);
+    }
+
+    public List<String> ignoreCase(String word) {
+        List<String> result = new ArrayList<>();
+        word = word.toLowerCase();
+        for (String line: lines) {
+            if (line.toLowerCase().contains(word)) {
+                result.add(line);
+            }
+        }
+        return result;
     }
 }
-

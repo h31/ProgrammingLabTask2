@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class Tests {
     Grep grep = new Grep("C:\\Users\\Dwohco\\ProgrammingLabTask2\\ProgramLab2\\src\\test\\FileForRead");
@@ -25,5 +26,12 @@ class Tests {
         List<String> expResult = Arrays.asList(grep.getLines().get(0), grep.getLines().get(1));
         assertEquals(expResult, grep.findExceptRegex("ул\\.\\s+(.+),\\s+д\\.\\s+(\\d+),\\s+кв\\.\\s+(\\d+)"));
     }
+
+    @Test
+    void ignoreCase() {
+        List<String> expResult = Arrays.asList(grep.getLines().get(0));
+        assertEquals(expResult, grep.ignoreCase("РЯДом"));
+    }
+
 }
 
