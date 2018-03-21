@@ -14,17 +14,18 @@ public class ConsoleUI {
     public static void create() {
         Pattern commandPattern =
                 Pattern.compile("pack-rle\\s+(-z|-u)?\\s*(-out\\s+.+)?\\s*.+\\.(txt|uz)\\s*");
-        if (!isTestMode) {
-            receivedCommand = new Scanner(System.in).nextLine();
-        }
+        if (!isTestMode) receivedCommand = new Scanner(System.in).nextLine();
+
         assert commandPattern.matcher(receivedCommand).matches() : "Invalid command";
 
         Parser parser = new Parser(receivedCommand);
+
         Archive.setFile(new Reader(parser.getInputName()).getAnswer());
         Archive.start(parser.getInputName(), parser.getOutputName(), parser.isPacking());
-        Reader.write(Archive.getFileName(), Archive.getStreamToFile());
-        completed = true;
 
+        Reader.write(Archive.getFileName(), Archive.getStreamToFile());
+
+        completed = true;
     }
 
     public static boolean isCompleted() {
@@ -35,5 +36,4 @@ public class ConsoleUI {
         isTestMode = true;
         receivedCommand = command;
     }
-
 }

@@ -8,7 +8,6 @@ public class Parser {
     private String inputName;
     private String outputName;
 
-
     Parser(String value) {
         String[] values = value.trim().split("\\s+");
         Pattern dotPattern = Pattern.compile("\\.");

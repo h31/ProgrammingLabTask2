@@ -28,18 +28,6 @@ public class Archive {
         System.out.printf("%s end\n\n", packing ? "Packing" : "Unpacking");
     }
 
-    public static void setFile(List<String> file) {
-        Archive.file = file;
-    }
-
-    public static String getFileName() {
-        return fileName;
-    }
-
-    public static String getStreamToFile() {
-        return streamToFile;
-    }
-
     private static void packing(String outputName) {
         final List<ArchiveElement> buffer = new ArrayList<>();
         for (String line : file) {
@@ -82,7 +70,7 @@ public class Archive {
 
         final List<String> normalArchiveElements = findArchivePattern(file.get(0), true);
         final List<String> deepArchiveElements = findArchivePattern(file.get(0), false);
-        boolean onceCompress = Pattern.compile("(.\\d+&\\|)").matcher(file.get(0)).find();
+        final boolean onceCompress = Pattern.compile("(.\\d+&\\|)").matcher(file.get(0)).find();
         final String answer = unpackingLine(normalArchiveElements, deepArchiveElements);
 
         fileName = outputName + (onceCompress ? ".txt" : ".uz");
@@ -91,6 +79,7 @@ public class Archive {
 
     private static String unpackingLine(List<String> normalArchiveElements, List<String> deepArchiveElements) {
         String answer = file.get(0);
+
         for (String element : normalArchiveElements) {
             final String symbolForCopies = String.valueOf(element.charAt(0));
             final int quantity = Integer.parseInt(element.substring(1, element.length() - 1));
@@ -102,12 +91,13 @@ public class Archive {
             String newElement = element.replaceFirst("&", "");
             answer = answer.replace(element, newElement);
         }
+
         return answer;
     }
 
-    private static List<String> findArchivePattern(String strForFind, boolean packing) {
+    private static List<String> findArchivePattern(String strForFind, boolean notShielding) {
         final Matcher matcher;
-        if (!packing) {
+        if (!notShielding) {
             matcher = Pattern.compile(".\\d+&+\\|").matcher(strForFind);
         } else {
             matcher = Pattern.compile(".\\d+\\|").matcher(strForFind);
@@ -119,4 +109,15 @@ public class Archive {
         return matches;
     }
 
+    public static void setFile(List<String> file) {
+        Archive.file = file;
+    }
+
+    public static String getFileName() {
+        return fileName;
+    }
+
+    public static String getStreamToFile() {
+        return streamToFile;
+    }
 }
