@@ -15,7 +15,7 @@ public class TranspositionLauncher {
     private File inputData;
 
     @Option(name = "-o", usage = "Output to this file", metaVar = "outputFile")
-    private File outData;
+    private File outputData;
 
     @Option(name = "-a", usage = "Each word is num symbols long in the output text", metaVar = "width")
     private int width;
@@ -49,7 +49,7 @@ public class TranspositionLauncher {
         Transposition transposition = new Transposition(width, cut,  alignRight);
         try {
             InputStream input = inputData != null ? new FileInputStream(inputData) : new BufferedInputStream(System.in);
-            OutputStream output = outData != null ? new FileOutputStream(outData) : new BufferedOutputStream(System.out);
+            OutputStream output = outputData != null ? new FileOutputStream(outputData) : new BufferedOutputStream(System.out);
             transposition.transmitMatrix(transposition.getMatrix(input), output);
             log.fine("Done");
         } catch (IOException ex) {

@@ -68,7 +68,7 @@ public class Transposition {
         }
         output.print(newLine);
         output.close();
-        log.fine("FNew matrix has been written to the file");
+        log.fine("New matrix has been written to the file");
     }
 
     @Override
