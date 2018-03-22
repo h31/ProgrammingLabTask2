@@ -1,5 +1,3 @@
-package Main.java;
-
 import java.io.File;
 
 public class Find {
@@ -9,9 +7,23 @@ public class Find {
     private Boolean subDirectory;
 
     public static void main(String[] args) {
-        Find find = new Find("C:\\Users\\loko\\Desktop\\D&P", true);
-        System.out.println(find.find("Alesso - Heroes (D&P Remix).mp3"));
+
+        boolean subDirectory = false;
+        String fileDirectory = new File("").getAbsolutePath();
+        String nameOfTheFile = args[args.length-1];
+
+        for (int i = 0; i < args.length - 1; i++){
+            if (args[i].equals("-r"))
+                subDirectory = true;
+            if (args[i].equals("-d"))
+                fileDirectory = args[i+1];
+        }
+
+        Find find = new Find(fileDirectory, subDirectory);
+        System.out.println(find.find(nameOfTheFile));
+
     }
+
 
 
     public Find(String fileName, Boolean subDirectory) {
