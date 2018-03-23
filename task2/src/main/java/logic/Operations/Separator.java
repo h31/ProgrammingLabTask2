@@ -23,21 +23,17 @@ public class Separator {
         String nameWithExtension = name + "." + extension;
         reader = new Reader(path, nameWithExtension);
         reader.readLines();
-        String[] lines = new String[0];
-        lines = reader.listOfLines;
-
-
-
+        String[] lines = reader.listOfLines;
         int length = reader.listOfLines.length;
         if (length > 4) {
             int quarter = length / 4;
-            int remainder = length % 4;
-            for (int fileCounter = 1; fileCounter <= 4; fileCounter++) {
+            for (int fileCounter = 1; fileCounter <= 5; fileCounter++) {
                 ArrayList<String> linesToFile = new ArrayList<>();
                 for (int i = (fileCounter - 1) * quarter; i < fileCounter * quarter; i++) {
+                    if (i >= length) break;
                     linesToFile.add(lines[i]);
                 }
-                String newFileName = name + fileCounter + "." + extension;
+                String newFileName = path + fileCounter + "." + extension;
                 creator.createNewFile(path, newFileName);
                 Writer writer = new Writer(path, newFileName);
                 writer.writeLines(linesToFile, true, true);
@@ -59,24 +55,17 @@ public class Separator {
         int length = reader.listOfLines.length;
         if (length > 4) {
             int quarter = length / 4;
-            for (int fileCounter = 1; fileCounter <= 4; fileCounter++) {
+            for (int fileCounter = 1; fileCounter <= 5; fileCounter++) {
                 ArrayList<String> linesToFile = new ArrayList<>();
                 for (int i = (fileCounter - 1) * quarter; i < fileCounter * quarter; i++) {
+                    if (i >= length) break;
                     linesToFile.add(lines[i]);
                 }
                 String newFileName = newFilesNamesPattern + fileCounter + "." + extension;
                 creator.createNewFile(newFilesPath, newFileName);
-                Writer writer = new Writer(path, newFileName);
+                Writer writer = new Writer(newFilesPath, newFileName);
                 writer.writeLines(linesToFile, true, true);
             }
-            ArrayList<String> linesToFile = new ArrayList<>();
-            for (int i = quarter * 4; i < length; i++){
-                linesToFile.add(lines[i]);
-            }
-            String newFileName = newFilesNamesPattern + 5 + "." + extension;
-            creator.createNewFile(newFilesPath, newFileName);
-            Writer writer = new Writer(path, newFileName);
-            writer.writeLines(linesToFile, true, true);
 
         } else {
             throw new IllegalArgumentException("Размер файла слишком мал для применения tar");

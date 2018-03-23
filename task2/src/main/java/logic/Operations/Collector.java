@@ -29,4 +29,20 @@ public class Collector {
 
 
     }
+
+    public void collectFile(List<File> filesForCollect, String outputFileName, String pathOutputFiles) {
+        Creator creator = new Creator(pathOutputFiles, outputFileName);
+        creator.createNewFile();
+        Writer writer = new Writer(pathOutputFiles, outputFileName);
+        Reader reader = new Reader();
+        for (File file : filesForCollect) {
+            Map<String, String> pathFragments = reader.getPathFragments(file);
+            String path = pathFragments.get("path");
+            String name = pathFragments.get("name");
+            String extension = pathFragments.get("extension");
+            String nameWithExtension = name + "." + extension;
+            Reader currentFileReader = new Reader(path, nameWithExtension);
+            writer.writeLines(currentFileReader.getLines(), false, false);
+        }
+    }
 }
