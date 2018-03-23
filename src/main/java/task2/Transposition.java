@@ -17,7 +17,6 @@ public class Transposition {
             this.width = width;
             this.cut = cut;
             this.alignRight = alignRight;
-            log.log(Level.INFO, "Transposition adjustments have been assigned: {0}", this);
         } catch (IllegalArgumentException ex) {
             log.log(Level.SEVERE, "Request is invalid.", ex);
             throw ex;
@@ -25,7 +24,7 @@ public class Transposition {
         log.fine("Parameters are assigned");
     }
 
-    public List<List<String>> getMatrix(InputStream dataReceived) throws IOException {
+    public List<List<String>> getMatrix(Reader dataReceived) throws IOException {
         try (Scanner scanner = new Scanner(dataReceived)) {
             List<List<String>> allLines = new ArrayList<>();
             String alignmentRight = ((this.alignRight) || (width == 0)) ? "" : "-";
@@ -39,16 +38,20 @@ public class Transposition {
                     if (cut) {
                         element = element.substring(0, width);
                     }
+                    if (allLines.size() <= count) {
+                        allLines.add(new ArrayList<>());
+                    }
                     allLines.get(count).add(element);
                     count++;
                 }
+
             }
             log.fine("File has been read");
             return allLines;
         }
     }
 
-    public void transmitMatrix(List<List<String>> linesGotten, OutputStream dataTransmitted) throws IOException {
+    public void transmitMatrix(List<List<String>> linesGotten, Writer dataTransmitted) throws IOException {
         PrintWriter output = new PrintWriter(dataTransmitted);
         for (int i = 0; i < linesGotten.size() - 1; i++) {
             StringBuilder newLine = new StringBuilder();
@@ -70,6 +73,7 @@ public class Transposition {
         output.close();
         log.fine("New matrix has been written to the file");
     }
+
 
     @Override
     public boolean equals(Object o) {
