@@ -25,7 +25,7 @@ public class Transposition {
         log.fine("Parameters are assigned");
     }
 
-    public List<List<String>> getMatrix(InputStream dataReceived) throws IOException {
+    public List<List<String>> getMatrix(FileInputStream dataReceived) throws IOException {
         try (Scanner scanner = new Scanner(dataReceived)) {
             List<List<String>> allLines = new ArrayList<>();
             String alignmentRight = ((this.alignRight) || (width == 0)) ? "" : "-";
@@ -48,7 +48,7 @@ public class Transposition {
         }
     }
 
-    public void transmitMatrix(List<List<String>> linesGotten, OutputStream dataTransmitted) throws IOException {
+    public void transmitMatrix(List<List<String>> linesGotten, FileOutputStream dataTransmitted) throws IOException {
         PrintWriter output = new PrintWriter(dataTransmitted);
         for (int i = 0; i < linesGotten.size() - 1; i++) {
             StringBuilder newLine = new StringBuilder();
