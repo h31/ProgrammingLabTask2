@@ -39,7 +39,7 @@ public class TranspositionLauncher {
                 throw new CmdLineException(parser, "No argument is given");
         } catch (CmdLineException ex) {
             System.err.println(ex.getMessage());
-            System.err.println("java -jar part2.jar -a width -t cut -r alignRight -o ofile -file");
+            System.err.println("java -jar part2.jar -o ofile -file -a width -t cut -r alignRight");
             parser.printUsage(System.err);
             System.err.println();
             System.err.println("Example: java TranspositionLauncher" + parser.printExample(ALL));
