@@ -23,7 +23,7 @@ public class Writer {
             for (String line : content) {
                 lines.append(line + "\n");
             }
-            lines.delete(lines.length() - 1,lines.length());
+            lines.delete(lines.length() - 1, lines.length());
             writer.write(lines.toString());
             writer.close();
         } catch (IOException ex) {
@@ -31,16 +31,19 @@ public class Writer {
         }
     }
 
-    public void writeLines(ArrayList<String> content, boolean rewrite) {
+    public void writeLines(ArrayList<String> content, boolean rewrite, boolean deleteLastLineBreak) {
         try {
             FileWriter writer = new FileWriter(pathDir + name, !rewrite);
             StringBuilder lines = new StringBuilder();
             for (String line : content) {
                 lines.append(line + "\n");
             }
-            lines.delete(lines.length() - 1,lines.length());
+            if (deleteLastLineBreak) {
+                lines.delete(lines.length() - 1, lines.length());
+            }
             writer.write(lines.toString());
             writer.close();
+
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
