@@ -2,12 +2,12 @@ package com.project.UI.Parsers;
 
 import java.util.regex.Pattern;
 
-public class DefaultParser {
+public class NativeParser implements Parser {
     private boolean packing;
     private String inputName;
     private String outputName;
 
-    public DefaultParser(String value) {
+    public NativeParser(String value) {
         String[] values = value.trim().split("\\s+");
         Pattern dotPattern = Pattern.compile("\\.");
         switch (values.length) {
@@ -41,15 +41,18 @@ public class DefaultParser {
         }
     }
 
+    @Override
     public boolean isPacking() {
         return packing;
     }
 
-    public String getInputName() {
+    @Override
+    public String getInputFileName() {
         return inputName;
     }
 
-    public String getOutputName() {
+    @Override
+    public String getOutputFileName() {
         return outputName;
     }
 }

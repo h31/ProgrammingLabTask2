@@ -1,7 +1,8 @@
 package com.project.UI;
 
-import com.project.UI.Parsers.DefaultParser;
 import com.project.UI.Parsers.LibParser;
+import com.project.UI.Parsers.NativeParser;
+import com.project.UI.Parsers.Parser;
 import com.project.logic.archiving.Archive;
 import com.project.logic.files.Reader;
 
@@ -12,28 +13,35 @@ public class ConsoleUI {
     private static String receivedCommand;
     private static boolean completed = false;
     private static boolean isTestMode = false;
-    private static boolean defaultParser = true;
+    private static boolean useNativeParser = true;
+    private static Pattern commandPattern =
+            Pattern.compile("pack-rle\\s+(-z|-u)?\\s*(-out\\s+.+)?\\s*.+\\.(txt|uz)\\s*");
 
     public static void create() {
-        Pattern commandPattern =
-                Pattern.compile("pack-rle\\s+(-z|-u)?\\s*(-out\\s+.+)?\\s*.+\\.(txt|uz)\\s*");
+
         if (!isTestMode) receivedCommand = new Scanner(System.in).nextLine();
 
-        assert commandPattern.matcher(receivedCommand).matches() : "Invalid command";
-
-        ArgsParser parser = new ArgsParser();
-        if (defaultParser) {
-            DefaultParser defaultParser = new DefaultParser(receivedCommand);
-            parser.setArgs(defaultParser.isPacking(), defaultParser.getInputName(), defaultParser.getOutputName());
-        } else {
-            LibParser libParser = new LibParser(receivedCommand.split("\\s+"));
-            parser.setArgs(libParser.isPacking(), libParser.getParameters().get(1), libParser.getOutputName());
+        if (!commandPattern.matcher(receivedCommand).matches()) {
+            throw new IllegalArgumentException("Invalid command");
         }
 
-        Archive.setFile(new Reader(parser.getInputName()).getAnswer());
-        Archive.start(parser.getInputName(), parser.getOutputName(), parser.isPacking());
+        Parser parser;
+        if (useNativeParser) {
+            parser = new NativeParser(receivedCommand);
+        } else {
+            parser = new LibParser(receivedCommand.split("\\s+"));
+        }
+
+        System.out.printf("Start %s file %s\n", parser.isPacking() ? "packing" : "unpacking",
+                parser.getInputFileName());
+        System.out.printf("New file name = %s\n", parser.getOutputFileName());
+
+        Archive.setFile(new Reader(parser.getInputFileName()).getAnswer());
+        Archive.start(parser.getOutputFileName(), parser.isPacking());
 
         Reader.write(Archive.getFileName(), Archive.getStreamToFile());
+
+        System.out.printf("%s end\n\n", parser.isPacking() ? "Packing" : "Unpacking");
 
         completed = true;
     }
@@ -42,8 +50,8 @@ public class ConsoleUI {
         return completed;
     }
 
-    public static void setDefaultParser(boolean isDefaultParser) {
-        defaultParser = isDefaultParser;
+    public static void setUseNativeParser(boolean use) {
+        useNativeParser = use;
     }
 
     public static void testMode(String command) {

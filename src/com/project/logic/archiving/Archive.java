@@ -8,29 +8,27 @@ import java.util.regex.Pattern;
 
 public class Archive {
 
-    private static List<String> file;
+    private static List<String> fileLines;
     private static String streamToFile;
     private static String fileName;
     private static char shieldingElement = '&';
 
-    public static void start(String inputName, String outputName, boolean packing) {
+    public static void start(String outputName, boolean packing) {
 
-        assert file != null && !file.isEmpty() : "Error reading file";
-
-        System.out.printf("Start %s file %s\n", packing ? "packing" : "unpacking", inputName);
-        System.out.printf("New file name = %s\n", outputName);
+        if (fileLines != null && !fileLines.isEmpty()) {
+            throw new IllegalArgumentException("Error reading file");
+        }
 
         if (packing) {
             packing(outputName);
         } else {
             unpacking(outputName);
         }
-        System.out.printf("%s end\n\n", packing ? "Packing" : "Unpacking");
     }
 
     private static void packing(String outputName) {
         final List<ArchiveElement> buffer = new ArrayList<>();
-        for (String line : file) {
+        for (String line : fileLines) {
             List<String> packingElements = findArchivePattern(line, true);
             if (packingElements.size() == 0) packingElements = findArchivePattern(line, false);
             for (String element : packingElements) {
@@ -66,11 +64,11 @@ public class Archive {
 
 
     private static void unpacking(String outputName) {
-        assert file.size() == 1 : "The file is damaged";
+        assert fileLines.size() == 1 : "The file is damaged";
 
-        final List<String> normalArchiveElements = findArchivePattern(file.get(0), true);
-        final List<String> deepArchiveElements = findArchivePattern(file.get(0), false);
-        final boolean onceCompress = Pattern.compile("(.\\d+&\\|)").matcher(file.get(0)).find();
+        final List<String> normalArchiveElements = findArchivePattern(fileLines.get(0), true);
+        final List<String> deepArchiveElements = findArchivePattern(fileLines.get(0), false);
+        final boolean onceCompress = Pattern.compile("(.\\d+&\\|)").matcher(fileLines.get(0)).find();
         final String answer = unpackingLine(normalArchiveElements, deepArchiveElements);
 
         fileName = outputName + (onceCompress ? ".txt" : ".uz");
@@ -78,7 +76,7 @@ public class Archive {
     }
 
     private static String unpackingLine(List<String> normalArchiveElements, List<String> deepArchiveElements) {
-        String answer = file.get(0);
+        String answer = fileLines.get(0);
 
         for (String element : normalArchiveElements) {
             final String symbolForCopies = String.valueOf(element.charAt(0));
@@ -110,7 +108,7 @@ public class Archive {
     }
 
     public static void setFile(List<String> file) {
-        Archive.file = file;
+        Archive.fileLines = file;
     }
 
     public static String getFileName() {
