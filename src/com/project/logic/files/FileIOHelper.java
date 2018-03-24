@@ -8,19 +8,17 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 
-public class Reader {
+public class FileIOHelper {
 
-    private List<String> answer;
-
-    public Reader(String pathToFile) {
+    public List<String> read(String pathToFile) {
         try {
-            answer = Files.readAllLines(Paths.get(pathToFile), StandardCharsets.UTF_8);
+            return Files.readAllLines(Paths.get(pathToFile), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new IllegalArgumentException("Error reading file = " + e.getMessage());
         }
     }
 
-    public static void write(String outputName, String answerToFile) {
+    public void write(String outputName, String answerToFile) {
         try {
             Files.write(Paths.get(outputName), Collections.singleton(answerToFile));
         } catch (UnsupportedEncodingException e) {
@@ -28,11 +26,7 @@ public class Reader {
         } catch (IOException e) {
             throw new IllegalArgumentException("File already exists or the name is not correct");
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("The file is empty or of unknown characters");
+            throw new IllegalArgumentException("The file is empty or unknown error");
         }
-    }
-
-    public List<String> getAnswer() {
-        return answer;
     }
 }

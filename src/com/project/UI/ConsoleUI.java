@@ -3,8 +3,10 @@ package com.project.UI;
 import com.project.UI.Parsers.LibParser;
 import com.project.UI.Parsers.NativeParser;
 import com.project.UI.Parsers.Parser;
-import com.project.logic.archiving.Archive;
-import com.project.logic.files.Reader;
+import com.project.logic.codec.Codec;
+import com.project.logic.codec.Compressor;
+import com.project.logic.codec.Decompressor;
+import com.project.logic.files.FileIOHelper;
 
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -29,17 +31,21 @@ public class ConsoleUI {
         if (useNativeParser) {
             parser = new NativeParser(receivedCommand);
         } else {
-            parser = new LibParser(receivedCommand.split("\\s+"));
+            parser = new LibParser(receivedCommand);
         }
 
         System.out.printf("Start %s file %s\n", parser.isPacking() ? "packing" : "unpacking",
                 parser.getInputFileName());
         System.out.printf("New file name = %s\n", parser.getOutputFileName());
 
-        Archive.setFile(new Reader(parser.getInputFileName()).getAnswer());
-        Archive.start(parser.getOutputFileName(), parser.isPacking());
+        Codec codec;
+        if (parser.isPacking()) {
+            codec = new Compressor(new FileIOHelper().read(parser.getInputFileName()));
+        } else {
+            codec = new Decompressor(new FileIOHelper().read(parser.getInputFileName()));
+        }
 
-        Reader.write(Archive.getFileName(), Archive.getStreamToFile());
+        new FileIOHelper().write(parser.getOutputFileName(), codec.getOutputStringToFile());
 
         System.out.printf("%s end\n\n", parser.isPacking() ? "Packing" : "Unpacking");
 

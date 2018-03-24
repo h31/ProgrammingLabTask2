@@ -1,12 +1,13 @@
 package unit;
 
-import com.project.logic.archiving.Archive;
+import com.project.logic.codec.Codec;
+import com.project.logic.codec.Compressor;
+import com.project.logic.codec.Decompressor;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,44 +48,50 @@ class ArchiveTest {
 
     @Test
     void packing() {
-        Archive.setFile(Collections.singletonList(NORMAL_DATA));
-        Archive.start(null, null, true);
-        assertEquals(ANSWER_NORMAL_DATA, Archive.getStreamToFile());
+        Codec compressor = new Compressor(Collections.emptyList());
 
-        Archive.setFile(Collections.singletonList(WRONG_DATA));
-        Archive.start(null, null, true);
-        assertEquals(ANSWER_WRONG_DATA, Archive.getStreamToFile());
+        compressor.setFile(Collections.singletonList(NORMAL_DATA));
+        compressor.start();
+        assertEquals(ANSWER_NORMAL_DATA, compressor.getOutputStringToFile());
+
+        compressor.setFile(Collections.singletonList(WRONG_DATA));
+        compressor.start();
+        assertEquals(ANSWER_WRONG_DATA, compressor.getOutputStringToFile());
     }
 
     @Test
     void unpacking() {
-        Archive.setFile(Collections.singletonList(ANSWER_NORMAL_DATA));
-        Archive.start(null, null, false);
-        assertEquals(NORMAL_DATA, Archive.getStreamToFile());
+        Codec decompressor = new Decompressor(Collections.emptyList());
+        decompressor.setFile(Collections.singletonList(ANSWER_NORMAL_DATA));
+        decompressor.start();
+        assertEquals(NORMAL_DATA, decompressor.getOutputStringToFile());
 
-        Archive.setFile(Collections.singletonList(ANSWER_WRONG_DATA));
-        Archive.start(null, null, false);
-        assertEquals(WRONG_DATA, Archive.getStreamToFile());
+        decompressor.setFile(Collections.singletonList(ANSWER_WRONG_DATA));
+        decompressor.start();
+        assertEquals(WRONG_DATA, decompressor.getOutputStringToFile());
     }
 
     @Test
     void multiplePackingAndUnpacking() {
+        Codec compressor = new Compressor(Collections.emptyList());
+
         String multiplePacking;
-        Archive.setFile(Collections.singletonList(NORMAL_DATA));
+        compressor.setFile(Collections.singletonList(NORMAL_DATA));
         for (int i = 0; i < 10; i++) {
-            Archive.start(null, null, true);
-            multiplePacking = Archive.getStreamToFile();
-            Archive.setFile(Collections.singletonList(multiplePacking));
+            compressor.start();
+            multiplePacking = compressor.getOutputStringToFile();
+            compressor.setFile(Collections.singletonList(multiplePacking));
         }
-        multiplePacking = Archive.getStreamToFile();
+        multiplePacking = compressor.getOutputStringToFile();
         String multipleUnpacking = multiplePacking;
-        Archive.setFile(Collections.singletonList(multipleUnpacking));
+        Codec decompressor = new Decompressor(Collections.emptyList());
+        decompressor.setFile(Collections.singletonList(multipleUnpacking));
         for (int i = 0; i < 10; i++) {
-            Archive.start(null, null, false);
-            multipleUnpacking = Archive.getStreamToFile();
-            Archive.setFile(Collections.singletonList(multipleUnpacking));
+            decompressor.start();
+            multipleUnpacking = decompressor.getOutputStringToFile();
+            decompressor.setFile(Collections.singletonList(multipleUnpacking));
         }
-        multipleUnpacking = Archive.getStreamToFile();
+        multipleUnpacking = decompressor.getOutputStringToFile();
         assertEquals(NORMAL_DATA, multipleUnpacking);
     }
 
@@ -92,15 +99,19 @@ class ArchiveTest {
     void binTest() throws IOException {
         LINES_BIN = Files.readAllLines(Paths.get(PATH_TO_BIN), StandardCharsets.UTF_8);
         BIN_ANSWER = LINES_BIN.get(0);
-        Archive.setFile(LINES_BIN);
-        Archive.start(null, null, true);
-        ARCHIVE_ANSWER = Archive.getStreamToFile();
+
+        Codec compressor = new Compressor(Collections.emptyList());
+
+        compressor.setFile(LINES_BIN);
+        compressor.start();
+        ARCHIVE_ANSWER = compressor.getOutputStringToFile();
 
         assertTrue(ARCHIVE_ANSWER.length() < BIN_ANSWER.length());
 
-        Archive.setFile(Collections.singletonList(ARCHIVE_ANSWER));
-        Archive.start(null, null, false);
-        ARCHIVE_ANSWER = Archive.getStreamToFile();
+        Codec decompressor = new Decompressor(Collections.emptyList());
+        decompressor.setFile(Collections.singletonList(ARCHIVE_ANSWER));
+        decompressor.start();
+        ARCHIVE_ANSWER = decompressor.getOutputStringToFile();
 
         assertEquals(ARCHIVE_ANSWER, LINES_BIN.get(0));
 

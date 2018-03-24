@@ -85,7 +85,7 @@ class SystemTests {
     @Test
     void wrongCommand() {
         List<String> wrongCommands = Arrays.asList("", "pack-rle", "pack-rle dsfsd", "pack-rle -out dsfdf");
-        wrongCommands.forEach(command -> assertThrows(AssertionError.class, () -> {
+        wrongCommands.forEach(command -> assertThrows(IllegalArgumentException.class, () -> {
             ConsoleUI.testMode(command);
             ConsoleUI.create();
         }));

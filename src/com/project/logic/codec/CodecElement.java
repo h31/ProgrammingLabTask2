@@ -1,11 +1,11 @@
-package com.project.logic.archiving;
+package com.project.logic.codec;
 
-public class ArchiveElement {
+public class CodecElement {
 
     private char element;
     private int quantity = 1;
 
-    ArchiveElement(char element) {
+    CodecElement(char element) {
         this.element = element;
     }
 
@@ -20,7 +20,7 @@ public class ArchiveElement {
 
     @Override
     public boolean equals(Object obj) {
-        return this.getClass() == obj.getClass() && this.element == ((ArchiveElement) obj).element;
+        return this.getClass() == obj.getClass() && this.element == ((CodecElement) obj).element;
     }
 
     @Override

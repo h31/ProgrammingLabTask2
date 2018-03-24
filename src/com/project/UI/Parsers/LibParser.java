@@ -9,8 +9,9 @@ import java.util.List;
 
 public class LibParser implements Parser {
 
-    public LibParser(String[] command) {
-        JCommander.newBuilder().addObject(this).build().parse(command);
+    public LibParser(String command) {
+        String[] commandParts = command.split("\\s+");
+        JCommander.newBuilder().addObject(this).build().parse(commandParts);
     }
 
     @Parameter
@@ -29,7 +30,7 @@ public class LibParser implements Parser {
     public boolean isPacking() {
         boolean argumentSpecified = packing ^ unpacking;
         if (!argumentSpecified) {
-            return getInputFileName().split("\\.")[1].equals("uz");
+            return !getInputFileName().split("\\.")[1].equals("uz");
         } else {
             return packing;
         }
@@ -37,7 +38,7 @@ public class LibParser implements Parser {
 
     @Override
     public String getOutputFileName() {
-        return outputName.isEmpty() ? parameters.get(1) + "-copy" : outputName;
+        return outputName.isEmpty() ? getInputFileName() + "-copy" : outputName;
     }
 
     @Override

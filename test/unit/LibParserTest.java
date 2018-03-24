@@ -11,15 +11,15 @@ class LibParserTest {
 
     @Test
     void parseCommand() {
-        LibParser libParser = new LibParser(new String[]{"pack-rle", "-u", "-out", "outName", "inName"});
-        assertEquals("inName", libParser.getInputFileName());
+        LibParser libParser = new LibParser("pack-rle -u -out outName inName.uz");
+        assertEquals("inName.uz", libParser.getInputFileName());
         assertFalse(libParser.isPacking());
         assertEquals("outName", libParser.getOutputFileName());
 
-        LibParser libParser2 = new LibParser(new String[]{"pack-rle", "-z", "-out", "outName", "inName"});
+        LibParser libParser2 = new LibParser("pack-rle -z -out outName inName");
         assertTrue(libParser2.isPacking());
 
-        LibParser libParser3 = new LibParser(new String[]{"pack-rle", "-out", "outName", "inName.txt"});
+        LibParser libParser3 = new LibParser("pack-rle -out outName inName.txt");
         assertTrue(libParser3.isPacking());
     }
 

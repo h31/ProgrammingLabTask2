@@ -7,34 +7,34 @@ public class NativeParser implements Parser {
     private String inputName;
     private String outputName;
 
-    public NativeParser(String value) {
-        String[] values = value.trim().split("\\s+");
+    public NativeParser(String command) {
+        String[] commandParts = command.trim().split("\\s+");
         Pattern dotPattern = Pattern.compile("\\.");
-        switch (values.length) {
+        switch (commandParts.length) {
             case 2: {
-                inputName = values[1];
+                inputName = commandParts[1];
                 String[] partsFileName = dotPattern.split(inputName);
                 outputName = partsFileName[0] + "-copy";
-                packing = partsFileName[1].equals("txt");
+                packing = !partsFileName[1].equals("uz");
                 break;
             }
             case 3: {
-                inputName = values[2];
+                inputName = commandParts[2];
                 outputName = dotPattern.split(inputName)[0];
-                packing = values[1].contains("-z");
+                packing = commandParts[1].contains("-z");
                 break;
             }
             case 4: {
-                inputName = values[3];
-                outputName = values[2];
+                inputName = commandParts[3];
+                outputName = commandParts[2];
                 String[] partsFileName = dotPattern.split(inputName);
-                packing = partsFileName[1].equals("txt");
+                packing = !partsFileName[1].equals("uz");
                 break;
             }
             case 5: {
-                packing = values[1].contains("-z");
-                inputName = values[4];
-                outputName = values[3];
+                packing = commandParts[1].contains("-z");
+                inputName = commandParts[4];
+                outputName = commandParts[3];
                 break;
             }
             default: throw new IllegalArgumentException("Unknown command");
