@@ -41,6 +41,13 @@ jar {
     }
 }
 
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+    }
+}
+
 task wrapper(type: Wrapper) {
     gradleVersion = "4.1"
 }
