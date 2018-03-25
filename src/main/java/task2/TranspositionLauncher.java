@@ -27,29 +27,25 @@ public class TranspositionLauncher {
     private boolean alignRight;
 
     public static void main(String[] args) throws CmdLineException{
-            new TranspositionLauncher().cmdLaunch(args);
+            new TranspositionLauncher().launch(args);
     }
 
-    public void cmdLaunch(String[] args) throws CmdLineException {
+    private void launch(String[] args) {
         CmdLineParser parser = new CmdLineParser(this);
         try {
             parser.parseArgument(args);
-            if (width == 0 && (cut || alignRight))
-                width = 15;
         } catch (CmdLineException ex) {
             System.err.println(ex.getMessage());
             System.err.println("java -jar part2.jar -o ofile -file -a width -t cut -r alignRight");
             parser.printUsage(System.err);
-            System.err.println();
-            System.err.println("Example: java TranspositionLauncher" + parser.printExample(ALL));
             log.log(Level.SEVERE, "Request is invalid", ex);
             return;
         }
-        Transposition transposition = new Transposition(width, cut,  alignRight);
+        Transposition transposition = new Transposition(width, cut, alignRight);
         try {
-            Reader reader = (inputData == null) ? new InputStreamReader(System.in) : new FileReader(inputData);
-            Writer writer = (outputData == null) ? new OutputStreamWriter(System.out) : new FileWriter(outputData);
-            transposition.transmitMatrix(transposition.getMatrix(reader), writer);
+            InputStream in = (inputData == null) ? new BufferedInputStream(System.in): new FileInputStream(inputData);
+            OutputStream out = (outputData == null) ? new BufferedOutputStream(System.out) : new FileOutputStream(outputData);
+            transposition.transmitMatrix(transposition.getMatrix(in), out);
             log.fine("Done");
         } catch (IOException ex) {
             System.err.print(ex.getMessage());

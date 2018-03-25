@@ -8,9 +8,9 @@ import java.util.logging.Logger;
 public class Transposition {
     private static Logger log = Logger.getLogger(Transposition.class.getName());
 
-    private int width;
-    private boolean cut;
-    private boolean alignRight;
+    private final int width;
+    private final boolean cut;
+    private final boolean alignRight;
 
     public Transposition(int width, boolean cut, boolean alignRight) {
         try {
@@ -24,8 +24,8 @@ public class Transposition {
         log.fine("Parameters are assigned");
     }
 
-    public List<List<String>> getMatrix(Reader dataReceived) throws IOException {
-        try (Scanner scanner = new Scanner(dataReceived)) {
+    public List<List<String>> getMatrix(InputStream in) throws IOException {
+        try (Scanner scanner = new Scanner(in)) {
             List<List<String>> allLines = new ArrayList<>();
             String alignmentRight = ((this.alignRight) || (width == 0)) ? "" : "-";
             while (scanner.hasNextLine()) {
@@ -51,8 +51,8 @@ public class Transposition {
         }
     }
 
-    public void transmitMatrix(List<List<String>> linesGotten, Writer dataTransmitted) throws IOException {
-        PrintWriter output = new PrintWriter(dataTransmitted);
+    public void transmitMatrix(List<List<String>> linesGotten,OutputStream out) throws IOException {
+        PrintWriter output = new PrintWriter(out);
         for (int i = 0; i < linesGotten.size() - 1; i++) {
             StringBuilder newLine = new StringBuilder();
             for (String element : linesGotten.get(i)) {
@@ -66,33 +66,11 @@ public class Transposition {
         }
         StringBuilder newLine = new StringBuilder();
         for (String element : linesGotten.get(linesGotten.size() - 1)) {
-
             newLine.append(element);
         }
         output.print(newLine);
         output.close();
-        log.fine("New matrix has been written to the file");
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Transposition)) return false;
-
-        Transposition that = (Transposition) o;
-
-        if (width != that.width) return false;
-        if (cut != that.cut) return false;
-        return alignRight == that.alignRight;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = width;
-        result = 31 * result + (cut ? 1 : 0);
-        result = 31 * result + (alignRight ? 1 : 0);
-        return result;
+        log.fine("New matrix has been written into the file");
     }
 }
 
