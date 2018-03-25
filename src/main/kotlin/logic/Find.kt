@@ -6,13 +6,13 @@ import java.nio.file.Paths
 class Find {
 
     fun find(r: Boolean, d: File?, filename: String): String? {
-        val dir = if (d == null) File(Paths.get("").toAbsolutePath().toString())
+        val dir = if (d == null) File(Paths.get("").toRealPath().toString())
         else d
 
         fun search(dir: File): String {
             var result = ""
             for (file in dir.listFiles()) {
-                if (file.name == filename) result += file.absolutePath + "\n"
+                if (file.name == filename) result += file.canonicalPath + "\n"
                 if (r && file.isDirectory) {
                     result += search(file)
                 }
