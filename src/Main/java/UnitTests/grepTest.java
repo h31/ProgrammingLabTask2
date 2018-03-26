@@ -1,4 +1,4 @@
-package test;
+package UnitTests;
 
 import logic.Grep;
 import org.junit.Test;

@@ -1,8 +1,5 @@
 package logic;
 
-import jdk.nashorn.internal.runtime.regexp.RegExp;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -13,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class Grep {
 
-    private List<String> text = new ArrayList<String>();
+    private List<String> text = new ArrayList<>();
 
     public Grep(String inputDirectory) {
         try {
