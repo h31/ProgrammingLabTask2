@@ -1,10 +1,15 @@
 package logic;
 
+import jdk.nashorn.internal.runtime.regexp.RegExp;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Grep {
 
@@ -19,7 +24,7 @@ public class Grep {
     }
 
     public List<String> grepWithWord(String word) {
-        List<String> output = new ArrayList<String>();
+        List<String> output = new ArrayList<>();
         for (String s:text) {
             if (s.contains(word)) {
                 output.add(s);
@@ -28,33 +33,39 @@ public class Grep {
         return output;
     }
 
-    public List<String> grepWithRegex(String pattern) {
-        List<String> output = new ArrayList<String>();
+    public List<String> grepWithRegex(String regex) {
+        List<String> output = new ArrayList<>();
+        Pattern p = Pattern.compile(regex);
         for (String s:text) {
-            if (s.matches(pattern)) {
+            Matcher m = p.matcher(s);
+            if (m.find()) {
                 output.add(s);
             }
         }
         return output;
     }
 
-    public List<String> grepWithoutRegex(String pattern) {
-        List<String> output = new ArrayList<String>();
+    public List<String> grepWithoutRegex(String regex) {
+        List<String> output = new ArrayList<>();
+        Pattern p = Pattern.compile(regex);
         for (String s:text) {
-            if (!s.matches(pattern)) {
+            Matcher m = p.matcher(s);
+            if (!m.find()) {
                 output.add(s);
             }
         }
         return output;
     }
 
-    public List<String> grepWithIgnoreRegister(String pattern) {
-        List<String> output = new ArrayList<String>();
+    public List<String> grepWithIgnoreRegister(String regex) {
+        List<String> output = new ArrayList<>();
+        Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         for (String s:text) {
-            if (s.matches("?" + pattern)) {
+            Matcher m = p.matcher(s);
+            if (m.find()) {
                 output.add(s);
             }
         }
         return output;
     }
-}
+    }
