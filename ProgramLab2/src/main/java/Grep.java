@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -7,19 +6,18 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class Grep {
+    private List<String> lines;
 
-    private List<String> lines = new ArrayList<>();
+    Grep(String path) {
+        try {
+            this.lines = Files.readAllLines(Paths.get(path));
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
 
     public List<String> getLines() {
         return lines;
-    }
-
-    public Grep(String path) {
-        try {
-            lines = Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private List<String> findInLines(String regex, int key) {
@@ -27,7 +25,7 @@ public class Grep {
         Pattern pattern = Pattern.compile(regex);
         for (String line : lines) {
             if ((key == 0 && line.contains(regex)) || (key == 1 && pattern.matcher(line).find())
-                    || key == 2 && !pattern.matcher(line).find()) {
+                    || key == 2 && !pattern.matcher(line).find() || (key == 3 && line.toLowerCase().contains(regex))) {
                 result.add(line);
             }
         }
@@ -47,13 +45,7 @@ public class Grep {
     }
 
     public List<String> ignoreCase(String word) {
-        List<String> result = new ArrayList<>();
         word = word.toLowerCase();
-        for (String line: lines) {
-            if (line.toLowerCase().contains(word)) {
-                result.add(line);
-            }
-        }
-        return result;
+        return findInLines(word, 3);
     }
 }

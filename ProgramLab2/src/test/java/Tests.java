@@ -1,23 +1,18 @@
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class Tests {
     Grep grep = new Grep("C:\\Users\\Dwohco\\ProgrammingLabTask2\\ProgramLab2\\src\\test\\FileForRead");
-
-    @Test
-    void findOnWord() {
-        List<String> expResult = Arrays.asList(grep.getLines().get(0));
-        assertEquals(expResult, grep.findOnWord("рядом"));
-    }
+    
 
     @Test
     void findOnRegex() {
-        List<String> expResult = Arrays.asList(grep.getLines().get(2));
+        List<String> expResult = Collections.singletonList(grep.getLines().get(2));
         assertEquals(expResult, grep.findOnRegex("ул\\.\\s+(.+),\\s+д\\.\\s+(\\d+),\\s+кв\\.\\s+(\\d+)"));
     }
 
@@ -29,9 +24,8 @@ class Tests {
 
     @Test
     void ignoreCase() {
-        List<String> expResult = Arrays.asList(grep.getLines().get(0));
+        List<String> expResult = Collections.singletonList(grep.getLines().get(0));
         assertEquals(expResult, grep.ignoreCase("РЯДом"));
     }
-
 }
 
