@@ -6,7 +6,6 @@ import org.kohsuke.args4j.Option;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static org.kohsuke.args4j.OptionHandlerFilter.ALL;
 
 public class TranspositionLauncher {
     private static Logger log = Logger.getLogger(TranspositionLauncher.class.getName());
@@ -43,9 +42,9 @@ public class TranspositionLauncher {
         }
         Transposition transposition = new Transposition(width, cut, alignRight);
         try {
-            InputStream in = (inputData == null) ? new BufferedInputStream(System.in): new FileInputStream(inputData);
-            OutputStream out = (outputData == null) ? new BufferedOutputStream(System.out) : new FileOutputStream(outputData);
-            transposition.transmitMatrix(transposition.getMatrix(in), out);
+            Reader reader = (inputData != null) ? new FileReader(inputData) : new InputStreamReader(System.in);
+            Writer writer = (outputData != null) ? new FileWriter(outputData) : new OutputStreamWriter(System.out);
+            transposition.transmitMatrix(transposition.getMatrix(reader), writer);
             log.fine("Done");
         } catch (IOException ex) {
             System.err.print(ex.getMessage());
