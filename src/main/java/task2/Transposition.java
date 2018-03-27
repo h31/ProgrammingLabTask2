@@ -26,35 +26,32 @@ public class Transposition {
 
     public List<List<String>> getMatrix(Reader in) throws IOException {
         BufferedReader reader = new BufferedReader(in);
-            List<List<String>> allLines = new ArrayList<>();
-            String alignmentRight = ((this.alignRight) || (width == 0)) ? "" : "-";
-            String currentLine;
-            do {
-                currentLine = reader.readLine();
-                List<String> currentLineElements = new ArrayList<>();
-                Collections.addAll(currentLineElements, currentLine.split("[ ]+"));
-                String widthString = width != 0 ? Integer.toString(width) : "";
-                int count = 0;
-                for (String element : currentLineElements) {
-                    element = String.format("%" + alignmentRight + widthString + "s", element);
-                    if (cut) {
-                        element = element.substring(0, width);
-                    }
-                    if (allLines.size() <= count) {
-                        allLines.add(new ArrayList<>());
-                    }
-                    allLines.get(count).add(element);
-                    count++;
+        List<List<String>> allLines = new ArrayList<>();
+        String alignmentRight = ((this.alignRight) || (width == 0)) ? "" : "-";
+        String currentLine = reader.readLine();
+        while (currentLine != null) {
+            List<String> currentLineElements = Arrays.asList(currentLine.split("[ ]+"));
+            String widthString = width != 0 ? Integer.toString(width) : "";
+            int count = 0;
+            for (String element : currentLineElements) {
+                element = String.format("%" + alignmentRight + widthString + "s", element);
+                if (cut) {
+                    element = element.substring(0, width);
                 }
-                currentLine = reader.readLine();
-            } while (currentLine != null);
-            log.fine("File has been read");
-            return allLines;
-
+                if (allLines.size() <= count) {
+                    allLines.add(new ArrayList<>());
+                }
+                allLines.get(count).add(element);
+                count++;
+            }
+            currentLine = reader.readLine();
+        }
+        log.fine("File has been read");
+        return allLines;
     }
 
-    public void transmitMatrix(List<List<String>> linesGotten, Writer out) throws IOException {
-        for (int i = 0; i < linesGotten.size() - 1; i++) {
+    public void transmitMatrix(List<List<String>>linesGotten, Writer out) throws IOException {
+        for (int i = 0; i < linesGotten.size(); i++) {
             StringBuilder newLine = new StringBuilder();
             for (String element : linesGotten.get(i)) {
                 newLine.append(element);
@@ -63,15 +60,14 @@ public class Transposition {
                 }
             }
             out.write(newLine.toString());
+            log.fine("New line has been written into the file");
+            if (i < linesGotten.size()) {
+                out.append("\n");
+            }
         }
-        StringBuilder newLine = new StringBuilder();
-        for (String element : linesGotten.get(linesGotten.size() - 1)) {
-            newLine.append(element);
-        }
-        out.write(newLine.toString());
+        log.fine("Matrix has been transmitted to the file");
         out.close();
     }
-
 }
 
 
