@@ -11,10 +11,6 @@ public class FilesSizeTest {
 
     @Test
     public void humanFilesSize() throws Exception {
-        String arguments = "/Games/cyclone-17.1.0.590.qdz\n" +
-                "/Games\n";
-        String[] args = arguments.split(" |\n");
 
-        assertEquals("", new FilesSize().filesSize(args));
     }
 }
