@@ -3,6 +3,7 @@ package task2;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import task2.logic.Transposition;
 
 import java.io.*;
 import java.util.List;

@@ -1,4 +1,4 @@
-package task2;
+package task2.logic;
 
 import java.io.*;
 import java.util.*;
@@ -12,7 +12,7 @@ public class Transposition {
     private final boolean cut;
     private final boolean alignRight;
 
-    Transposition(int width, boolean cut, boolean alignRight) {
+    public Transposition(int width, boolean cut, boolean alignRight) {
         try {
             this.width = width;
             this.cut = cut;

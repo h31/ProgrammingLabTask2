@@ -1,8 +1,10 @@
-package task2;
+package task2.console;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import task2.logic.Transposition;
+
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
