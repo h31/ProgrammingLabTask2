@@ -28,7 +28,7 @@ public class Transposition {
         BufferedReader reader = new BufferedReader(in);
             List<List<String>> allLines = new ArrayList<>();
             String alignmentRight = ((this.alignRight) || (width == 0)) ? "" : "-";
-            String currentLine = "";
+            String currentLine;
             do {
                 currentLine = reader.readLine();
                 List<String> currentLineElements = new ArrayList<>();
