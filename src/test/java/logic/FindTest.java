@@ -10,20 +10,30 @@ class FindTest {
 
     @Test
     void main() {
-        Find path = new Find("C:\\Users\\loko\\IdeaProjects\\Find", true);
+        Find path = new Find("src", true);
 
-        assertEquals(new File("C:\\Users\\loko\\IdeaProjects\\Find\\src\\test\\test1.txt"),
+        assertEquals(new File("src\\test\\test1.txt"),
                 path.find("test1.txt"));
 
-        path = new Find("C:\\Users\\loko\\IdeaProjects\\Find", false);
+        path = new Find("src\\test", false);
+
+        assertEquals(new File("src\\test\\test1.txt"),
+                path.find("test1.txt"));
+
+        path = new Find("src", false);
 
         assertEquals(new File("nothing"),
                 path.find("test1.txt"));
 
-        path = new Find("C:\\Users\\loko\\IdeaProjects\\Find\\src", false);
+        path = new Find("src", false);
 
-        assertEquals(new File("C:\\Users\\loko\\IdeaProjects\\Find\\src\\test2.txt"),
+        assertEquals(new File("src\\test2.txt"),
                 path.find("test2.txt"));
+
+        path = new Find("src\\test", true);
+
+        assertEquals(new File("nothing"),
+                path.find("test3.txt"));
     }
 
 }
