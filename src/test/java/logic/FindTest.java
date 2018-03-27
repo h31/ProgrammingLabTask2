@@ -20,11 +20,6 @@ class FindTest {
         assertEquals(new File("nothing"),
                 path.find("test1.txt"));
 
-        path = new Find("C:\\Users\\loko\\IdeaProjects\\Find", true);
-
-        assertEquals(new File("nothing"),
-                path.find("test3.txt"));
-
         path = new Find("C:\\Users\\loko\\IdeaProjects\\Find\\src", false);
 
         assertEquals(new File("C:\\Users\\loko\\IdeaProjects\\Find\\src\\test2.txt"),
