@@ -1,14 +1,19 @@
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 class FilesSize {
 
-    private boolean sum;
+    private boolean sum = false;
 
-    private boolean human;
+    private boolean human = false;
 
-    private boolean oneThousand;
+    private boolean oneThousand = false;
 
     private int base = 1024;
+
+    FilesSize(){}
+
 
     FilesSize(boolean sum, boolean human, boolean oneThousand) {
         this.sum = sum;
@@ -29,10 +34,7 @@ class FilesSize {
         return size;
     }
 
-    private void humanFileSize(double fileSize, boolean oneThousand) {
-        if (oneThousand) {
-            base = 1000;
-        }
+    private String humanFileSize(double fileSize, int base) {
         int count = 0;
         for (int i = 1; i <= 3; i++) {
             if (fileSize > base) {
@@ -42,24 +44,19 @@ class FilesSize {
         }
         switch (count) {
             case 0:
-                System.out.println(fileSize + " bytes");
-                break;
+                return fileSize + " bytes";
             case 1:
-                System.out.println(fileSize + " kb");
-                break;
+                return fileSize + " kb";
             case 2:
-                System.out.println(fileSize + " mb");
-                break;
+                return fileSize + " mb";
             case 3:
-                System.out.println(fileSize + " gb");
-                break;
+                return fileSize + " gb";
         }
+        throw new IllegalArgumentException("Ошибка");
     }
 
-    void humanFilesSize(String[] args) {
-        if (args.length == 0) {
-            throw new IllegalArgumentException("Нет файла");
-        }
+    List<String> filesSize(String[] args) {
+        List<String> filesSizeList = new ArrayList<>();
         double total = 0;
         if (oneThousand) {
             base = 1000;
@@ -79,19 +76,17 @@ class FilesSize {
                 total += fileSize;
             }
             if (human) {
-                humanFileSize(fileSize, oneThousand);
+                filesSizeList.add(humanFileSize(fileSize, base));
             } else {
-                System.out.println(fileSize / base);
-                if (sum) {
-                    total += fileSize / base;
-                }
+                filesSizeList.add(fileSize / base + "");
             }
         }
         if (sum && !human) {
-            System.out.println(total);
+            filesSizeList.add("" + total);
         }
         if (sum && human) {
-            humanFileSize(total, oneThousand);
+            filesSizeList.add(humanFileSize(total, base));
         }
+        return filesSizeList;
     }
 }
