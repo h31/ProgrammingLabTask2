@@ -16,7 +16,7 @@ public class Find {
 
 
     private String search(String directory, String nameOfTheFile) {
-        String fullNameOfTheFile = directory + "\\" + nameOfTheFile;
+        String fullNameOfTheFile = directory + "/" + nameOfTheFile;
         if (new File(fullNameOfTheFile).isFile()) return fullNameOfTheFile;
         return "nothing";
     }
@@ -29,9 +29,9 @@ public class Find {
             for (int i = 0; i < directories.length; i++) {
                 String fullNameOfTheFile;
                 if (directories[i].equals(nameOfTheFile)) fullNameOfTheFile = directory;
-                else fullNameOfTheFile = directory + "\\" + directories[i];
-                if (new File(fullNameOfTheFile + "\\" + nameOfTheFile).isFile())
-                    return fullNameOfTheFile + "\\" + nameOfTheFile;
+                else fullNameOfTheFile = directory + "/" + directories[i];
+                if (new File(fullNameOfTheFile + "/" + nameOfTheFile).isFile())
+                    return fullNameOfTheFile + "/" + nameOfTheFile;
                 fullNameOfTheFile = subSearch(fullNameOfTheFile, nameOfTheFile);
                 if (new File(fullNameOfTheFile).isFile()) return fullNameOfTheFile;
             }
