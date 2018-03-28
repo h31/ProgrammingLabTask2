@@ -1,5 +1,6 @@
 package task2.console;
 
+import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -12,8 +13,8 @@ import java.util.logging.Logger;
 public class TranspositionLauncher {
     private static Logger log = Logger.getLogger(TranspositionLauncher.class.getName());
 
-    @Option(name = "-file", usage = "Input from this file", metaVar = "inputFile")
-    private File inputData;
+    @Argument(usage = "Input from this file")
+    private String inputData;
 
     @Option(name = "-o", usage = "Output to this file", metaVar = "outputFile")
     private File outputData;
@@ -31,15 +32,16 @@ public class TranspositionLauncher {
             new TranspositionLauncher().launch(args);
     }
 
-    private void launch(String[] args) {
+    public void launch(String[] args) {
         CmdLineParser parser = new CmdLineParser(this);
         try {
             parser.parseArgument(args);
+            if ((cut || alignRight) && width == 0) width = 10;
         } catch (CmdLineException ex) {
             System.err.println(ex.getMessage());
             System.err.println("java -jar part2.jar -o ofile -file -a width -t cut -r alignRight");
             parser.printUsage(System.err);
-            log.log(Level.SEVERE, "Request is invalid", ex);
+            log.log(Level.SEVERE, "Arguments are inappropriate", ex);
             return;
         }
         Transposition transposition = new Transposition(width, cut, alignRight);
