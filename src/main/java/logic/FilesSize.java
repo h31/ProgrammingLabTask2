@@ -90,4 +90,26 @@ public class FilesSize {
         }
         return filesSizeTotal;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FilesSize filesSize = (FilesSize) o;
+
+        if (sum != filesSize.sum) return false;
+        if (human != filesSize.human) return false;
+        if (oneThousand != filesSize.oneThousand) return false;
+        return base == filesSize.base;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (sum ? 1 : 0);
+        result = 31 * result + (human ? 1 : 0);
+        result = 31 * result + (oneThousand ? 1 : 0);
+        result = 31 * result + base;
+        return result;
+    }
 }
