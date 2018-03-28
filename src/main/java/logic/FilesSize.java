@@ -52,11 +52,11 @@ public class FilesSize {
             case 3:
                 return fileSize + " gb";
         }
-        throw new IllegalArgumentException("Ошибка");
+        return "";
     }
 
     public String filesSize(String[] args) {
-        String filesSizeTotal = "";
+        String filesSizeTotal = new String();
         double total = 0;
         if (oneThousand) {
             base = 1000;
