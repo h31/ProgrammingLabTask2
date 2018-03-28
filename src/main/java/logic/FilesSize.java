@@ -76,9 +76,9 @@ public class FilesSize {
                 total += fileSize;
             }
             if (human) {
-                filesSizeTotal += humanFileSize(fileSize, base) + " ";
+                filesSizeTotal += humanFileSize(fileSize, base) + "\n";
             } else {
-                filesSizeTotal += fileSize / base + " ";
+                filesSizeTotal += fileSize / base + "\n";
             }
         }
         if (sum) {
