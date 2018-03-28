@@ -2,11 +2,6 @@ package logic;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
-
 import static org.junit.Assert.*;
 
 public class FilesSizeTest {
@@ -14,9 +9,7 @@ public class FilesSizeTest {
     @Test
     public void filesSize() throws Exception {
         String[] args = {"src/test/java/filesForTest/TestFile1","src/test/java/filesForTest/TestFile2",
-        "src/test/java/filesForTest/TestFile3"};
-        assertEquals("7.912109375\n" + "0.005859375\n" + "4.232421875\n",
-                new FilesSize().filesSize(args));
+                "src/test/java/filesForTest/TestFile3"};
         // -h
         assertEquals("7.912109375 kb\n" + "6.0 bytes\n" + "4.232421875 kb\n",
                 new FilesSize(false,true,false).filesSize(args));

@@ -19,7 +19,7 @@ public class FilesSizeLauncher {
     @Option(name="--si",usage="base is 1000")
     private boolean oneThousand = true;
 
-    @Argument(usage="base is 1000")
+    @Argument(usage = "files for which need to find the size")
     private String[] files;
 
     public static void main(String[] args) {
@@ -33,7 +33,7 @@ public class FilesSizeLauncher {
             parser.parseArgument(args);
         } catch (CmdLineException e) {
             System.err.println(e.getMessage());
-            System.err.println("Неверно введены данные.");
+            System.err.println("Неверно введены данные. Пример правильного: -c -h --si file1 file2");
             parser.printUsage(System.err);
             return;
         }
