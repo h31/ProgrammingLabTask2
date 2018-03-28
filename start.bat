@@ -1,0 +1,1 @@
+java -classpath  C:\Users\loko\IdeaProjects\Find\src\main\java console.Main %*

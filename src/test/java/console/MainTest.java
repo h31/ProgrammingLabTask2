@@ -1,4 +1,4 @@
-package consol;
+package console;
 
 import java.io.File;
 
