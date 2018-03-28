@@ -1,8 +1,9 @@
+package consol;
+
+import logic.FilesSize;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-
-import java.io.IOException;
 
 public class FilesSizeLauncher {
 

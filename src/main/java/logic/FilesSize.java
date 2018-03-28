@@ -1,8 +1,8 @@
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+package logic;
 
-class FilesSize {
+import java.io.File;
+
+public class FilesSize {
 
     private boolean sum = false;
 
@@ -15,7 +15,7 @@ class FilesSize {
     FilesSize(){}
 
 
-    FilesSize(boolean sum, boolean human, boolean oneThousand) {
+    public FilesSize(boolean sum, boolean human, boolean oneThousand) {
         this.sum = sum;
         this.human = human;
         this.oneThousand = oneThousand;
@@ -55,8 +55,8 @@ class FilesSize {
         throw new IllegalArgumentException("Ошибка");
     }
 
-    List<String> filesSize(String[] args) {
-        List<String> filesSizeList = new ArrayList<>();
+    public String filesSize(String[] args) {
+        String filesSizeTotal = "";
         double total = 0;
         if (oneThousand) {
             base = 1000;
@@ -76,17 +76,18 @@ class FilesSize {
                 total += fileSize;
             }
             if (human) {
-                filesSizeList.add(humanFileSize(fileSize, base));
+                filesSizeTotal += humanFileSize(fileSize, base) + "\n";
             } else {
-                filesSizeList.add(fileSize / base + "");
+                filesSizeTotal += fileSize / base + "\n";
             }
         }
-        if (sum && !human) {
-            filesSizeList.add("" + total);
+        if (sum) {
+            if (!human) {
+                filesSizeTotal += total / base;
+            } else {
+                filesSizeTotal += humanFileSize(total, base);
+            }
         }
-        if (sum && human) {
-            filesSizeList.add(humanFileSize(total, base));
-        }
-        return filesSizeList;
+        return filesSizeTotal;
     }
 }
