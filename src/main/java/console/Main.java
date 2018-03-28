@@ -20,6 +20,5 @@ public class Main {
 
         Find find = new Find(fileDirectory, subDirectory);
         System.out.println(find.find(nameOfTheFile));
-
     }
 }
