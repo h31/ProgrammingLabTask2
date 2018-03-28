@@ -1,9 +1,12 @@
 package consol;
 
 import logic.FilesSize;
+import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+
+import java.io.IOException;
 
 public class FilesSizeLauncher {
 
@@ -15,6 +18,9 @@ public class FilesSizeLauncher {
 
     @Option(name="--si",usage="base is 1000")
     private boolean oneThousand = true;
+
+    @Argument(usage="base is 1000")
+    private String[] files;
 
     public static void main(String[] args) {
         new FilesSizeLauncher().launch(args);
@@ -33,6 +39,11 @@ public class FilesSizeLauncher {
         }
 
         FilesSize file = new FilesSize(sum, human, oneThousand);
-        file.filesSize(args);
+        try {
+            String result = file.filesSize(files);
+            System.out.println(result);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
     }
 }
