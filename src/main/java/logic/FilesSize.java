@@ -24,14 +24,14 @@ public class FilesSize {
     /**
      * Нахождение размера директории с файлами и директориями внутри.
      **/
-    private long getDirectorySize(File dir) {
+    private long directorySize(File dir) {
         long size = 0;
         File[] subFiles = dir.listFiles();
         for (File file : subFiles) {
             if (file.isFile()) {
                 size += file.length();
             } else {
-                size += getDirectorySize(file);
+                size += directorySize(file);
             }
         }
         return size;
@@ -40,7 +40,7 @@ public class FilesSize {
     /**
      * Нахождение размера файла в человеко-читаемом формате
     **/
-    private String humanFileSize(double fileSize, int base) {
+    private String sizePresentedLegibly(double fileSize, int base) {
         int count = 0;
         for (int i = 1; i <= 3; i++) {
             if (fileSize > base) {
@@ -64,8 +64,8 @@ public class FilesSize {
     /**
      * Общая функция для нахождения размера файлов с заданными параметрами.
      **/
-    public String filesSize(String[] args) {
-        String filesSizeTotal = "";
+    public String filesTotalSize(String[] args) {
+        String result = "";
         double total = 0;
         if (oneThousand) {
             base = 1000;
@@ -79,25 +79,25 @@ public class FilesSize {
             if (file.isFile()) {
                 fileSize = file.length();
             } else {
-                fileSize = getDirectorySize(file);
+                fileSize = directorySize(file);
             }
             if (sum) {
                 total += fileSize;
             }
             if (human) {
-                filesSizeTotal += humanFileSize(fileSize, base) + "\n";
+                result += sizePresentedLegibly(fileSize, base) + "\n";
             } else {
-                filesSizeTotal += fileSize / base + "\n";
+                result += fileSize / base + "\n";
             }
         }
         if (sum) {
             if (!human) {
-                filesSizeTotal += total / base;
+                result += total / base;
             } else {
-                filesSizeTotal += humanFileSize(total, base);
+                result += sizePresentedLegibly(total, base);
             }
         }
-        return filesSizeTotal;
+        return result;
     }
 
     @Override
