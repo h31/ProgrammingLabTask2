@@ -8,7 +8,6 @@ public class Find {
 
     private Boolean subDirectory;
 
-
     public Find(String fileName, Boolean subDirectory) {
         this.fileName = fileName;
         this.subDirectory = subDirectory;

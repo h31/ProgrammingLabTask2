@@ -5,7 +5,8 @@ import logic.Find;
 import java.io.File;
 
 public class Main {
-    public static void main(String[] args) {
+
+    public static File main(String[] args) {
 
         boolean subDirectory = false;
         String fileDirectory = new File("").getAbsolutePath();
@@ -19,6 +20,7 @@ public class Main {
         }
 
         Find find = new Find(fileDirectory, subDirectory);
-        System.out.println(find.find(nameOfTheFile));
+
+        return find.find(nameOfTheFile);
     }
 }

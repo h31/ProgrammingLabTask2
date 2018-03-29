@@ -35,5 +35,4 @@ class FindTest {
         assertEquals(new File("nothing"),
                 path.find("test3.txt"));
     }
-
 }
