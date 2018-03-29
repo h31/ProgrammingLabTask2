@@ -12,7 +12,7 @@ public class FilesSize {
 
     private int base = 1024;
 
-    FilesSize(){}
+    public FilesSize(){}
 
 
     public FilesSize(boolean sum, boolean human, boolean oneThousand) {
@@ -56,7 +56,7 @@ public class FilesSize {
     }
 
     public String filesSize(String[] args) {
-        String filesSizeTotal = new String();
+        String filesSizeTotal = "";
         double total = 0;
         if (oneThousand) {
             base = 1000;

@@ -11,13 +11,13 @@ import java.io.IOException;
 public class FilesSizeLauncher {
 
     @Option(name="-c",usage="total size of files")
-    private boolean sum = true;
+    private boolean sum;
 
     @Option(name="-h",usage="the file size is given in human readable format")
-    private boolean human = true;
+    private boolean human;
 
     @Option(name="--si",usage="base is 1000")
-    private boolean oneThousand = true;
+    private boolean oneThousand;
 
     @Argument(usage = "files for which need to find the size")
     private String[] files;
