@@ -1,11 +1,11 @@
 package com.project.logic.codec;
 
-public class CodecElement {
+public class CodecElementStorage {
 
     private char element;
     private int quantity = 1;
 
-    CodecElement(char element) {
+    CodecElementStorage(char element) {
         this.element = element;
     }
 
@@ -15,12 +15,12 @@ public class CodecElement {
 
     @Override
     public String toString() {
-        return String.valueOf(element).concat(quantity != 1 ? quantity + "|" : "");
+        return element + (quantity != 1 ? quantity + "|" : "");
     }
 
     @Override
     public boolean equals(Object obj) {
-        return this.getClass() == obj.getClass() && this.element == ((CodecElement) obj).element;
+        return this.getClass() == obj.getClass() && this.element == ((CodecElementStorage) obj).element;
     }
 
     @Override

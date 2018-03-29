@@ -3,9 +3,7 @@ package unit;
 import com.project.UI.Parsers.LibParser;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class LibParserTest {
 
@@ -16,7 +14,7 @@ class LibParserTest {
         assertFalse(libParser.isPacking());
         assertEquals("outName", libParser.getOutputFileName());
 
-        LibParser libParser2 = new LibParser("pack-rle -z -out outName inName");
+        LibParser libParser2 = new LibParser("pack-rle -z -out outName inName.txt");
         assertTrue(libParser2.isPacking());
 
         LibParser libParser3 = new LibParser("pack-rle -out outName inName.txt");

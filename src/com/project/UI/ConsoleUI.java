@@ -8,6 +8,7 @@ import com.project.logic.codec.Compressor;
 import com.project.logic.codec.Decompressor;
 import com.project.logic.files.FileIOHelper;
 
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -17,7 +18,7 @@ public class ConsoleUI {
     private static boolean isTestMode = false;
     private static boolean useNativeParser = true;
     private static Pattern commandPattern =
-            Pattern.compile("pack-rle\\s+(-z|-u)?\\s*(-out\\s+.+)?\\s*.+\\.(txt|uz)\\s*");
+            Pattern.compile("pack-rle\\s+(-z|-u)?\\s*(-out\\s+.+)?\\s*.+\\..+\\s*");
 
     public static void create() {
 
@@ -38,11 +39,12 @@ public class ConsoleUI {
                 parser.getInputFileName());
         System.out.printf("New file name = %s\n", parser.getOutputFileName());
 
+        List<String> readFile = new FileIOHelper().read(parser.getInputFileName());
         Codec codec;
         if (parser.isPacking()) {
-            codec = new Compressor(new FileIOHelper().read(parser.getInputFileName()));
+            codec = new Compressor(readFile);
         } else {
-            codec = new Decompressor(new FileIOHelper().read(parser.getInputFileName()));
+            codec = new Decompressor(readFile);
         }
 
         new FileIOHelper().write(parser.getOutputFileName(), codec.getOutputStringToFile());

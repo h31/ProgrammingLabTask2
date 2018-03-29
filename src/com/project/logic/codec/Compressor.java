@@ -1,5 +1,7 @@
 package com.project.logic.codec;
 
+import javafx.util.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,14 +17,21 @@ public class Compressor implements Codec {
 
     @Override
     public void start() {
-        final List<CodecElement> buffer = new ArrayList<>();
+        final List<CodecElementStorage> buffer = new ArrayList<>();
+        Pair<List<String>, List<String>> codecPattern = findArchivePattern(fileLines);
+        int indexElement = 0;
+        String lastLine = fileLines.get(fileLines.size() - 1);
         for (String line : fileLines) {
-            List<String> packingElements = findArchivePattern(line, true);
-            if (packingElements.size() == 0) packingElements = findArchivePattern(line, false);
-            for (String element : packingElements) {
+            List<String> packingElements = codecPattern.getKey();
+            boolean addNewLineSymbol = !line.equals(lastLine);
+            if (packingElements.size() == 0) {
+                packingElements = codecPattern.getValue();
+            }
+            for (;indexElement < packingElements.size(); indexElement++) {
+                String element = packingElements.get(indexElement);
                 line = line.replace(element, element.replaceFirst("\\|", "&|"));
             }
-
+            if (addNewLineSymbol) line += ("\n");
             packOneLine(line, buffer);
         }
 
@@ -32,16 +41,16 @@ public class Compressor implements Codec {
         this.outputStringToFile = answer.toString();
     }
 
-    private void packOneLine(String line, List<CodecElement> buffer) {
+    private void packOneLine(String line, List<CodecElementStorage> buffer) {
         char lastChar = line.charAt(0);
-        buffer.add(new CodecElement(lastChar));
+        buffer.add(new CodecElementStorage(lastChar));
         for (int index = 1; index < line.length(); index++) {
-            final CodecElement lastCodecElement = buffer.get(buffer.size() - 1);
+            final CodecElementStorage lastCodecElementStorage = buffer.get(buffer.size() - 1);
             char symbolOnLine = line.charAt(index);
             if (symbolOnLine == lastChar && symbolOnLine != escapingCharacter) {
-                lastCodecElement.inc();
+                lastCodecElementStorage.inc();
             } else {
-                buffer.add(new CodecElement(symbolOnLine));
+                buffer.add(new CodecElementStorage(symbolOnLine));
                 lastChar = symbolOnLine;
             }
         }

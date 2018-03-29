@@ -1,5 +1,7 @@
 package com.project.logic.codec;
 
+import javafx.util.Pair;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -19,28 +21,31 @@ public class Decompressor implements Codec {
             throw new IllegalArgumentException("The file is damaged");
         }
 
-        final List<String> normalArchiveElements = findArchivePattern(this.fileLines.get(0), true);
-        final List<String> deepArchiveElements = findArchivePattern(this.fileLines.get(0), false);
+        Pair<List<String>, List<String>> codecPattern = findArchivePattern(this.fileLines);
+        final List<String> normalArchiveElements = codecPattern.getKey();
+        final List<String> deepArchiveElements = codecPattern.getValue();
 
         this.outputStringToFile = unpackLine(normalArchiveElements, deepArchiveElements);
     }
 
     private String unpackLine(List<String> normalArchiveElements, List<String> deepArchiveElements) {
-        String answer = this.fileLines.get(0);
+        StringBuilder answer = new StringBuilder();
+        for (String line : fileLines) {
+            for (String element : normalArchiveElements) {
+                final String symbolForCopies = String.valueOf(element.charAt(0));
+                final int quantity = Integer.parseInt(element.substring(1, element.length() - 1));
+                line = line
+                        .replace(element, String.join("", Collections.nCopies(quantity, symbolForCopies)));
+            }
 
-        for (String element : normalArchiveElements) {
-            final String symbolForCopies = String.valueOf(element.charAt(0));
-            final int quantity = Integer.parseInt(element.substring(1, element.length() - 1));
-            answer = answer
-                    .replace(element, String.join("", Collections.nCopies(quantity, symbolForCopies)));
+            for (String element : deepArchiveElements) {
+                String newElement = element.replaceFirst("&", "");
+                line = line.replace(element, newElement);
+            }
+            answer.append(line);
         }
 
-        for (String element : deepArchiveElements) {
-            String newElement = element.replaceFirst("&", "");
-            answer = answer.replace(element, newElement);
-        }
-
-        return answer;
+        return answer.toString();
     }
 
     @Override

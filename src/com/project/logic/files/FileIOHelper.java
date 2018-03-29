@@ -22,11 +22,9 @@ public class FileIOHelper {
         try {
             Files.write(Paths.get(outputName), Collections.singleton(answerToFile));
         } catch (UnsupportedEncodingException e) {
-            throw new IllegalArgumentException("An error occurred while reading the file, invalid encoding");
+            throw new IllegalArgumentException("The Character Encoding is not supported.");
         } catch (IOException e) {
             throw new IllegalArgumentException("File already exists or the name is not correct");
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("The file is empty or unknown error");
         }
     }
 }
