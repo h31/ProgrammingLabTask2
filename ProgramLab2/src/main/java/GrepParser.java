@@ -29,8 +29,8 @@ public class GrepParser {
         return findExceptRegex;
     }
 
-    public String getIgnoreCase() {
-        return ignoreCase;
+    public boolean getIgnoreCase() {
+        return true;
     }
 
     public String getFindOnRegex() {

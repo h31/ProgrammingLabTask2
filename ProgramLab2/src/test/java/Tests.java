@@ -7,25 +7,25 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class Tests {
-    Grep grep = new Grep("C:\\Users\\Dwohco\\ProgrammingLabTask2\\ProgramLab2\\src\\test\\FileForRead");
-    
+    Grep grep = new Grep("src\\test\\FileForRead");
+
 
     @Test
     void findOnRegex() {
         List<String> expResult = Collections.singletonList(grep.getLines().get(2));
         assertEquals(expResult, grep.findOnRegex("ул\\.\\s+(.+),\\s+д\\.\\s+(\\d+),\\s+кв\\.\\s+(\\d+)"));
+        List<String> exp = Collections.singletonList(grep.getLines().get(0));
+        assertEquals(exp, grep.findOnRegex("рядом"));
+        List<String> exp2 = Collections.singletonList(grep.getLines().get(0));
+        grep.setIgnoreCase(true);
+        assertEquals(exp2, grep.findOnRegex("РяДом"));
+
     }
 
     @Test
     void findExceptRegex() {
         List<String> expResult = Arrays.asList(grep.getLines().get(0), grep.getLines().get(1));
         assertEquals(expResult, grep.findExceptRegex("ул\\.\\s+(.+),\\s+д\\.\\s+(\\d+),\\s+кв\\.\\s+(\\d+)"));
-    }
-
-    @Test
-    void ignoreCase() {
-        List<String> expResult = Collections.singletonList(grep.getLines().get(0));
-        assertEquals(expResult, grep.ignoreCase("РЯДом"));
     }
 }
 

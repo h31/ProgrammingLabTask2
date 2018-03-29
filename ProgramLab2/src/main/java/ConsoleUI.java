@@ -9,11 +9,11 @@ public class ConsoleUI {
         Matcher matcher = commandPattern.matcher(command);
         if (matcher.matches()) {
             GrepParser grepParser = new GrepParser(command);
-            Grep grep = new Grep(grepParser.getInputFileName());
+            Grep grep = new Grep("C:\\Users\\Dwohco\\ProgrammingLabTask2\\ProgramLab2\\src\\test\\FileForRead");
+            //Grep grep = new Grep(grepParser.getInputFileName());
+            if (command.contains("-i")) grep.setIgnoreCase(true);
             if (command.contains("-r")) System.out.println(grep.findOnRegex(grepParser.getFindOnRegex()));
-            if (command.contains("-i")) System.out.println(grep.ignoreCase(grepParser.getIgnoreCase()));
             if (command.contains("-v")) System.out.println(grep.findExceptRegex(grepParser.getFindExceptRegex()));
-        }
-        else System.out.println("Неизвестная команда");
+        } else System.out.println("Неизвестная команда");
     }
 }
