@@ -21,6 +21,9 @@ public class FilesSize {
         this.oneThousand = oneThousand;
     }
 
+    /**
+     * Нахождение размера директории с файлами и директориями внутри.
+     **/
     private long getDirectorySize(File dir) {
         long size = 0;
         File[] subFiles = dir.listFiles();
@@ -34,6 +37,9 @@ public class FilesSize {
         return size;
     }
 
+    /**
+     * Нахождение размера файла в человеко-читаемом формате
+    **/
     private String humanFileSize(double fileSize, int base) {
         int count = 0;
         for (int i = 1; i <= 3; i++) {
@@ -55,6 +61,9 @@ public class FilesSize {
         return "";
     }
 
+    /**
+     * Общая функция для нахождения размера файлов с заданными параметрами.
+     **/
     public String filesSize(String[] args) {
         String filesSizeTotal = "";
         double total = 0;
