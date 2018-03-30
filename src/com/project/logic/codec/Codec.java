@@ -13,7 +13,7 @@ public interface Codec {
 
     void setFile(List<String> fileLines);
 
-    String getOutputStringToFile();
+    List<String> getOutputToFile();
 
     default Pair<List<String>, List<String>> findArchivePattern(List<String> linesForFind) {
 

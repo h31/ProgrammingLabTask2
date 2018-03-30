@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Compressor implements Codec {
 
-    private String outputStringToFile;
+    private List<String> outputToFile;
     private List<String> fileLines;
     private char escapingCharacter = '&';
 
@@ -17,11 +17,12 @@ public class Compressor implements Codec {
 
     @Override
     public void start() {
-        final List<CodecElementStorage> buffer = new ArrayList<>();
+        List<String> answer = new ArrayList<>();
         Pair<List<String>, List<String>> codecPattern = findArchivePattern(fileLines);
         int indexElement = 0;
         String lastLine = fileLines.get(fileLines.size() - 1);
         for (String line : fileLines) {
+            final List<CodecElementStorage> buffer = new ArrayList<>();
             List<String> packingElements = codecPattern.getKey();
             boolean addNewLineSymbol = !line.equals(lastLine);
             if (packingElements.size() == 0) {
@@ -33,12 +34,11 @@ public class Compressor implements Codec {
             }
             if (addNewLineSymbol) line += ("\n");
             packOneLine(line, buffer);
+            StringBuilder bufferString = new StringBuilder();
+            buffer.forEach(bufferString::append);
+            answer.add(bufferString.toString());
         }
-
-        StringBuilder answer = new StringBuilder();
-        buffer.forEach(answer::append);
-
-        this.outputStringToFile = answer.toString();
+        this.outputToFile = answer;
     }
 
     private void packOneLine(String line, List<CodecElementStorage> buffer) {
@@ -57,8 +57,8 @@ public class Compressor implements Codec {
     }
 
     @Override
-    public String getOutputStringToFile() {
-        return outputStringToFile;
+    public List<String> getOutputToFile() {
+        return outputToFile;
     }
 
     @Override

@@ -2,12 +2,13 @@ package com.project.logic.codec;
 
 import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Decompressor implements Codec {
 
-    private String outputStringToFile;
+    private List<String> outputStringToFile;
     private List<String> fileLines;
 
     public Decompressor(List<String> fileLines) {
@@ -28,8 +29,8 @@ public class Decompressor implements Codec {
         this.outputStringToFile = unpackLine(normalArchiveElements, deepArchiveElements);
     }
 
-    private String unpackLine(List<String> normalArchiveElements, List<String> deepArchiveElements) {
-        StringBuilder answer = new StringBuilder();
+    private List<String> unpackLine(List<String> normalArchiveElements, List<String> deepArchiveElements) {
+        List<String> answer = new ArrayList<>();
         for (String line : fileLines) {
             for (String element : normalArchiveElements) {
                 final String symbolForCopies = String.valueOf(element.charAt(0));
@@ -42,14 +43,14 @@ public class Decompressor implements Codec {
                 String newElement = element.replaceFirst("&", "");
                 line = line.replace(element, newElement);
             }
-            answer.append(line);
+            answer.add(line);
         }
 
-        return answer.toString();
+        return answer;
     }
 
     @Override
-    public String getOutputStringToFile() {
+    public List<String> getOutputToFile() {
         return outputStringToFile;
     }
 

@@ -53,6 +53,6 @@ public class NativeParser implements Parser {
 
     @Override
     public String getOutputFileName() {
-        return outputName;
+        return outputName + (packing ? ".uz" : ".txt");
     }
 }

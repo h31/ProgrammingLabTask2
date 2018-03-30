@@ -1,5 +1,6 @@
 package com.project.logic.files;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -18,13 +19,15 @@ public class FileIOHelper {
         }
     }
 
-    public void write(String outputName, String answerToFile) {
+    public void write(String outputName, List<String> answerToFile) {
         try {
-            Files.write(Paths.get(outputName), Collections.singleton(answerToFile));
+            File newFile = new File(outputName);
+            Files.write(newFile.toPath(), answerToFile);
         } catch (UnsupportedEncodingException e) {
             throw new IllegalArgumentException("The Character Encoding is not supported.");
         } catch (IOException e) {
             throw new IllegalArgumentException("File already exists or the name is not correct");
+        } catch (NullPointerException ignored) {
         }
     }
 }
