@@ -20,49 +20,28 @@ public class Grep {
         }
     }
 
-    public List<String> grepWithWord(String word) {
+    public List<String> find(String w, boolean isItRegex, boolean invert, boolean ignoreCase) {
         List<String> output = new ArrayList<>();
-        for (String s:text) {
-            if (s.contains(word)) {
-                output.add(s);
+        if (isItRegex) {
+            Pattern p = ignoreCase ? Pattern.compile(w, Pattern.CASE_INSENSITIVE) : Pattern.compile(w);
+            for (String s : text) {
+                Matcher m = p.matcher(s);
+                if ((invert && !m.find()) || (!invert && m.find())) {
+                    output.add(s);
+                }
+            }
+        } else {
+            for (String s : text) {
+                String s1 = s;
+                if (ignoreCase) {
+                    w = w.toLowerCase();
+                    s = s.toLowerCase();
+                }
+                if ((!invert && s.contains(w)) || (invert && !s.contains(w))) {
+                    output.add(s1);
+                }
             }
         }
         return output;
     }
-
-    public List<String> grepWithRegex(String regex) {
-        List<String> output = new ArrayList<>();
-        Pattern p = Pattern.compile(regex);
-        for (String s:text) {
-            Matcher m = p.matcher(s);
-            if (m.find()) {
-                output.add(s);
-            }
-        }
-        return output;
-    }
-
-    public List<String> grepWithoutRegex(String regex) {
-        List<String> output = new ArrayList<>();
-        Pattern p = Pattern.compile(regex);
-        for (String s:text) {
-            Matcher m = p.matcher(s);
-            if (!m.find()) {
-                output.add(s);
-            }
-        }
-        return output;
-    }
-
-    public List<String> grepWithIgnoreRegister(String regex) {
-        List<String> output = new ArrayList<>();
-        Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-        for (String s:text) {
-            Matcher m = p.matcher(s);
-            if (m.find()) {
-                output.add(s);
-            }
-        }
-        return output;
-    }
-    }
+}
