@@ -24,7 +24,7 @@ class Tests {
 
     @Test
     void findExceptRegex() {
-        List<String> expResult = Arrays.asList(grep.getLines().get(0), grep.getLines().get(16));
+        List<String> expResult = Arrays.asList(grep.getLines().get(16));
         assertEquals(expResult, grep.findExceptRegex("/"));
     }
 }

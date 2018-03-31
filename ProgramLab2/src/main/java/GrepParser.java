@@ -13,13 +13,13 @@ public class GrepParser {
         }
     }
 
-    @Option(name = "-v", required = true)
+    @Option(name = "-v")
     private String findExceptRegex;
 
-    @Option(name = "-i", required = true)
+    @Option(name = "-i")
     private String ignoreCase;
 
-    @Option(name = "-r", required = true)
+    @Option(name = "-r")
     private String findOnRegex;
 
     @Argument(metaVar = "inputFileName")
@@ -38,6 +38,6 @@ public class GrepParser {
     }
 
     public String getInputFileName() {
-        return inputFileName[1];
+        return inputFileName[inputFileName.length - 1];
     }
 }
