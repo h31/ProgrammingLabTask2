@@ -12,20 +12,20 @@ class Tests {
 
     @Test
     void findOnRegex() {
-        List<String> expResult = Collections.singletonList(grep.getLines().get(2));
+        List<String> expResult = Collections.singletonList(grep.getLines().get(16));
         assertEquals(expResult, grep.findOnRegex("ул\\.\\s+(.+),\\s+д\\.\\s+(\\d+),\\s+кв\\.\\s+(\\d+)"));
         List<String> exp = Collections.singletonList(grep.getLines().get(0));
-        assertEquals(exp, grep.findOnRegex("рядом"));
+        assertEquals(exp, grep.findOnRegex("мартобря"));
         List<String> exp2 = Collections.singletonList(grep.getLines().get(0));
         grep.setIgnoreCase(true);
-        assertEquals(exp2, grep.findOnRegex("РяДом"));
+        assertEquals(exp2, grep.findOnRegex("МАРТобря"));
 
     }
 
     @Test
     void findExceptRegex() {
-        List<String> expResult = Arrays.asList(grep.getLines().get(0), grep.getLines().get(1));
-        assertEquals(expResult, grep.findExceptRegex("ул\\.\\s+(.+),\\s+д\\.\\s+(\\d+),\\s+кв\\.\\s+(\\d+)"));
+        List<String> expResult = Arrays.asList(grep.getLines().get(0), grep.getLines().get(16));
+        assertEquals(expResult, grep.findExceptRegex("/"));
     }
 }
 
