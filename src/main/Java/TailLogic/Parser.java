@@ -6,7 +6,8 @@ import java.util.regex.Pattern;
 
 public class Parser {
     private int num;
-    private ArrayList<String> inputName;
+    private ArrayList<String> inputNames;
+    private String inputName;
     private String outputName;
     private boolean isC;
 
@@ -25,17 +26,19 @@ public class Parser {
             if (matcherOfOutputName.matches()) {
                 outputName = commandToParts[4];
                 if (matcherOfInputName.matches()) {
+                    if (commandToParts.length == 6) inputName = commandToParts[5];
                     for (int i = 5; i < commandToParts.length; i++) {
-                        inputName.add(commandToParts[i]);
+                        inputNames.add(commandToParts[i]);
                     }
-                } else inputName.add("Отсутствует");
+                } else inputNames.add("Нет");
             } else {
-                outputName = "Отсутствует";
+                outputName = "Нет";
                 if (matcherOfInputName.matches()) {
+                    if (commandToParts.length == 4) inputName = commandToParts[3];
                     for (int i = 3; i < commandToParts.length; i++) {
-                        inputName.add(commandToParts[i]);
+                        inputNames.add(commandToParts[i]);
                     }
-                } else inputName.add("Отсутствует");
+                } else inputNames.add("Нет");
             }
         } else {
             isC = false;
@@ -43,17 +46,19 @@ public class Parser {
             if (matcherOfOutputName.matches()) {
                 outputName = commandToParts[2];
                 if (matcherOfInputName.matches()) {
+                    if (commandToParts.length == 4) inputName = commandToParts[3];
                     for (int i = 3; i < commandToParts.length; i++) {
-                        inputName.add(commandToParts[i]);
+                        inputNames.add(commandToParts[i]);
                     }
-                } else inputName.add("Отсутствует");
+                } else inputNames.add("Нет");
             } else {
-                outputName = "Отсутствует";
+                outputName = "Нет";
                 if (matcherOfInputName.matches()) {
+                    if (commandToParts.length == 2) inputName = commandToParts[1];
                     for (int i = 1; i < commandToParts.length; i++) {
-                        inputName.add(commandToParts[i]);
+                        inputNames.add(commandToParts[i]);
                     }
-                } else inputName.add("Отсутствует");
+                } else inputNames.add("Нет");
             }
         }
     }
@@ -70,9 +75,11 @@ public class Parser {
         return outputName;
     }
 
-    public ArrayList<String> getInputName() {
-        return inputName;
+    public ArrayList<String> getInputNames() {
+        return inputNames;
     }
+
+    public String getInputName() { return inputName; }
 
 }
 
