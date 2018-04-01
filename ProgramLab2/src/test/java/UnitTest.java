@@ -1,3 +1,4 @@
+import logic.Grep;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -6,7 +7,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class Tests {
+class UnitTest {
     Grep grep = new Grep("src\\test\\FileForRead");
 
 
