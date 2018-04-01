@@ -10,38 +10,53 @@ import java.util.regex.Pattern;
 
 public class Grep {
 
-    private List<String> text = new ArrayList<>();
+    private final String word;
 
-    public Grep(String inputDirectory) {
-        try {
-            text = Files.readAllLines(Paths.get(inputDirectory));
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Can't read file" + e.getMessage());
-        }
+    private final boolean regex;
+
+    private final boolean invert;
+
+    private final boolean ignoreCase;
+
+    public Grep(String word, boolean regex, boolean invert, boolean ignoreCase) {
+        this.word = word;
+        this.regex = regex;
+        this.invert = invert;
+        this.ignoreCase = ignoreCase;
     }
 
-    public List<String> find(String w, boolean isItRegex, boolean invert, boolean ignoreCase) {
+    public List<String> find(List<String> text) {
         List<String> output = new ArrayList<>();
-        if (isItRegex) {
-            Pattern p = ignoreCase ? Pattern.compile(w, Pattern.CASE_INSENSITIVE) : Pattern.compile(w);
-            for (String s : text) {
-                Matcher m = p.matcher(s);
+        if (regex) {
+            Pattern p = ignoreCase ? Pattern.compile(word, Pattern.CASE_INSENSITIVE) : Pattern.compile(word);
+            for (String line : text) {
+                Matcher m = p.matcher(line);
                 if ((invert && !m.find()) || (!invert && m.find())) {
-                    output.add(s);
+                    output.add(line);
                 }
             }
         } else {
-            for (String s : text) {
-                String s1 = s;
+            for (String line : text) {
+                String lineCopy = line;
+                String wordCopy = word;
                 if (ignoreCase) {
-                    w = w.toLowerCase();
-                    s = s.toLowerCase();
+                    wordCopy = wordCopy.toLowerCase();
+                    line = line.toLowerCase();
                 }
-                if ((!invert && s.contains(w)) || (invert && !s.contains(w))) {
-                    output.add(s1);
+                if ((!invert && line.contains(wordCopy)) || (invert && !line.contains(wordCopy))) {
+                    output.add(lineCopy);
                 }
             }
         }
         return output;
+    }
+
+    public List<String> find(String inputDirectory) {
+        try {
+            List<String> text = Files.readAllLines(Paths.get(inputDirectory));
+            return find(text);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Something went wrong" + e.getMessage());
+        }
     }
 }
