@@ -43,7 +43,7 @@ class FileSize {
             else {
                 long size = fileSize(file);
                 if (h) {
-                    while (size / base > 0) {
+                    if (size / base > 0) {
                         size /= base;
                         type++;
                     }
@@ -56,7 +56,7 @@ class FileSize {
         }
         if (c) {
             if (h) {
-                while (sum / base > 0) {
+                if (sum / base > 0) {
                     sum /= base;
                     type++;
                 }

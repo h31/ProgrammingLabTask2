@@ -31,10 +31,10 @@ public class FileSizeTest {
         FileSizeLauncher.main(args3);
         assertEquals(FileSizeLauncher.list, list3);
 
-        String[] args4 = {"-h", "--si", "src/test/java/task2/files/god.jpg", "src/test/java/task2/files/blaBla.txt"};
+        String[] args4 = {"--si", "-h", "src/test/java/task2/files/god.jpg", "src/test/java/task2/files/blaBla.txt"};
         List list4 = new ArrayList();
-        list4.add("Size of src/test/java/task2/files/god.jpg equals 56 MB");
-        list4.add("Size of src/test/java/task2/files/blaBla.txt equals ~~");
+        list4.add("Size of src/test/java/task2/files/god.jpg equals 506 KB");
+        list4.add("Size of src/test/java/task2/files/blaBla.txt equals ~~?");
         FileSizeLauncher.main(args4);
         assertEquals(FileSizeLauncher.list, list4);
     }
