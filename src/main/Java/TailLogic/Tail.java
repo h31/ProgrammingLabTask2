@@ -30,8 +30,7 @@ public class Tail {
     public Tail(boolean isN) throws IOException {
         lines = new ArrayList<>();
         characters = new ArrayList<>();
-        BufferedReader reader = null;
-            reader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             if (isN) {
                 String line;
                 while ((line = reader.readLine()) != null) {

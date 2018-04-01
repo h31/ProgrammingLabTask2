@@ -80,7 +80,9 @@ public class Parser {
         return inputNames;
     }
 
-    public String getInputName() { return inputName; }
+    public String getInputName() {
+        return inputName;
+    }
 
 }
 
