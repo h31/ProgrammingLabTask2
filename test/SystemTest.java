@@ -1,3 +1,4 @@
+
 import console.ConsoleUI;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -13,11 +14,11 @@ class SystemTest {
     @Test
     void Grep() throws IOException {
         ConsoleUI console = new ConsoleUI();
-        console.setCommandOnTest("grep -r -i маРтобря src\\test\\FileForRead");
+        console.setCommandOnTest("grep -r -i маРтобря test\\FileForRead");
         console.start();
-        List<String> result = Files.readAllLines(Paths.get("src\\test\\FileForRead"), StandardCharsets.UTF_8);
+        List<String> result = Files.readAllLines(Paths.get("test\\FileForRead"), StandardCharsets.UTF_8);
         Assert.assertEquals("/Ниоткуда с любовью, надцатого мартобря,", result.get(0));
-        console.setCommandOnTest("grep -v -i / src\\test\\FileForRead");
+        console.setCommandOnTest("grep -v -i / test\\FileForRead");
         Assert.assertEquals("ул. Новая, д. 12, кв. 325", result.get(16));
     }
 }
