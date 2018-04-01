@@ -10,5 +10,6 @@ public class UI {
         Pattern pattern = Pattern.compile("tail\\s+((-c\\s+\\d+)|(-n\\s+\\d+))?(-o\\s+\\w+)?(\\s+\\w+)*");
         Matcher matcher = pattern.matcher(command);
     }
+
 }
 
