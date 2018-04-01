@@ -2,6 +2,7 @@ package task2;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -22,9 +23,11 @@ class FileSize {
         if (fileN.isFile()) return fileN.length();
         else {
             File[] list = fileN.listFiles();
-            for (File i : list) {
-                if (i.isDirectory()) sum += fileSize(i);
-                else sum += i.length();
+            if (list != null) {
+                for (File i : list) {
+                    if (i.isDirectory()) sum += fileSize(i);
+                    else sum += i.length();
+                }
             }
             return sum;
         }
@@ -35,7 +38,7 @@ class FileSize {
         if (si) base = 1000;
         int type = 0;
         String[] list = {"B", "KB", "MB", "GB"};
-        List res = new ArrayList();
+        List<String> res = new LinkedList<>();
         for (String i : fileN) {
             File file = new File(i);
             if (!file.exists()) throw new IllegalArgumentException("no such file or directory");
@@ -53,6 +56,7 @@ class FileSize {
                     res.add("Size of" + " " + i + " " + "equals" + " " + size);
                 }
             }
+            type = 0;
         }
         if (c) {
             if (h) {
