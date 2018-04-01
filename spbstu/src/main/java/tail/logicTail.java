@@ -1,12 +1,11 @@
 package tail;
 
-import java.io.*;
 import java.util.*;
 
 public class logicTail {
 
     public List<String> c(int amountOfSymbols, List<String> linesFromFile) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         int symbols = 0;
         int i = linesFromFile.size() - 1;
         while (symbols < amountOfSymbols) {
@@ -15,6 +14,7 @@ public class logicTail {
             if (lengthOfLine + symbols <= amountOfSymbols) result.add(0, Line);
             else result.add(0, Line.substring(lengthOfLine - amountOfSymbols + symbols));
             symbols += lengthOfLine;
+            i--;
         }
         return result;
     }
