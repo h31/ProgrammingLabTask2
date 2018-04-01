@@ -2,35 +2,36 @@ package logic
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.io.File
 import java.nio.file.Paths
 
 class FindTest {
-    val s = File.separator
-    val testdir = Paths.get("").toRealPath().toString() + "${s}src${s}test${s}testdir"
+    val testdir = Paths.get("").toRealPath().resolve("src\\test\\testdir")
 
     @Test
     fun find() {
         assertEquals(null, Find().find(false, null, "code.kt"))
 
         // -r
-        assertEquals(testdir + "${s}anotherProgramming${s}kotlin${s}code.kt" + "\n" +
-                testdir + "${s}programming${s}kotlin${s}code.kt" + "\n" +
-                testdir + "${s}programming${s}kotlin${s}deeper${s}code.kt",
-                Find().find(true, null, "code.kt").toString())
+        assertEquals(mutableListOf(
+                testdir.resolve("anotherProgramming\\kotlin\\code.kt").toFile(),
+                testdir.resolve("programming\\kotlin\\code.kt").toFile(),
+                testdir.resolve("programming\\kotlin\\deeper\\code.kt").toFile()),
+                Find().find(true, null, "code.kt"))
 
         // -d
-        assertEquals(testdir + "${s}programming${s}kotlin${s}code.kt",
-                Find().find(false, File(testdir + "${s}programming${s}kotlin"), "code.kt").toString())
+        assertEquals(mutableListOf(testdir.resolve("programming\\kotlin\\code.kt").toFile()),
+                Find().find(false, testdir.resolve("programming\\kotlin").toFile(), "code.kt"))
 
         // -r -d
-        assertEquals(testdir + "${s}programming${s}kotlin${s}code.kt" + "\n" +
-                testdir + "${s}programming${s}kotlin${s}deeper${s}code.kt",
-                Find().find(true, File(testdir + "${s}programming"), "code.kt").toString())
+        assertEquals(mutableListOf(
+                testdir.resolve("programming\\kotlin\\code.kt").toFile(),
+                testdir.resolve("programming\\kotlin\\deeper\\code.kt").toFile()),
+                Find().find(true, testdir.resolve("programming").toFile(), "code.kt"))
 
         //  find directories
-        assertEquals(testdir + "${s}anotherProgramming${s}kotlin" + "\n" +
-                testdir + "${s}programming${s}kotlin",
-                Find().find(true, File(testdir), "kotlin").toString())
+        assertEquals(mutableListOf(
+                testdir.resolve("anotherProgramming\\kotlin").toFile(),
+                testdir.resolve("programming\\kotlin").toFile()),
+                Find().find(true, testdir.toFile(), "kotlin"))
     }
 }

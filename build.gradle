@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'kotlin'
 apply plugin: 'application'
 
-mainClassName = 'console/MainKt'
+mainClassName = 'console.MainKt'
 
 defaultTasks 'run'
 
@@ -49,5 +49,5 @@ test {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "4.1"
+    gradleVersion = "4.4.1"
 }

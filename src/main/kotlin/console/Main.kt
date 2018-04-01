@@ -5,31 +5,10 @@ import logic.Find
 import java.io.File
 
 fun main(args: Array<String>) {
-    val arguments = Args()
-
-    try {
-        JCommander(arguments).parse(*args)
-        checkArguments(arguments)
-    } catch (e: Exception) {
-        println(e.message)
-        return
-    }
-
-    val dir = if (arguments.directory == null) null
-    else File(arguments.directory)
-
-    println(Find().find(arguments.checkSubdirectories, dir, arguments.filename[0]) ?: "No file with that file name!")
+    print(start(args))
 }
 
-fun checkArguments(args: Args) {
-    if (args.directory != null) {
-        val dir = File(args.directory)
-        if (!dir.exists() || !dir.isDirectory) throw IllegalArgumentException("Given directory doesn't exist!")
-    }
-    if (args.filename.size != 1) throw IllegalArgumentException("You need to specify one file name!")
-}
-//  Test fun
-fun mainTest(args: Array<String>): String {
+fun start(args: Array<String>): String {
     val arguments = Args()
 
     try {
@@ -42,5 +21,14 @@ fun mainTest(args: Array<String>): String {
     val dir = if (arguments.directory == null) null
     else File(arguments.directory)
 
-    return Find().find(arguments.checkSubdirectories, dir, arguments.filename[0]) ?: "No file with that file name!"
+    val result = Find().find(arguments.checkSubdirectories, dir, arguments.filename[0])
+    return result?.joinToString(separator = "\n") { it.toString() } ?: "No file with that file name!"
+}
+
+private fun checkArguments(args: Args) {
+    if (args.directory != null) {
+        val dir = File(args.directory)
+        if (!dir.exists() || !dir.isDirectory) throw IllegalArgumentException("Given directory doesn't exist!")
+    }
+    if (args.filename.size != 1) throw IllegalArgumentException("You need to specify one file name!")
 }
