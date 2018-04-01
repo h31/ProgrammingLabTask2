@@ -2,7 +2,7 @@ package tail;
 
 import java.util.Scanner;
 
-public class interfaceTale {
+public class interfaceTail {
     public static void main(String[] args) throws Exception {
         String name1 = "";
         String name2 = "";
