@@ -12,6 +12,7 @@ public class Parser {
     private boolean isC;
 
     public Parser(String command) {
+        inputNames = new ArrayList<>();
         String[] commandToParts = command.trim().split("\\s+");
         Pattern patternOfFlag = Pattern.compile("(-c\\s+\\d+)|(-n\\s+\\d+)");
         Pattern patternOfOutputName = Pattern.compile("-o\\s+\\w+");
