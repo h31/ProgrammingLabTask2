@@ -29,5 +29,6 @@ class FindTest {
         path = new Find("src/test", true);
         assertEquals(new File("File does not exist"),
                 path.find("test3.txt"));
+
     }
 }

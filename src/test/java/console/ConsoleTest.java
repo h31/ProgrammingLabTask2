@@ -23,5 +23,6 @@ class ConsoleTest {
 
         path.main(new String[]{"-r", "-d", "src", "test3.txt"});
         assertEquals(new File("File does not exist"), path.file);
+
     }
 }
