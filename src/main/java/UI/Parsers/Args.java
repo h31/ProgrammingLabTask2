@@ -21,26 +21,44 @@ public class Args {
     public void getTask() {
         try {
             if (arguments.get(0).equals("-u")) {
-                fileToSeparate = new File(arguments.get(1));
+                if (arguments.get(1).startsWith("/")) {
+                    fileToSeparate = new File(arguments.get(1));
+                } else {
+                    File home = new File("");
+                    fileToSeparate = new File(home.getAbsolutePath() + "/" + arguments.get(1));
+                }
                 pack = false;
+
             } else {
                 int i = 0;
                 while (!(arguments.get(i).equals("-out"))) {
-                    filesToCollect.add(new File(arguments.get(i)));
-                    i++;
+                    if (arguments.get(i).startsWith("/")) {
+                        filesToCollect.add(new File(arguments.get(i)));
+                        i++;
+                    } else {
+                        File home = new File("");
+                        filesToCollect.add(new File(home.getAbsolutePath() + "/" + arguments.get(i)));
+                        i++;
+                    }
                 }
-                collectionFile = new File(arguments.get(i + 1));
+                if (arguments.get(i + 1).startsWith("/")) {
+                    collectionFile = new File(arguments.get(i + 1));
+                } else {
+                    File home = new File("");
+                    collectionFile = new File(home.getAbsolutePath() + "/" + arguments.get(i + 1));
+                }
                 pack = true;
             }
-        } catch (ArrayIndexOutOfBoundsException ex){
+        } catch (ArrayIndexOutOfBoundsException ex) {
             throw ex;
         }
     }
-    public boolean taskFlag(){
+
+    public boolean taskFlag() {
         return pack;
     }
 
-    public File getCollectionFile(){
+    public File getCollectionFile() {
         return collectionFile;
     }
 
