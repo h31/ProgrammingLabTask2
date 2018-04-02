@@ -71,7 +71,7 @@ public class UnitTests {
     }
 
     @Test
-    public void grepRegexWithIgnoreRegister() {
+    public void grepRegexWithIgnoreCase() {
         Grep g1 = new Grep("CoDe", true, false, true);
         Grep g2 = new Grep("Language", true, false, true);
         List<String> expected1 = Arrays.asList("to JavaScript source code or use the LLVM compiler infrastructure.",
@@ -85,7 +85,7 @@ public class UnitTests {
     }
 
     @Test
-    public void grepWithoutRegexWithIgnoreRegister() {
+    public void grepWithoutRegexWithIgnoreCase() {
         Grep g1 = new Grep("JAva|KOTlin|anDROID", true, true, true);
         List<String> expected1 = Arrays.asList("Its primary development is from a team of JetBrains " +
                 "programmers based in Saint Petersburg, Russia.", "", "   redundant type specifications.", "");

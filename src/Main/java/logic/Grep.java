@@ -12,26 +12,26 @@ public class Grep {
 
     private final String word;
 
-    private final boolean regex;
+    private final boolean isRegex;
 
-    private final boolean invert;
+    private final boolean isInvert;
 
-    private final boolean ignoreCase;
+    private final boolean isIgnoreCase;
 
     public Grep(String word, boolean regex, boolean invert, boolean ignoreCase) {
         this.word = word;
-        this.regex = regex;
-        this.invert = invert;
-        this.ignoreCase = ignoreCase;
+        this.isRegex = regex;
+        this.isInvert = invert;
+        this.isIgnoreCase = ignoreCase;
     }
 
     public List<String> find(List<String> text) {
         List<String> output = new ArrayList<>();
-        if (regex) {
-            Pattern p = ignoreCase ? Pattern.compile(word, Pattern.CASE_INSENSITIVE) : Pattern.compile(word);
+        if (isRegex) {
+            Pattern p = isIgnoreCase ? Pattern.compile(word, Pattern.CASE_INSENSITIVE) : Pattern.compile(word);
             for (String line : text) {
                 Matcher m = p.matcher(line);
-                if ((invert && !m.find()) || (!invert && m.find())) {
+                if ((isInvert && !m.find()) || (!isInvert && m.find())) {
                     output.add(line);
                 }
             }
@@ -39,11 +39,11 @@ public class Grep {
             for (String line : text) {
                 String lineCopy = line;
                 String wordCopy = word;
-                if (ignoreCase) {
+                if (isIgnoreCase) {
                     wordCopy = wordCopy.toLowerCase();
                     line = line.toLowerCase();
                 }
-                if ((!invert && line.contains(wordCopy)) || (invert && !line.contains(wordCopy))) {
+                if ((!isInvert && line.contains(wordCopy)) || (isInvert && !line.contains(wordCopy))) {
                     output.add(lineCopy);
                 }
             }

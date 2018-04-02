@@ -11,13 +11,13 @@ import java.util.List;
 public class grepLauncher {
 
     @Option(name = "-r", usage = "Instead of word it find regular expression")
-    private boolean regex;
+    private boolean isRegex;
 
     @Option(name = "-v", usage = "Inverts filtering condition")
-    private boolean invert;
+    private boolean isInvert;
 
     @Option(name = "-i", usage = "Ignore case")
-    private boolean ignoreCase;
+    private boolean isIgnoreCase;
 
     @Argument(required = true, usage = "Input file name", metaVar = "InputName", index = 0)
     private String inputFileName;
@@ -43,7 +43,7 @@ public class grepLauncher {
             return;
         }
 
-        Grep grep = new Grep(word, regex, invert, ignoreCase);
+        Grep grep = new Grep(word, isRegex, isInvert, isIgnoreCase);
         output = grep.find(inputFileName);
         for (String s : output) System.out.println(s);
     }
