@@ -34,7 +34,7 @@ public class FileSizeTest {
         String[] args3 = {"-c", "-h", "src/test/java/task2/files/papka", "src/test/java/task2/files/god.jpg",
                 "src/test/java/task2/files/nya.txt"};
         List<String> list3 = new LinkedList<>();
-        list3.add("Full size of files equals 499 KB");
+        list3.add("Full size of files equals 498 KB");
         FileSizeLauncher.main(args3);
         assertEquals(FileSizeLauncher.list, list3);
     }
