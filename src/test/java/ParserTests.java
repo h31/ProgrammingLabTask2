@@ -1,13 +1,15 @@
 import UI.Parsers.Args;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ParserTests {
     File testCollectedFile = new File("/Users/Ferrero/IdeaProjects/ProgrammingLabTask2/task2/src/main/resources/collectionFile.txt");
@@ -33,6 +35,10 @@ public class ParserTests {
         assertTrue(avhs.taskFlag());
         assertEquals(avhs.getCollectionFile(), testCollectedFile);
         assertEquals(avhs.getFilesToCollect(), filesToCollectList);
+        String arguments_ex = "/ 23 /232i f d";
+        args = arguments_ex.split(" |\n");
+        Args avhs_exception = new Args(args);
+        assertThrows(IndexOutOfBoundsException.class, () -> avhs_exception.getTask());
     }
 
     @Test
@@ -43,5 +49,9 @@ public class ParserTests {
         avhs.getTask();
         assertFalse(avhs.taskFlag());
         assertEquals(avhs.getFileToSeparate(), testFileToSeparate);
+        String arguments_ex = "-  /cxzask2/task2/src/main/resources/fileToSeparate.txt";
+        args = arguments_ex.split(" |\n");
+        Args avhs_exception = new Args(args);
+        assertThrows(IndexOutOfBoundsException.class, () -> avhs_exception.getTask());
     }
 }
