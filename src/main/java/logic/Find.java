@@ -4,44 +4,39 @@ import java.io.File;
 
 public class Find {
 
-    private String fileName;
+    private String directoryToSearch;
 
-    private Boolean subDirectory;
+    private Boolean useSubDirectory;
 
-    public Find(String fileName, Boolean subDirectory) {
-        this.fileName = fileName;
-        this.subDirectory = subDirectory;
+    public Find(String directoryToSearch, Boolean useSubDirectory) {
+        this.directoryToSearch = directoryToSearch;
+        this.useSubDirectory = useSubDirectory;
     }
 
 
-    private String search(String directory, String nameOfTheFile) {
-        String fullNameOfTheFile = directory + "/" + nameOfTheFile;
-        if (new File(fullNameOfTheFile).isFile()) return fullNameOfTheFile;
-        return "nothing";
-    }
-
-
-    private String subSearch(String directory, String nameOfTheFile) {
-        File ourFile = new File(directory);
-        String[] directories = ourFile.list();
-        if (directories != null)
-            for (int i = 0; i < directories.length; i++) {
-                String fullNameOfTheFile;
-                if (directories[i].equals(nameOfTheFile)) fullNameOfTheFile = directory;
-                else fullNameOfTheFile = directory + "/" + directories[i];
-                if (new File(fullNameOfTheFile + "/" + nameOfTheFile).isFile())
-                    return fullNameOfTheFile + "/" + nameOfTheFile;
-                fullNameOfTheFile = subSearch(fullNameOfTheFile, nameOfTheFile);
-                if (new File(fullNameOfTheFile).isFile()) return fullNameOfTheFile;
+    private String search(String directory, String fileToFind) {
+        String pathToTheFile = directory + "/" + fileToFind;
+        if (new File(pathToTheFile).isFile()) return pathToTheFile;
+        if (useSubDirectory) {
+            File ourPath = new File(directory);
+            String[] directories = ourPath.list();
+            if (directories != null) {
+                for (int i = 0; i < directories.length; i++) {
+                    if (directories[i].equals(fileToFind)) pathToTheFile = directory;
+                    else pathToTheFile = directory + "/" + directories[i];
+                    if (new File(pathToTheFile + "/" + fileToFind).isFile())
+                        return pathToTheFile + "/" + fileToFind;
+                    pathToTheFile = search(pathToTheFile, fileToFind);
+                    if (new File(pathToTheFile).isFile()) return pathToTheFile;
+                }
             }
-        return "nothing";
+        }
+        return "File does not exist";
     }
 
 
-    public File find(String nameOfTheFile) {
-        String target;
-        if (subDirectory) target = subSearch(fileName, nameOfTheFile);
-        else target = search(fileName, nameOfTheFile);
+    public File find(String fileToFind) {
+        String target = search(directoryToSearch, fileToFind);
         return new File(target);
     }
 }
