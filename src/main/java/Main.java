@@ -1,59 +1,73 @@
-import org.apache.commons.cli.*;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
 
-import java.io.File;
+import java.io.*;
 
 public class Main {
     private static Cli c = new Cli();
-    static class Cli{
-        private Options options = new Options();
-        public Cli(){
-            options.addOption(new Option("c", "crypt", true, "key for encription"));
-            options.addOption(new Option("d", "decrypt", true, "key for decryption"));
-            options.addOption(new Option("o", "output", true, "path to output file"));
-        }
 
-        public void parse(String args[]){
-            int type = 0;
-            String key = "";
-            String out = null;
-            String in = "";
-            CommandLineParser prs = new DefaultParser();
+    public static void main(String args[]) {
+        Program prg = c.parse(args);
+        if (c.output != null) {
             try {
-                CommandLine cmd = prs.parse(options,args);
-                if(cmd.hasOption('c')) {
-                    type = 1;
-                    key = cmd.getOptionValue('c');
+                if (!new File(c.output).exists()) {
+                    new File(c.output).createNewFile();
                 }
-                if(cmd.hasOption('d')){
-                    if (type == 0)
-                        type = 2;
-                    key = cmd.getOptionValue('d');
-                }
-                if(cmd.hasOption('o'))
-                    out = cmd.getOptionValue('o');
-                int i = 0;
-                while (i < cmd.getArgList().size()){
-                    if(cmd.getArgList().get(i).equals("-d")
-                            || cmd.getArgList().get(i).equals("-c")
-                            || cmd.getArgList().get(i).equals("-o"))
-                        i += 2;
-                    else
-                        in = cmd.getArgList().get(i);
-                }
-                File fl = new File(in);
-                if(!fl.isFile()) throw new IllegalArgumentException();
-                if(type == 0) throw new IllegalArgumentException();
-            } catch (ParseException e) {
-                HelpFormatter hp = new HelpFormatter();
-                hp.printHelp("ciphxor",options);
-            } catch (IllegalArgumentException ex){
-                System.out.println("Недопустимый синтаксис");
-                HelpFormatter hp = new HelpFormatter();
-                hp.printHelp("ciphxor",options);
+                PrintWriter out = new PrintWriter(c.output);
+                out.println(prg.work());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                System.out.println(prg.work());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
-    public static void main(String args[]){
-        c.parse(args);
+
+    static class Cli{
+        @Option(name = "-c", usage = "Encrypt file with key")
+        private String ckey = null;
+
+        @Option(name = "-d", usage = "Decrypt ile with key")
+        private String dkey = null;
+
+        @Argument
+        private String input;
+
+        @Option(name = "-o", usage = "Output file")
+        private String output;
+
+        public Program parse(final String[] args) {
+            CmdLineParser cmd = new CmdLineParser(this);
+            if (args.length >= 1) {
+                try {
+                    cmd.parseArgument(args);
+                } catch (CmdLineException e) {
+                    System.out.println("ERROR: Unable to parse command-line options: " + e);
+                }
+            } else {
+                cmd.printUsage(System.out);
+                System.exit(-1);
+            }
+            if (!new File(input).isFile() || (ckey == null && dkey == null)) {
+                cmd.printUsage(System.out);
+                System.exit(-1);
+            }
+            try {
+                if (dkey == null) {
+                    return new Program(ckey, new BufferedReader(new FileReader(input), ckey.length()));
+                } else {
+                    return new Program(dkey, new BufferedReader(new FileReader(input), dkey.length()));
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                }
+            return null;
+        }
     }
 }

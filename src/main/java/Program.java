@@ -1,24 +1,24 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+
 public class Program {
     private String key;
-    private String msg;
+    private BufferedReader msg;
     private String out = null;
 
-    public Program(String key, String msg, String out) {
-        this.key = key;
-        this.msg = msg;
-        this.out = out;
-    }
-
-    public Program(String key, String msg) {
+    public Program(String key, BufferedReader msg) {
         this.key = key;
         this.msg = msg;
     }
 
-    public byte[] crypt(){
-        return new byte[]{};
-    }
-
-    public void decrypt(){
-
+    public String work() throws IOException {
+        StringBuilder res = new StringBuilder();
+        char[] buf = new char[this.key.length()];
+        while ((msg.read(buf)) != -1) {
+            for (int i = 0; i < buf.length; i++) {
+                res.append((char) (buf[i] ^ key.charAt(i)));
+            }
+        }
+        return res.toString();
     }
 }
