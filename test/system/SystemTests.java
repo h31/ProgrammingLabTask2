@@ -56,8 +56,6 @@ class SystemTests {
             throw new IllegalArgumentException("Something went wrong");
         }
         assertEquals(textOfFile, result.get(0));
-        File file = new File(secondPath);
-
     }
 
     @Test
@@ -81,8 +79,9 @@ class SystemTests {
         } catch (IOException e) {
             throw new IllegalArgumentException("Something went wrong = " + e.getMessage());
         }
-
         assertEquals(secondName, result.get(0));
+        File file = new File(firstName + expansion);
+        file.delete();
     }
 
     @Test

@@ -24,12 +24,12 @@ public class Decompressor implements Codec {
 
         Pair<List<String>, List<String>> codecPattern = findArchivePattern(this.fileLines);
         final List<String> normalArchiveElements = codecPattern.getKey();
-        final List<String> deepArchiveElements = codecPattern.getValue();
+        final List<String> escapingArchiveElements = codecPattern.getValue();
 
-        this.outputStringToFile = unpackLine(normalArchiveElements, deepArchiveElements);
+        this.outputStringToFile = unpackLine(normalArchiveElements, escapingArchiveElements);
     }
 
-    private List<String> unpackLine(List<String> normalArchiveElements, List<String> deepArchiveElements) {
+    private List<String> unpackLine(List<String> normalArchiveElements, List<String> escapingArchiveElements) {
         List<String> answer = new ArrayList<>();
         for (String line : fileLines) {
             for (String element : normalArchiveElements) {
@@ -39,7 +39,7 @@ public class Decompressor implements Codec {
                         .replace(element, String.join("", Collections.nCopies(quantity, symbolForCopies)));
             }
 
-            for (String element : deepArchiveElements) {
+            for (String element : escapingArchiveElements) {
                 String newElement = element.replaceFirst("&", "");
                 line = line.replace(element, newElement);
             }

@@ -17,21 +17,21 @@ public interface Codec {
 
     default Pair<List<String>, List<String>> findArchivePattern(List<String> linesForFind) {
 
-        final List<String> deepMatches = new ArrayList<>();
+        final List<String> escapingMatches = new ArrayList<>();
         final List<String> normalMatches = new ArrayList<>();
-        Matcher deepMatcher;
+        Matcher escapingMatcher;
         Matcher normalMatcher;
         for (String line : linesForFind) {
-            deepMatcher = Pattern.compile(".\\d+&+\\|").matcher(line);
+            escapingMatcher = Pattern.compile(".\\d+&+\\|").matcher(line);
             normalMatcher = Pattern.compile(".\\d+\\|").matcher(line);
 
             while (normalMatcher.find()) {
                 normalMatches.add(normalMatcher.group(0));
             }
-            while (deepMatcher.find()) {
-                deepMatches.add(deepMatcher.group(0));
+            while (escapingMatcher.find()) {
+                escapingMatches.add(escapingMatcher.group(0));
             }
         }
-        return new Pair<>(normalMatches, deepMatches);
+        return new Pair<>(normalMatches, escapingMatches);
     }
 }
