@@ -1,3 +1,9 @@
+FILE COUNT: 5
+1: /Users/Ferrero/IdeaProjects/ProgrammingLabTask2/src/test/java/resources/Collect/fileToCollect2.txt
+2: /Users/Ferrero/IdeaProjects/ProgrammingLabTask2/src/test/java/resources/Collect/fileToCollect3.txt
+3: /Users/Ferrero/IdeaProjects/ProgrammingLabTask2/src/test/java/resources/Collect/fileToCollect4.txt
+4: /Users/Ferrero/IdeaProjects/ProgrammingLabTask2/src/test/java/resources/Collect/fileToCollect5.txt
+<file1>
 В толпе могучих сыновей,
 С друзьями, в гриднице высокой
 Владимир-солнце пировал;
@@ -65,6 +71,8 @@
 Великий князь благословеньем
 Дарует юную чету.
 И вот невесту молодую
+</file1>
+<file2>
 Ведут на брачную постель;
 Огни погасли... и ночную
 Лампаду зажигает Лель.
@@ -132,6 +140,8 @@
 Не бойся: едем за княжной».
 И с благодарностью немой
 В слезах к ним простирает руки
+</file2>
+<file3>
 Старик, измученный тоской.
 Все четверо выходят вместе;
 Руслан уныньем как убит;
@@ -199,6 +209,8 @@
 Ровесники самой природы.
 Вошел с уныньем: что же зрит?
 В пещере старец; ясный вид,
+</file3>
+<file4>
 Спокойный взор, брада седая;
 Лампада перед ним горит;
 За древней книгой он сидит,
@@ -266,6 +278,9 @@
 Позволь мне сердце освежить
 Твоей беседою святою.
 Прости мне дерзостный вопрос.
+</file4>
+<file5>
 Откройся: кто ты, благодатный,
 Судьбы наперсник непонятный?
 В пустыню кто тебя занес?»
+</file5>

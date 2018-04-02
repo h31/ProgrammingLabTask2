@@ -24,11 +24,12 @@ public class Separator {
         reader = new Reader(path, nameWithExtension);
         reader.readLines();
         String[] lines = reader.listOfLines;
+        ArrayList<String> linesToFile = new ArrayList<>();
         int length = reader.listOfLines.length;
         if (length > 4) {
             int quarter = length / 4;
             for (int fileCounter = 1; fileCounter <= 5; fileCounter++) {
-                ArrayList<String> linesToFile = new ArrayList<>();
+                linesToFile.add("<file" + fileCounter + ">");
                 for (int i = (fileCounter - 1) * quarter; i < fileCounter * quarter; i++) {
                     if (i >= length) break;
                     linesToFile.add(lines[i]);
@@ -38,6 +39,8 @@ public class Separator {
                 Writer writer = new Writer(path, newFileName);
                 writer.writeLines(linesToFile, true, true);
             }
+        } else {
+            throw new IllegalArgumentException("Размер файла слишком мал для применения tar");
         }
     }
 
