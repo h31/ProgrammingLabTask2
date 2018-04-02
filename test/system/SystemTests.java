@@ -3,6 +3,7 @@ package system;
 import com.project.UI.ConsoleUI;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -19,8 +20,8 @@ class SystemTests {
 
     private static final String PATH_TO_JUST_TEXT_FILE = "test/files/justFile.txt";
     private static final String PATH_TO_ARCHIVE_FILE = "test/files/archiveFile.uz";
-    private static final String JUST_NAME_TEXT_FILE = "test/files/justFile-copy";
-    private static final String ARCHIVE_NAME = "test/files/archiveFile-copy";
+    private static final String JUST_NAME_TEXT_FILE = "test/files/justFile1";
+    private static final String ARCHIVE_NAME = "test/files/archiveFile1";
     private static final String ARCHIVE_FILE =
             "Мама3| мы4|ла ра7|му." +
             "Серьезно?" +
@@ -55,6 +56,8 @@ class SystemTests {
             throw new IllegalArgumentException("Something went wrong");
         }
         assertEquals(textOfFile, result.get(0));
+        File file = new File(secondPath);
+
     }
 
     @Test
@@ -97,7 +100,7 @@ class SystemTests {
         ConsoleUI.create();
         ConsoleUI.testMode("pack-rle -u -out test/files/unpackWrongData test/files/archiveWrongData.uz");
         ConsoleUI.create();
-        String puckData = "Аляляля? Лалала. В частности, Мама3&| мы4&|ла ра7&|му.";
+        String packData = "Аляляля? Лалала. В частности, Мама3&| мы4&|ла ра7&|му.";
         String originalData = "Аляляля? Лалала. В частности, Мама3| мы4|ла ра7|му.";
         List<String> puckingResult;
         List<String> unpackingResult;
@@ -109,7 +112,7 @@ class SystemTests {
         } catch (IOException e) {
             throw new IllegalArgumentException("Something went wrong = " + e.getMessage());
         }
-        assertEquals(puckingResult.get(0), puckData);
+        assertEquals(puckingResult.get(0), packData);
         assertEquals(unpackingResult.get(0), originalData);
     }
 }
