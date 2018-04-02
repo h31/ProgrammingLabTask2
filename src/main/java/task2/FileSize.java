@@ -33,13 +33,13 @@ class FileSize {
         }
     }
 
-    List print(String[] fileN) {
+    List print(String[] args) {
         int base = 1024;
         if (si) base = 1000;
         int type = 0;
         String[] list = {"B", "KB", "MB", "GB"};
         List<String> res = new LinkedList<>();
-        for (String i : fileN) {
+        for (String i : args) {
             File file = new File(i);
             if (!file.exists()) throw new IllegalArgumentException("no such file or directory");
             if (c) sum += fileSize(file);

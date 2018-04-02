@@ -39,7 +39,7 @@ class FileSizeLauncher {
             return;
         }
         FileSize du = new FileSize(h, c, si);
-        for (Object i : du.print(fileN)) System.out.println(i);
         list = du.print(fileN);
+        System.out.println(list.get(0));
     }
 }

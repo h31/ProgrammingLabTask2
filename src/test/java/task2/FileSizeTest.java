@@ -16,7 +16,7 @@ public class FileSizeTest {
         List<String> list1 = new LinkedList<>();
         list1.add("Size of src/test/java/task2/files/blaBla.txt equals 1");
         FileSizeLauncher.main(args1);
-        assertEquals(FileSizeLauncher.list, list1); 
+        assertEquals(FileSizeLauncher.list, list1);
     }
 
     @Test
