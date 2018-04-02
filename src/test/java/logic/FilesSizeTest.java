@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class FilesSizeTest {
 
     @Test
-    public void filesSize() throws Exception {
+    public void filesTotalSize() throws Exception {
         String[] args = {"src/test/java/filesForTest/TestFile1","src/test/java/filesForTest/TestFile2",
                 "src/test/java/filesForTest/TestFile3"};
         assertEquals("7.912109375\n" + "0.005859375\n" + "4.232421875\n",

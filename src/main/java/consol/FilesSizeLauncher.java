@@ -40,7 +40,7 @@ public class FilesSizeLauncher {
 
         FilesSize file = new FilesSize(sum, human, oneThousand);
         try {
-            String result = file.filesSize(files);
+            String result = file.filesTotalSize(files);
             System.out.println(result);
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
