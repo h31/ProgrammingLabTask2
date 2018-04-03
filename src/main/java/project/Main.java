@@ -1,3 +1,5 @@
+package main.java.project;
+
 import main.java.project.UI.ConsoleUI;
 
 public class Main {
