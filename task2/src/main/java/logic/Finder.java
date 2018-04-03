@@ -1,25 +1,30 @@
 package logic;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.util.Objects;
 
 public class Finder {
+    private File result = null;
 
-    public String find(boolean r, String dPath, String name) {
-        File dir = new File(dPath);
-        if (dir.exists()) {
-            for (File file : Objects.requireNonNull(dir.listFiles())) {
+    private File find2(boolean r, File dPath, String name) {
+        if (dPath.exists()) {
+            for (File file : Objects.requireNonNull(dPath.listFiles())) {
                 if (Objects.equals(file.getName(), name)) {
-                    return file.getPath() + "\\" + name;
-                } else {
-                    if (file.isDirectory() && r) {
-                        String newDPath = dPath + "\\" + file.getName();
-                        find(true, newDPath, name);
-                    }
+                    result = new File(file.getPath());
+                } else if (file.isDirectory() && r) {
+                    File newDPath = new File(dPath + "\\" + file.getName());
+                    find2(true, newDPath, name);
                 }
             }
+        } else {
+            throw new IllegalArgumentException("this directory doesn't exist");
         }
-        return "no result for: " + name;
+        return result;
     }
 
+    public File find(boolean r, File dPath, String name) {
+        if (find2(r, dPath, name) != null) {
+            return find2(r, dPath, name);
+        } else throw new IllegalArgumentException("no results for: " + name);
+    }
 }
