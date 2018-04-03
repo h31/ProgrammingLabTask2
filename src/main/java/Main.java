@@ -8,7 +8,7 @@ import java.io.*;
 public class Main {
     private static Cli c = new Cli();
 
-    public static void main(String args[]) {
+    public static void main(String args[]) { //1
         Program prg = c.parse(args);
         if (c.output != null) {
             try {
