@@ -1,7 +1,7 @@
 package unit;
 
-import com.project.UI.Parsers.NativeParser;
-import com.project.UI.Parsers.Parser;
+import main.java.project.UI.Parsers.NativeParser;
+import main.java.project.UI.Parsers.Parser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

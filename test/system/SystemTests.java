@@ -1,6 +1,6 @@
 package system;
 
-import com.project.UI.ConsoleUI;
+import main.java.project.UI.ConsoleUI;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

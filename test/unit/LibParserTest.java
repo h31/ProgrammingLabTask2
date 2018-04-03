@@ -1,6 +1,6 @@
 package unit;
 
-import com.project.UI.Parsers.LibParser;
+import main.java.project.UI.Parsers.LibParser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

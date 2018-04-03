@@ -1,16 +1,14 @@
 package unit;
 
-import com.project.logic.codec.Codec;
-import com.project.logic.codec.Compressor;
-import com.project.logic.codec.Decompressor;
-import com.sun.tools.javac.jvm.Code;
+import main.java.project.logic.codec.Codec;
+import main.java.project.logic.codec.Compressor;
+import main.java.project.logic.codec.Decompressor;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
