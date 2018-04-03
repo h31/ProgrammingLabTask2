@@ -56,6 +56,8 @@ class SystemTests {
             throw new IllegalArgumentException("Something went wrong");
         }
         assertEquals(textOfFile, result.get(0));
+        fileKiller(JUST_NAME_TEXT_FILE + ".txt");
+        fileKiller(ARCHIVE_NAME + ".uz");
     }
 
     @Test
@@ -80,8 +82,7 @@ class SystemTests {
             throw new IllegalArgumentException("Something went wrong = " + e.getMessage());
         }
         assertEquals(secondName, result.get(0));
-        File file = new File(String.valueOf(Paths.get(firstName + expansion)));
-        file.delete();
+        fileKiller(firstName + expansion);
     }
 
     @Test
@@ -113,5 +114,10 @@ class SystemTests {
         }
         assertEquals(puckingResult.get(0), packData);
         assertEquals(unpackingResult.get(0), originalData);
+    }
+
+    private void fileKiller(String fileName) {
+        File file = new File(fileName);
+        file.delete();
     }
 }
