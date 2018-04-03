@@ -8,10 +8,10 @@ public class Tail {
     private List<String> lines;
     private List<Character> characters;
 
-    public Tail(Reader input, boolean isN) throws IOException {
+    public Tail(String inputFile, boolean isN) throws IOException {
         lines = new ArrayList<>();
         characters = new ArrayList<>();
-        BufferedReader reader =  new BufferedReader(input);
+        BufferedReader reader =  new BufferedReader(new FileReader(new File(inputFile)));
             if (isN) {
                 String line;
                 while ((line = reader.readLine()) != null) {

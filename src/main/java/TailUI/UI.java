@@ -38,11 +38,11 @@ public class UI {
                 for (int i = 0; i < parser.getInputNames().size(); i++) {
                     if (!parser.getOutputName().equals("Нет") && !parser.flagIsC()) { //Есть выходной файл и флаг N
                         Tail tail = new Tail(parser.getInputNames().get(i), true);
-                        tail.flagN(parser.getNum(), parser.getOutputName());
+                        tail.flagN(parser.getNum(), parser.getOutputName(), parser.getInputNames().get(i), false);
                     }
                     if (parser.getOutputName().equals("Нет") && !parser.flagIsC()) { //Нет выходного файла и флаг N
                         Tail tail = new Tail(parser.getInputNames().get(i), true);
-                        tail.flagN(parser.getNum());
+                        tail.flagN(parser.getNum(), parser.getInputNames().get(i), false);
                     }
                     if (!parser.getOutputName().equals("Нет") && parser.flagIsC()) { //Есть выходной файл и флаг С
                         Tail tail = new Tail(parser.getInputNames().get(i), false);
