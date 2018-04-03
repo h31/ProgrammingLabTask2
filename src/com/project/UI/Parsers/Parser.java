@@ -10,19 +10,29 @@ public interface Parser {
 
     String getInputFileName();
 
-    default String createNewFileName(String outputName) {
-        if (!outputName.isEmpty()) return outputName;
+    default String createOutputFileName(String outputName, String inputFileName) {
+        String extension = isPacking() ? "uz" : "txt";
+        if (outputName != null) return createNewFileName(outputName, -1, extension);
 
         int count = 1;
-        String[] inputFileNamePart = getInputFileName().split("\\s+");
-        String extension = isPacking() ? ".uz" : "txt";
+        String[] inputFileNamePart = inputFileName.split("\\.");
+        System.err.println(inputFileName);
 
-        File outputFile = new File(getInputFileName());
-        while (!outputFile.exists()) {
-            outputFile = new File(inputFileNamePart[0] + count + extension);
+        File outputFile = new File(createNewFileName(inputFileNamePart[0], count, extension));
+        while (outputFile.exists()) {
             count++;
+            outputFile = new File(createNewFileName(inputFileNamePart[0], count, extension));
         }
-        return outputFile.getName();
+        System.err.println(outputFile.getPath());
+        return outputFile.getPath();
+    }
+
+    default String createNewFileName(String foundName, int count, String extension) {
+        return new StringBuilder(foundName)
+                .append(count != -1 ? count : "")
+                .append(".")
+                .append(extension)
+                .toString();
     }
 
 }

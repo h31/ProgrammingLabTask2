@@ -4,7 +4,6 @@ package com.project.UI.Parsers;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +38,10 @@ public class LibParser implements Parser {
 
     @Override
     public String getOutputFileName() {
-        return createNewFileName(outputName);
+        if (outputName == null || outputName.isEmpty()) {
+            outputName = createOutputFileName(outputName, parameters.get(1));
+        }
+        return outputName;
     }
 
     @Override

@@ -46,6 +46,7 @@ public class ConsoleUI {
         } else {
             codec = new Decompressor(readFile);
         }
+        codec.start();
         new FileIOHelper().write(parser.getOutputFileName(), codec.getOutputToFile());
 
         System.out.printf("%s end\n\n", parser.isPacking() ? "Packing" : "Unpacking");

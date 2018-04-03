@@ -21,8 +21,7 @@ public class FileIOHelper {
 
     public void write(String outputName, List<String> answerToFile) {
         try {
-            File newFile = new File(outputName);
-            Files.write(newFile.toPath(), answerToFile);
+            Files.write(Paths.get(outputName), answerToFile);
         } catch (UnsupportedEncodingException e) {
             throw new IllegalArgumentException("The Character Encoding is not supported.");
         } catch (IOException e) {

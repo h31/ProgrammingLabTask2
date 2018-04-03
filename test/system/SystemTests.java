@@ -80,7 +80,7 @@ class SystemTests {
             throw new IllegalArgumentException("Something went wrong = " + e.getMessage());
         }
         assertEquals(secondName, result.get(0));
-        File file = new File(firstName + expansion);
+        File file = new File(String.valueOf(Paths.get(firstName + expansion)));
         file.delete();
     }
 
