@@ -31,5 +31,4 @@ class FilesSizeLauncherTest {
             new FilesSize(false,true,true).filesTotalSize(argsForError);
         });
     }
-
 }
