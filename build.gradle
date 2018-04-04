@@ -26,9 +26,6 @@ dependencies {
     compile "com.beust:jcommander:1.72"
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-
-    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    testCompile 'junit:junit:4.11'
 }
 
 
@@ -42,6 +39,7 @@ jar {
 }
 
 test {
+    useJUnitPlatform()
     testLogging {
         events "passed", "skipped", "failed"
         exceptionFormat "full"
@@ -49,5 +47,5 @@ test {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "4.4.1"
+    gradleVersion = "4.6"
 }

@@ -1,7 +1,10 @@
 package console
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import com.beust.jcommander.ParameterException
+import logic.FindTest
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Test
 import java.io.File
 import java.nio.file.Paths
 
@@ -9,9 +12,11 @@ class MainTest {
 
     @Test
     fun mainTest() {
-        assertEquals("You need to specify one file name!", start(arrayOf("code.kt", "code.kt")))
-        assertEquals("Main parameters are required (\"File name for finding\")", start(arrayOf("-d", "code.kt")))
-        assertEquals("Given directory doesn't exist!", start(arrayOf("-r", "-d", "code.kt", "code.kt")))
+        FindTest().generateTestFiles()
+
+        assertThrows(IllegalArgumentException::class.java, { start(arrayOf("code.kt", "code.kt")) }, "You need to specify one file name!")
+        assertThrows(ParameterException::class.java, { start(arrayOf("-d", "code.kt")) }, "Main parameters are required (\"File name for finding\")")
+        assertThrows(IllegalArgumentException::class.java, { start(arrayOf("-r", "-d", "code.kt", "code.kt")) }, "Given directory doesn't exist!")
         assertEquals("No file with that file name!", start(arrayOf("code.kt")))
 
         val s = File.separator
@@ -19,5 +24,7 @@ class MainTest {
         assertEquals(testdir + "${s}programming${s}kotlin${s}code.kt" + "\n" +
                 testdir + "${s}programming${s}kotlin${s}deeper${s}code.kt",
                 start(arrayOf("-r", "-d", testdir + "${s}programming", "code.kt")))
+
+        FindTest().deleteTestFiles()
     }
 }

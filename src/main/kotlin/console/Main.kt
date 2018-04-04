@@ -5,18 +5,18 @@ import logic.Find
 import java.io.File
 
 fun main(args: Array<String>) {
-    print(start(args))
+    try {
+        print(start(args))
+    } catch (e: Exception) {
+        System.err.print(e.message)
+    }
 }
 
 fun start(args: Array<String>): String {
     val arguments = Args()
 
-    try {
-        JCommander(arguments).parse(*args)
-        checkArguments(arguments)
-    } catch (e: Exception) {
-        return e.message!!
-    }
+    JCommander(arguments).parse(*args)
+    checkArguments(arguments)
 
     val dir = if (arguments.directory == null) null
     else File(arguments.directory)
