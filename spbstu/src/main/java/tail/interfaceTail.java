@@ -1,25 +1,38 @@
 package tail;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class interfaceTail {
-    public static void main(String[] args) throws Exception {
-        String name1 = "";
-        String name2 = "";
-        String inputCommandString;
-        //FileWriter writer = new FileWriter(name1);
-        //FileReader reader = new FileReader(name2);
-        Scanner scanner = new Scanner(System.in);
+    private parserTail parser;
 
-        System.out.println("Введите команду");
-        inputCommandString = scanner.nextLine();
+    interfaceTail(String cmdLine) {
+        String[] args = cmdLine.split(" ");
+        this.parser = new parserTail(args);
+    }
 
-        if (inputCommandString.contains("-c") && inputCommandString.contains("-n"))
-            throw new IllegalArgumentException("Неверный формат данных");
-        String[] command = inputCommandString.split(" ");
-        String flag = command[1];
+    public List<String> read() throws FileNotFoundException {
+        List<String> listOfInputs = parser.getInputFileName();
+        FileReader reader;
+        Scanner scanner;
+        List<String> text = new ArrayList<>();
+        for (String listOfInput : listOfInputs) {
+            reader = new FileReader(listOfInput);
+            scanner = new Scanner(reader);
+            while (scanner.hasNextLine())
+                text.add(scanner.nextLine());
+        }
+        return text;
+    }
 
-        //writer.close();
-        //reader.close();
+    public void write(List<String> text) throws IOException {
+        FileWriter writer = new FileWriter(parser.getOutputFileName());
+        for (String aText : text)
+            writer.write(aText);
     }
 }

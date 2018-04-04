@@ -3,6 +3,9 @@ package tail;
 import java.util.*;
 
 public class logicTail {
+    logicTail() {
+
+    }
 
     public List<String> c(int amountOfSymbols, List<String> linesFromFile) {
         List<String> result = new ArrayList<>();
@@ -20,7 +23,7 @@ public class logicTail {
     }
 
     public List<String> n(int amountOfLines, List<String> linesFromFile) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         for (int i = linesFromFile.size() - amountOfLines; i < linesFromFile.size(); i++)
             result.add(linesFromFile.get(i));
         return result;
