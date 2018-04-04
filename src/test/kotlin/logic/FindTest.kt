@@ -42,6 +42,9 @@ class FindTest {
 
     fun generateTestFiles() {
         createDirectory(testdir)
+        createDirectory(testdir.resolve("anotherProgramming"))
+        createDirectory(testdir.resolve("anotherProgramming/kotlin"))
+        testdir.resolve("anotherProgramming/kotlin/code.kt").toFile().createNewFile()
         createDirectory(testdir.resolve("programming"))
         createDirectory(testdir.resolve("programming/java"))
         testdir.resolve("programming/java/code.java").toFile().createNewFile()
@@ -49,9 +52,6 @@ class FindTest {
         testdir.resolve("programming/kotlin/code.kt").toFile().createNewFile()
         createDirectory(testdir.resolve("programming/kotlin/deeper"))
         testdir.resolve("programming/kotlin/deeper/code.kt").toFile().createNewFile()
-        createDirectory(testdir.resolve("anotherProgramming"))
-        createDirectory(testdir.resolve("anotherProgramming/kotlin"))
-        testdir.resolve("anotherProgramming/kotlin/code.kt").toFile().createNewFile()
     }
 
     fun deleteTestFiles() {
