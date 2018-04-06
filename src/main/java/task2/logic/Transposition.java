@@ -10,13 +10,13 @@ public class Transposition {
 
     private final int width;
     private final boolean cut;
-    private final boolean alignRight;
+    private final boolean isRightAligned;
 
-    public Transposition(int width, boolean cut, boolean alignRight) {
+    public Transposition(int width, boolean cut, boolean isRightAligned) {
         try {
             this.width = width;
             this.cut = cut;
-            this.alignRight = alignRight;
+            this.isRightAligned = isRightAligned;
         } catch (IllegalArgumentException ex) {
             log.log(Level.SEVERE, "Request is invalid.", ex);
             throw ex;
@@ -24,48 +24,61 @@ public class Transposition {
         log.fine("Parameters are assigned");
     }
 
+    private String formatting(String element, String alignmentRight, String widthString, Boolean cut) {
+        String formattedString;
+        formattedString = String.format("%" + alignmentRight + widthString + "s", element);
+        if (cut) {
+            formattedString = formattedString.substring(0, width);
+        }
+        log.fine("String has been formatted");
+        return formattedString;
+    }
+
+
     public List<List<String>> getMatrix(Reader in) throws IOException {
         BufferedReader reader = new BufferedReader(in);
         List<List<String>> allLines = new ArrayList<>();
-        String alignmentRight = ((this.alignRight) || (width == 0)) ? "" : "-";
-        String currentLine = reader.readLine();
-        while (currentLine != null) {
-            List<String> currentLineElements = Arrays.asList(currentLine.split("[ ]+"));
-            String widthString = width != 0 ? Integer.toString(width) : "";
+        Boolean isWidthSet = this.width > 0;
+        String alignmentRight = ((this.isRightAligned) || !isWidthSet) ? "" : "-";
+        String currentLine;
+        while ((currentLine = reader.readLine()) != null) {
+            String widthString = isWidthSet ? Integer.toString(width) : "";
             int count = 0;
-            for (String element : currentLineElements) {
-                element = String.format("%" + alignmentRight + widthString + "s", element);
-                if (cut) {
-                    element = element.substring(0, width);
-                }
-                if (allLines.size() <= count) {
+            for (String element : currentLine.split("[ ]+")) {
+                element = formatting(element, alignmentRight, widthString, cut);
+                while (allLines.size() <= count) {
                     allLines.add(new ArrayList<>());
                 }
                 allLines.get(count).add(element);
                 count++;
             }
-            currentLine = reader.readLine();
         }
         log.fine("File has been read");
         return allLines;
     }
 
-    public void transmitMatrix(List<List<String>>linesGotten, Writer out) throws IOException {
-        for (int i = 0; i < linesGotten.size(); i++) {
-            StringBuilder newLine = new StringBuilder();
-            for (String element : linesGotten.get(i)) {
-                newLine.append(element);
-                if (element != linesGotten.get(i).get(linesGotten.get(i).size() - 1)) {
-                    newLine.append(" ");
-                }
-            }
-            out.write(newLine.toString());
+    private String transpose(List<List<String>> linesFetched, Integer count) {
+        List<String> newLine = new LinkedList<>();
+        String message = "";
+        for (String element : linesFetched.get(count)) {
+            newLine.add(element);
+            message = String.join(" ", newLine);
+        }
+        log.fine("Matrix has been transposed");
+        return message;
+    }
+
+    public void writeMatrix(List<List<String>> linesFetched, Writer out) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(out);
+        for (int i = 0; i < linesFetched.size(); i++) {
+            bufferedWriter.write(transpose(linesFetched, i));
             log.fine("New line has been written into the file");
-            if (i < linesGotten.size()) {
-                out.append("\n");
+            if (i < linesFetched.size()) {
+                bufferedWriter.write("\n");
             }
         }
         log.fine("Matrix has been transmitted to the file");
+        bufferedWriter.close();
         out.close();
     }
 }

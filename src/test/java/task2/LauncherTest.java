@@ -11,38 +11,22 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.assertEquals;
 
 public class LauncherTest {
-    private static File textFile;
-    private static File anotherTextFile;
-    private static File oneAnotherTextFile;
-    private static File andAnotherTextFile;
+    private static File textFile = new File("src/test/java/task2/text.txt");
 
-    private static File outFile;
+    private static File outFile = new File("src/test/java/task2/out.txt");
 
     private static FileReader textReader;
-    private static FileReader anotherTextReader;
-    private static FileReader oneAnotherTextReader;
-    private static FileReader andAnotherTextReader;
 
     private static FileWriter outWriter;
+
     @Before
-    public void Before() throws IOException {
-        textFile = new File("src/test/java/task2/text.txt");
-        anotherTextFile = new File("src/test/java/task2/anotherText.txt");
-        oneAnotherTextFile = new File("src/test/java/task2/oneAnotherText.txt");
-        andAnotherTextFile = new File("src/test/java/task2/andAnotherText.txt");
-
+    public void before() throws IOException {
         textReader = new FileReader(textFile);
-        anotherTextReader = new FileReader(anotherTextFile);
-        oneAnotherTextReader = new FileReader(oneAnotherTextFile);
-        andAnotherTextReader = new FileReader(andAnotherTextFile);
-
-        outFile = new File("src/test/java/task2/out.txt");
         outWriter = new FileWriter(outFile);
     }
 
     @After
-    public void After() throws IOException {
-        System.gc();
+    public void after() throws IOException {
         outFile.delete();
     }
 
@@ -53,6 +37,7 @@ public class LauncherTest {
 
     @Test
     public void transpositionLauncherTest() throws IOException {
+        textReader = new FileReader(textFile);
         String[] firstArgs = {"src/test/java/task2/text.txt", "-o", "src/test/java/task2/out.txt", "-a", "3"};
         TranspositionLauncher firstLauncher = new TranspositionLauncher();
         firstLauncher.launch(firstArgs);

@@ -7,6 +7,7 @@ import org.kohsuke.args4j.Option;
 import task2.logic.Transposition;
 
 import java.io.*;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,7 +18,7 @@ public class TranspositionLauncher {
     private String inputData;
 
     @Option(name = "-o", usage = "Output to this file", metaVar = "outputFile")
-    private File outputData;
+    private String outputData;
 
     @Option(name = "-a", usage = "Each word is num symbols long in the output text", metaVar = "width")
     private int width;
@@ -26,7 +27,7 @@ public class TranspositionLauncher {
     private boolean cut;
 
     @Option(name = "-r", usage = "Align the text to the right", metaVar = "alignRight")
-    private boolean alignRight;
+    private boolean isRightAligned;
 
     public static void main(String[] args) throws CmdLineException{
             new TranspositionLauncher().launch(args);
@@ -36,7 +37,9 @@ public class TranspositionLauncher {
         CmdLineParser parser = new CmdLineParser(this);
         try {
             parser.parseArgument(args);
-            if ((cut || alignRight) && width == 0) width = 10;
+            if (width < 0) {
+                throw new CmdLineException(parser, "invalid request");
+            }
         } catch (CmdLineException ex) {
             System.err.println(ex.getMessage());
             System.err.println("java -jar part2.jar -o ofile -file -a width -t cut -r alignRight");
@@ -44,11 +47,12 @@ public class TranspositionLauncher {
             log.log(Level.SEVERE, "Arguments are inappropriate", ex);
             return;
         }
-        Transposition transposition = new Transposition(width, cut, alignRight);
+        Transposition transposition = new Transposition(width, cut, isRightAligned);
         try {
             Reader reader = (inputData != null) ? new FileReader(inputData) : new InputStreamReader(System.in);
             Writer writer = (outputData != null) ? new FileWriter(outputData) : new OutputStreamWriter(System.out);
-            transposition.transmitMatrix(transposition.getMatrix(reader), writer);
+            List<List<String>> listFetched = transposition.getMatrix(reader);
+            transposition.writeMatrix(listFetched, writer);
             log.fine("Done");
         } catch (IOException ex) {
             System.err.print(ex.getMessage());
