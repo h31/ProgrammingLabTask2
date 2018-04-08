@@ -11,7 +11,7 @@ public class SystemTest {
 
     @Test
     public void grepLauncherTest() throws IOException {
-        String inputFile = "src//test//java//file.txt";
+        String inputFile = "src/test/java/file.txt";
         String[] args1 = {inputFile, "Kotlin"};
         String[] args2 = {inputFile, "[0-9]", "-r"};
         String[] args3 = {inputFile, "Java|Android|Kotlin", "-r", "-v"};

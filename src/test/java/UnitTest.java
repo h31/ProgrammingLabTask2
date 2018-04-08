@@ -10,7 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UnitTest {
-    private Path inputFile = Paths.get("src//test//java//file.txt");
+    private Path inputFile = Paths.get("src/test/java/file.txt");
 
     @Test
     public void grepWord() {
