@@ -1,0 +1,8 @@
+﻿Kotlin is a statically typed programming Language that
+runs on the Java virtual machine and KoTlInG also can be compiled
+to JavaScript source code or use the LLVM compiler infrastructure.
+Its primary development based in Saint Petersburg, Russia.
+ While the syntax is not compatible with Java, kotlin
+designed to interoperate with Java CODE
+As of Android Studio 3.0 (October 2017) kotLIng
+Kotlin is a fully supported programming language by Google.
