@@ -1,20 +1,21 @@
 package logic;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.io.File;
+
+import static org.junit.Assert.assertEquals;
 
 public class FinderTest {
 
     @Test
-    void findTest() {
+    public void findTest() {
         Finder finder = new Finder();
-        Assertions.assertEquals(
+        assertEquals(
                 new File("C:\\Users\\evgen\\IdeaProjects\\" +
-                        "ProgrammingLabTask2\\task2\\pom.xml"),
+                        "ProgrammingLabTask2\\pom.xml"),
                 finder.find(true, new File("C:\\Users\\evgen\\IdeaProjects\\" +
-                        "ProgrammingLabTask2\\task2"), "pom.xml"));
+                        "ProgrammingLabTask2"), "pom.xml"));
     }
 
 }

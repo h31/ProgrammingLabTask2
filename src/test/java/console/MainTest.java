@@ -1,16 +1,14 @@
 package console;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static console.Main.main;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class MainTest {
 
     @Test
-    public void Test() {
-        Main main = new Main();
-        main("-r", "-d", "C:\\Users\\evgen\\IdeaProjects\\ProgrammingLabTask2\\task2", "pom.xml");
+    public void exceptionTest() {
         try {
             main("-r", "-d", "C:\\users");
         } catch (IllegalArgumentException e) {
