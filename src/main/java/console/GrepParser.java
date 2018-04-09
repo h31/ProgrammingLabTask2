@@ -7,40 +7,57 @@ import org.kohsuke.args4j.Option;
 
 public class GrepParser {
 
-        GrepParser(String command) {
-            CmdLineParser parser = new CmdLineParser(this);
-            try {
-                parser.parseArgument(command.split("\\s+"));
-            } catch (CmdLineException ignored) {
-            }
+    GrepParser(String[] args){
+        CmdLineParser parser = new CmdLineParser(this);
+        try {
+            parser.parseArgument(args);
+        } catch (CmdLineException e) {
+            System.err.println(e.getMessage());
+            parser.printUsage(System.err);
         }
+    }
 
-        @Option(name = "-v")
-        private String findExceptRegex;
+    @Argument(metaVar = "grep")
+    private String grep;
 
-        @Option(name = "-i")
-        private String ignoreCase;
+    @Option(name = "-v")
+    private boolean findExceptRegex;
 
-        @Option(name = "-r")
-        private String findOnRegex;
+    @Option(name = "-i")
+    private boolean ignoreCase;
 
-        @Argument(metaVar = "inputFileName")
-        private String[] inputFileName;
+    @Option(name = "-r")
+    private boolean findOnRegex;
 
-        public String getFindExceptRegex() {
-            return findExceptRegex;
-        }
+    @Argument(metaVar = "word", index = 1)
+    private String word;
 
-        public String getIgnoreCase() {
-            return ignoreCase;
-        }
+    @Argument(metaVar = "inputFileName", index = 2)
+    private String inputFileName;
 
-        public String getFindOnRegex() {
-            return findOnRegex;
-        }
+    public boolean isFindExceptRegex() {
+        return findExceptRegex;
+    }
 
-        public String getInputFileName() {
-            return inputFileName[inputFileName.length - 1];
-        }
+    public boolean isFindOnRegex() {
+        return findOnRegex;
+    }
 
+    public String getWord() {
+        return word;
+    }
+
+    public String getInputFileName() {
+        return inputFileName;
+    }
+
+    public boolean isIgnoreCase() {
+        return ignoreCase;
+    }
 }
+
+
+
+
+
+
