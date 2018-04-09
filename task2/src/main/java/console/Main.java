@@ -11,23 +11,19 @@ public class Main {
         Finder finder = new Finder();
         Args args = new Args();
         JCommander jCommander = new JCommander();
+        if (argv.length > 4) {
+            throw new IllegalArgumentException("please, enter a ONE file name!");
+        }
         try {
-            if (args.name.size() > 1) {
-                throw new IllegalArgumentException("please, enter one file name!");
-            }
             jCommander.addObject(args);
             jCommander.parse(argv);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new IllegalArgumentException("please, enter a file name!");
         }
-        String name;
-        if (args.name.size() > 0) {
-            name = args.name.get(0).toString();
-        } else {
-            throw new IllegalArgumentException("please enter a file name");
+        String name = args.name.get(0).toString();
+        if (args.dPath != null) {
+            System.out.println(finder.find(args.r, new File(args.dPath), name));
         }
-        assert args.dPath != null;
-        System.out.println(finder.find(args.r, new File(args.dPath), name));
     }
 
 }

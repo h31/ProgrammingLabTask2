@@ -7,10 +7,11 @@ public class Finder {
     private File result = null;
 
     private File find2(boolean r, File dPath, String name) {
-        if (dPath.exists()) {
+        if (dPath.exists() && dPath.isDirectory()) {
             for (File file : Objects.requireNonNull(dPath.listFiles())) {
                 if (Objects.equals(file.getName(), name)) {
                     result = new File(file.getPath());
+                    break;
                 } else if (file.isDirectory() && r) {
                     File newDPath = new File(dPath + "\\" + file.getName());
                     find2(true, newDPath, name);
@@ -27,4 +28,5 @@ public class Finder {
             return find2(r, dPath, name);
         } else throw new IllegalArgumentException("no results for: " + name);
     }
+
 }
