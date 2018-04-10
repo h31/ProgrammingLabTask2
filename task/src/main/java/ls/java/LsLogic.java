@@ -1,8 +1,10 @@
 package ls.java;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.CharBuffer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +20,7 @@ public class LsLogic {
             output.add(test.getName() + " " + test.lastModified() + " " + test.length());
         } else {
             for (File element : test.listFiles()) {
-                    output.add(element.getName());
+                output.add(element.getName());
             }
         }
         return output;
@@ -53,9 +55,6 @@ public class LsLogic {
     public List<String> flagHumanReadable(String name) throws IOException {
         File testDir = new File(name);
         List<String> output = new ArrayList<String>();
-        String r;
-        String w;
-        String x;
         if (testDir.isDirectory()) {
             for (File element : testDir.listFiles()) {
                 if (element.isDirectory()) {
@@ -73,13 +72,25 @@ public class LsLogic {
         return output;
     }
 
+    public void flagOutput(String fileName, List<String> list) throws IOException {
+        File file = new File(fileName);
+        List<String> newList = new ArrayList<String>(list);
+        FileWriter writer = new FileWriter(fileName);
+        writer.write(String.valueOf(newList));
+        writer.close();
+        FileReader fr = new FileReader(file);
+        int ch;
+        while ((ch = fr.read()) != -1)
+            System.out.print((char) ch);
+    }
+
     public static String floatForm(double d) {
         return new DecimalFormat("#.##").format(d);
     }
 
 
     public static String bytesToHuman(long size) {
-        long Kb = 1 * 1024;
+        long Kb = 1024;
         long Mb = Kb * 1024;
         long Gb = Mb * 1024;
         long Tb = Gb * 1024;
@@ -93,11 +104,6 @@ public class LsLogic {
         return "???";
     }
 
-//    public void flagOutput(String fileName, String dirName, String text) throws IOException {
-//        FileWriter writer = new FileWriter(fileName);
-//        writer.write(text);
-//
-//    }
 
     public String getRWX(File element) {
         String r;
