@@ -13,12 +13,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ParserTests {
     File home = new File("");
-    File testCollectedFile = new File("/Users/Ferrero/IdeaProjects/ProgrammingLabTask2/task2/src/main/resources/collectionFile.txt");
-    List<File> filesToCollectList = Arrays.asList(new File("/Users/Ferrero/IdeaProjects/ProgrammingLabTask2/task2/src/main/resources/fileToCollect1.txt"),
-            new File("/Users/Ferrero/IdeaProjects/ProgrammingLabTask2/task2/src/main/resources/fileToCollect2.txt"),
-            new File("/Users/Ferrero/IdeaProjects/ProgrammingLabTask2/task2/src/main/resources/fileToCollect3.txt"),
-            new File("/Users/Ferrero/IdeaProjects/ProgrammingLabTask2/task2/src/main/resources/fileToCollect4.txt"),
-            new File("/Users/Ferrero/IdeaProjects/ProgrammingLabTask2/task2/src/main/resources/fileToCollect5.txt"));
+    String defaultPathPattern = "/Users/Ferrero/IdeaProjects/ProgrammingLabTask2/task2/src/main/resources/";
+    File testCollectedFile = new File(defaultPathPattern + "collectionFile.txt");
+    List<File> filesToCollectList = Arrays.asList(
+            new File( defaultPathPattern + "fileToCollect1.txt"),
+            new File( defaultPathPattern + "fileToCollect2.txt"),
+            new File( defaultPathPattern + "fileToCollect3.txt"),
+            new File( defaultPathPattern + "fileToCollect4.txt"),
+            new File( defaultPathPattern + "fileToCollect5.txt"));
     File testFileToSeparate = new File("/Users/Ferrero/IdeaProjects/ProgrammingLabTask2/task2/src/main/resources/fileToSeparate.txt");
     File short_testFileToSeparate = new File(home.getAbsolutePath() + "/fileToSeparate.txt");
     File short_testCollectedFile = new File(home.getAbsolutePath() + "/collectionFile.txt");
@@ -30,13 +32,13 @@ public class ParserTests {
 
     @Test
     public void parseCollectTaskTest() {
-        String arguments = "/Users/Ferrero/IdeaProjects/ProgrammingLabTask2/task2/src/main/resources/fileToCollect1.txt\n" +
-                "/Users/Ferrero/IdeaProjects/ProgrammingLabTask2/task2/src/main/resources/fileToCollect2.txt\n" +
-                "/Users/Ferrero/IdeaProjects/ProgrammingLabTask2/task2/src/main/resources/fileToCollect3.txt\n" +
-                "/Users/Ferrero/IdeaProjects/ProgrammingLabTask2/task2/src/main/resources/fileToCollect4.txt\n" +
-                "/Users/Ferrero/IdeaProjects/ProgrammingLabTask2/task2/src/main/resources/fileToCollect5.txt\n" +
+        String arguments = defaultPathPattern + "fileToCollect1.txt\n" +
+                defaultPathPattern + "fileToCollect2.txt\n" +
+                defaultPathPattern + "fileToCollect3.txt\n" +
+                defaultPathPattern + "fileToCollect4.txt\n" +
+                defaultPathPattern + "fileToCollect5.txt\n" +
                 "-out\n" +
-                "/Users/Ferrero/IdeaProjects/ProgrammingLabTask2/task2/src/main/resources/collectionFile.txt";
+                defaultPathPattern + "collectionFile.txt";
         String[] args = arguments.split(" |\n");
         Args avhs = new Args(args);
         avhs.getTask();
@@ -59,7 +61,7 @@ public class ParserTests {
 
     @Test
     public void parseSeparateTaskTest(){
-        String arguments = "-u /Users/Ferrero/IdeaProjects/ProgrammingLabTask2/task2/src/main/resources/fileToSeparate.txt";
+        String arguments = "-u " + defaultPathPattern + "fileToSeparate.txt";
         String[] args = arguments.split(" |\n");
         Args avhs = new Args(args);
         avhs.getTask();
