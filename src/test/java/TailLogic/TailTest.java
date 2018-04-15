@@ -13,9 +13,9 @@ class TailTest {
     TailTest() throws IOException {
     }
 
-    private Tail tailSt = new Tail("/home/vladislav/IdeaProjects/ProgrammingLabTask2/Files/TestFile",
+    private Tail tailSt = new Tail("Files/TestFile",
             true);
-    private Tail tailCh = new Tail("/home/vladislav/IdeaProjects/ProgrammingLabTask2/Files/TestFile",
+    private Tail tailCh = new Tail("Files/TestFile",
             false);
     private ArrayList<String> outputStrings;
     private ArrayList<String> outputStringsAssert;
@@ -24,12 +24,12 @@ class TailTest {
 
     @Test
     void flagN() {
-        tailSt.flagN(10, "/home/vladislav/IdeaProjects/ProgrammingLabTask2/Files/OutputStrings");
+        tailSt.flagN(10, "Files/OutputStrings");
         try {
             outputStrings = (ArrayList<String>) Files.readAllLines
-                    (Paths.get("/home/vladislav/IdeaProjects/ProgrammingLabTask2/Files/OutputStrings"));
+                    (Paths.get("Files/OutputStrings"));
             outputStringsAssert = (ArrayList<String>) Files.readAllLines
-                    (Paths.get("/home/vladislav/IdeaProjects/ProgrammingLabTask2/Files/OutputStringsAssert"));
+                    (Paths.get("Files/OutputStringsAssert"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,17 +37,17 @@ class TailTest {
     }
     @Test
     void flagC() {
-        tailCh.flagC(30, "/home/vladislav/IdeaProjects/ProgrammingLabTask2/Files/OutputCharacters");
+        tailCh.flagC(30, "Files/OutputCharacters");
         try {
             outputCharacters = (ArrayList<String>) Files.readAllLines
-                    (Paths.get("/home/vladislav/IdeaProjects/ProgrammingLabTask2/Files/OutputCharacters"));
+                    (Paths.get("Files/OutputCharacters"));
             outputCharactersAssert = (ArrayList<String>) Files.readAllLines
-                    (Paths.get("/home/vladislav/IdeaProjects/ProgrammingLabTask2/Files/OutputCharactersAssert"));
+                    (Paths.get("Files/OutputCharactersAssert"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         assertEquals(outputCharacters,outputCharactersAssert);
 
-        tailCh.flagC(30, "/home/vladislav/IdeaProjects/ProgrammingLabTask2/Files/OutputCharacters");
+        tailCh.flagC(30, "Files/OutputCharacters");
     }
 }
