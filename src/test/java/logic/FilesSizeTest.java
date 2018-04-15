@@ -14,7 +14,7 @@ class FilesSizeTest {
         assertEquals("7.912109375\n" + "0.005859375\n" + "4.232421875\n",
                 new FilesSize().filesTotalSize(args));
         // -h
-        assertEquals("7.912109375 kb\n" + "6.0 bytes\n" + "4.232421875 kb\n",
+        assertEquals("7.912109375 Kb\n" + "6.0 bytes\n" + "4.232421875 Kb\n",
                 new FilesSize(false,true,false).filesTotalSize(args));
         // -c
         assertEquals("7.912109375\n" + "0.005859375\n" + "4.232421875\n" + "12.150390625",
@@ -23,16 +23,16 @@ class FilesSizeTest {
         assertEquals("8.102\n" + "0.006\n" + "4.334\n",
                 new FilesSize(false,false,true).filesTotalSize(args));
         // -c -h
-        assertEquals("7.912109375 kb\n" + "6.0 bytes\n" + "4.232421875 kb\n" + "12.150390625 kb",
+        assertEquals("7.912109375 Kb\n" + "6.0 bytes\n" + "4.232421875 Kb\n" + "12.150390625 Kb",
                 new FilesSize(true,true,false).filesTotalSize(args));
         // -c -h --si
-        assertEquals("8.102 kb\n" + "6.0 bytes\n" + "4.334 kb\n" + "12.442 kb",
+        assertEquals("8.102 Kb\n" + "6.0 bytes\n" + "4.334 Kb\n" + "12.442 Kb",
                 new FilesSize(true,true,true).filesTotalSize(args));
         // -c --si
         assertEquals("8.102\n" + "0.006\n" + "4.334\n" + "12.442",
                 new FilesSize(true,false,true).filesTotalSize(args));
         // -h --si
-        assertEquals("8.102 kb\n" + "6.0 bytes\n" + "4.334 kb\n",
+        assertEquals("8.102 Kb\n" + "6.0 bytes\n" + "4.334 Kb\n",
                 new FilesSize(false,true,true).filesTotalSize(args));
         // test for error detection
         Assertions.assertThrows(IllegalArgumentException.class, () -> {

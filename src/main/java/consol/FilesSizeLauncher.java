@@ -6,8 +6,6 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
-import java.io.IOException;
-
 public class FilesSizeLauncher {
 
     @Option(name="-c",usage="total size of files")
@@ -19,7 +17,7 @@ public class FilesSizeLauncher {
     @Option(name="--si",usage="base is 1000")
     private boolean oneThousand;
 
-    @Argument(usage = "files for which need to find the size")
+    @Argument(usage = "files for which the size is needed")
     private String[] files;
 
     public static void main(String[] args) {
