@@ -51,11 +51,6 @@ public class Uniq {
             if (currentLine.equalsIgnoreCase(pastLine))
                 equal = true;
         }
-        /*if (ignoreSymbols > 0){
-            if (currentLine.length() == pastLine.length())
-                if (currentLine.regionMatches(ignoreSymbols, pastLine, ignoreSymbols, currentLine.length() - ignoreSymbols))
-                    equal = true;
-        }*/
         return equal;
     }
 
