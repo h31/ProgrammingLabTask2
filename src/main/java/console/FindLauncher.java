@@ -6,33 +6,27 @@ import java.io.File;
 
 public class FindLauncher {
 
-    static String[] console;
+    static String[] consoleInput;
 
     FindLauncher(String[] input) {
-        console = input;
+        consoleInput = input;
     }
 
-    static File work() {
-
-        if (console.length == 0)
-            return new File("No input data available");
-
-        boolean useSubDirectory = false;
+    static File isInputCorrect() throws Exception {
+        if (consoleInput.length == 0)
+            throw new Exception("No input data available");
+        boolean useSubDirectoryForSearching = false;
         String fileDirectory = new File("").getAbsolutePath();
-        String nameOfTheFile = console[console.length - 1];
-
-        for (int i = 0; i < console.length - 1; i++) {
-            if (console[i].equals("-r"))
-                useSubDirectory = true;
-            if ((console[i].equals("-d")) && (console.length == 2)) {
-                return new File("Incorrect input");
-
-            } else if (console[i].equals("-d"))
-                fileDirectory = console[i + 1];
+        String nameOfTheFile = consoleInput[consoleInput.length - 1];
+        for (int i = 0; i < consoleInput.length - 1; i++) {
+            if (consoleInput[i].equals("-r"))
+                useSubDirectoryForSearching = true;
+            if ((consoleInput[i].equals("-d")) && (consoleInput.length == 2)) {
+                throw new Exception("Incorrect input");
+            } else if (consoleInput[i].equals("-d"))
+                fileDirectory = consoleInput[i + 1];
         }
-
-        Find find = new Find(fileDirectory, useSubDirectory);
-
+        Find find = new Find(fileDirectory, useSubDirectoryForSearching);
         return new File(find.find(nameOfTheFile).toString());
     }
 }

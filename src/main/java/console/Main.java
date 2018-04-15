@@ -6,9 +6,8 @@ public class Main {
 
     File file;
 
-    public void main(String[] args) {
-
+    public void main(String[] args) throws Exception {
         FindLauncher findLauncher = new FindLauncher(args);
-        file = findLauncher.work();
+        file = findLauncher.isInputCorrect();
     }
 }
