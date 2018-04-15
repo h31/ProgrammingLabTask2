@@ -12,7 +12,6 @@ import java.util.ArrayList;
 class TailTest {
     TailTest() throws IOException {
     }
-
     private Tail tailSt = new Tail("Files/TestFile",
             true);
     private Tail tailCh = new Tail("Files/TestFile",
