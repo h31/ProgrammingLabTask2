@@ -15,27 +15,27 @@ class FindTest {
         assertEquals(null, Find().find(false, null, "code.kt"))
 
         //  -r
-        assertEquals(mutableListOf(
+        assertEquals(setOf(
                 testdir.resolve("anotherProgramming/kotlin/code.kt").toFile(),
                 testdir.resolve("programming/kotlin/code.kt").toFile(),
                 testdir.resolve("programming/kotlin/deeper/code.kt").toFile()),
-                Find().find(true, null, "code.kt"))
+                Find().find(true, null, "code.kt")?.toSet())
 
         //  -d
-        assertEquals(mutableListOf(testdir.resolve("programming/kotlin/code.kt").toFile()),
-                Find().find(false, testdir.resolve("programming/kotlin").toFile(), "code.kt"))
+        assertEquals(setOf(testdir.resolve("programming/kotlin/code.kt").toFile()),
+                Find().find(false, testdir.resolve("programming/kotlin").toFile(), "code.kt")?.toSet())
 
         //  -r -d
-        assertEquals(mutableListOf(
+        assertEquals(setOf(
                 testdir.resolve("programming/kotlin/code.kt").toFile(),
                 testdir.resolve("programming/kotlin/deeper/code.kt").toFile()),
-                Find().find(true, testdir.resolve("programming").toFile(), "code.kt"))
+                Find().find(true, testdir.resolve("programming").toFile(), "code.kt")?.toSet())
 
         //  find directories
-        assertEquals(mutableListOf(
+        assertEquals(setOf(
                 testdir.resolve("anotherProgramming/kotlin").toFile(),
                 testdir.resolve("programming/kotlin").toFile()),
-                Find().find(true, testdir.toFile(), "kotlin"))
+                Find().find(true, testdir.toFile(), "kotlin")?.toSet())
 
         deleteTestFiles()
     }

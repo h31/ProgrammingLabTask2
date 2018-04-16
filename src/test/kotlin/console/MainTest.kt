@@ -17,7 +17,7 @@ class MainTest {
         assertThrows(IllegalArgumentException::class.java, { start(arrayOf("code.kt", "code.kt")) }, "You need to specify one file name!")
         assertThrows(ParameterException::class.java, { start(arrayOf("-d", "code.kt")) }, "Main parameters are required (\"File name for finding\")")
         assertThrows(IllegalArgumentException::class.java, { start(arrayOf("-r", "-d", "code.kt", "code.kt")) }, "Given directory doesn't exist!")
-        assertEquals("No file with that file name!", start(arrayOf("code.kt")))
+        assertThrows(Exception::class.java, { start(arrayOf("code.kt")) }, "No file with that file name!")
 
         val s = File.separator
         val testdir = Paths.get("").toRealPath().toString() + "${s}src${s}test${s}testdir"

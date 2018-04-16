@@ -22,7 +22,7 @@ fun start(args: Array<String>): String {
     else File(arguments.directory)
 
     val result = Find().find(arguments.checkSubdirectories, dir, arguments.filename[0])
-    return result?.joinToString(separator = "\n") { it.toString() } ?: "No file with that file name!"
+    return result?.joinToString(separator = "\n") { it.toString() } ?: throw Exception("No file with that file name!")
 }
 
 private fun checkArguments(args: Args) {
