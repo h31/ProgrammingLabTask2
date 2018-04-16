@@ -1,0 +1,54 @@
+buildscript {
+    ext.kotlin_version = '1.2.31'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'application'
+
+mainClassName = 'console.MainKt'
+
+defaultTasks 'run'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.10.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.10.0'
+
+    compile "com.beust:jcommander:1.72"
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    testCompile("org.junit.jupiter:junit-jupiter-api:5.0.0")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.0.0")
+}
+
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'console.MainKt',
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' ')
+        )
+    }
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "4.6"
+}

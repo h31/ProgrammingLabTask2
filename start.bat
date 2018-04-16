@@ -1,0 +1,1 @@
+java -classpath "libs\kotlin-stdlib-1.2.31.jar";"libs\jcommander-1.72.jar";"build\libs\ProgrammingLabTask2.jar" console.MainKt %*
