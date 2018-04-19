@@ -3,12 +3,14 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class Main {
     private static Cli c = new Cli();
 
-    public static void main(String args[]) { //1
+    public static void main(String args[]) {
         Program prg = c.parse(args);
         if (c.output != null) {
             try {
@@ -58,16 +60,11 @@ public class Main {
                 cmd.printUsage(System.out);
                 System.exit(-1);
             }
-            try {
                 if (dkey == null) {
-                    return new Program(ckey, new BufferedReader(new FileReader(input), ckey.length()));
+                    return new Program(ckey, input);
                 } else {
-                    return new Program(dkey, new BufferedReader(new FileReader(input), dkey.length()));
+                    return new Program(dkey, input);
                 }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                }
-            return null;
         }
     }
 }
