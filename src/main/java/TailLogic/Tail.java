@@ -7,158 +7,100 @@ import java.util.List;
 public class Tail {
     private List<String> lines;
     private List<Character> characters;
+    public enum TypeOfInput {
+        Console,
+        File
+    }
 
-    public Tail(String inputFile, boolean isN) throws IOException {
-        lines = new ArrayList<>();
-        characters = new ArrayList<>();
-        BufferedReader reader =  new BufferedReader(new FileReader(new File(inputFile)));
+    public Tail(TypeOfInput type, boolean isN, String inputFile) throws IOException {
+        if (type == TypeOfInput.Console) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             if (isN) {
+                lines = new ArrayList<>();
                 String line;
                 while ((line = reader.readLine()) != null) {
                     lines.add(line);
                 }
                 reader.close();
             } else {
+                characters = new ArrayList<>();
                 int c;
                 while ((c = reader.read()) != -1) {
                     characters.add((char) c);
                 }
                 reader.close();
             }
-    }
-
-    public Tail(boolean isN) throws IOException {
-        lines = new ArrayList<>();
-        characters = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        }
+        if (type == TypeOfInput.File) {
+            BufferedReader reader =  new BufferedReader(new FileReader(new File(inputFile)));
             if (isN) {
+                lines = new ArrayList<>();
                 String line;
                 while ((line = reader.readLine()) != null) {
                     lines.add(line);
                 }
                 reader.close();
             } else {
+                characters = new ArrayList<>();
                 int c;
                 while ((c = reader.read()) != -1) {
                     characters.add((char) c);
                 }
                 reader.close();
             }
+        }
     }
 
-    public void flagN(int num, String outputFile) {
-        if (num > lines.size()) throw new IllegalArgumentException("Num больше строк файла");
-        try (FileWriter writer = new FileWriter(outputFile)) {
-            int numberOfSting = lines.size() - num;
-            int counter = 1;
-            while (counter <= num) {
-                writer.write(lines.get(numberOfSting) + '\n');
-                numberOfSting++;
-                counter++;
+    public void selectText(boolean queryValue, String outputFile, int num, boolean oneFile, String inputFile) {
+        if (!(outputFile == null)) {
+            try (FileWriter writer = new FileWriter(outputFile)) {
+                if (!oneFile) writer.write(inputFile + '\n');
+                if (queryValue) {
+                    if (num > lines.size()) throw new IllegalArgumentException("Num больше количества строк файла");
+                    int numberOfString = lines.size() - num;
+                    int counter = 1;
+                    while (counter <= num) {
+                        writer.write(lines.get(numberOfString) + '\n');
+                        numberOfString++;
+                        counter++;
+                    }
+                }
+                else {
+                    if (num > characters.size())
+                        throw new IllegalArgumentException("Num больше количества символов файла");
+                    int numberOfChar = characters.size() - num - 1;
+                    int counter = 1;
+                    while (counter <= num) {
+                        writer.write(characters.get(numberOfChar));
+                        numberOfChar++;
+                        counter++;
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void flagN(int num) {
-        if (num > lines.size()) throw new IllegalArgumentException("Num больше строк файла");
-        int numberOfSting = lines.size() - num;
-        int counter = 1;
-        while (counter <= num) {
-            System.out.println(lines.get(numberOfSting));
-            numberOfSting++;
-            counter++;
-        }
-    }
-
-    public void flagN(int num, String outputFile, String inputFile, boolean inputFileIsOne) {
-        if (num > lines.size()) throw new IllegalArgumentException("Num больше строк файла");
-        int numberOfSting = lines.size() - num;
-        int counter = 1;
-        try (FileWriter writer = new FileWriter(outputFile)) {
-            if (!inputFileIsOne) writer.write('\n' + inputFile);
-            while (counter <= num) {
-                writer.write(lines.get(numberOfSting) + '\n');
-                numberOfSting++;
-                counter++;
+        } else {
+            if (!oneFile) System.out.println(inputFile);
+            if (queryValue) {
+                if (num > lines.size()) throw new IllegalArgumentException("Num больше количества строк файла");
+                int numberOfString = lines.size() - num;
+                int counter = 1;
+                while (counter <= num) {
+                    System.out.println(lines.get(numberOfString));
+                    numberOfString++;
+                    counter++;
+                }
+            } else {
+                if (num > characters.size())
+                    throw new IllegalArgumentException("Num больше количества символов файла");
+                int numberOfChar = characters.size() - num - 1;
+                int counter = 1;
+                while (counter <= num) {
+                    System.out.print(characters.get(numberOfChar));
+                    numberOfChar++;
+                    counter++;
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void flagN(int num, String inputFile, boolean inputFileIsOne) {
-        if (num > lines.size()) throw new IllegalArgumentException("Num больше строк файла");
-        int numberOfString = lines.size() - num;
-        int counter = 1;
-        if (!inputFileIsOne) System.out.println(inputFile);
-        while (counter <= num) {
-            System.out.println(lines.get(numberOfString));
-            numberOfString++;
-            counter++;
-        }
-    }
-
-    public void flagC(int num, String outputFile, String inputFile, boolean inputFileIsOne) {
-        List<Character> chars = characters;
-        int characters = chars.size();
-        if (num > chars.size()) throw new IllegalArgumentException("Num больше количества символов файла " +
-                inputFile);
-        try (FileWriter writer = new FileWriter(outputFile)) {
-            if (!inputFileIsOne) writer.write('\n' + inputFile);
-            int numberOfChar = characters - num - 1;
-            int counter = 1;
-            while (counter <= num) {
-                writer.write(chars.get(numberOfChar));
-                numberOfChar++;
-                counter++;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void flagC(int num, String inputFile, boolean inputFileIsOne) {
-        List<Character> chars = characters;
-        int characters = chars.size();
-        if (num > chars.size()) throw new IllegalArgumentException("Num больше количества символов файла " +
-                inputFile);
-        if (!inputFileIsOne) System.out.println('\n' + inputFile);
-        int numberOfChar = characters - num - 1;
-        int counter = 1;
-        while (counter <= num) {
-            System.out.print(chars.get(numberOfChar));
-            numberOfChar++;
-            counter++;
-        }
-    }
-
-    public void flagC(int num, String outputFile) {
-        List<Character> chars = characters;
-        int characters = chars.size();
-        try (FileWriter writer = new FileWriter(outputFile)) {
-            int numberOfChar = characters - num - 1;
-            int counter = 1;
-            while (counter <= num) {
-                writer.write(chars.get(numberOfChar));
-                numberOfChar++;
-                counter++;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void flagC(int num) {
-        List<Character> chars = characters;
-        int characters = chars.size();
-        int numberOfChar = characters - num - 1;
-        int counter = 1;
-        while (counter <= num) {
-            System.out.print(chars.get(numberOfChar));
-            numberOfChar++;
-            counter++;
         }
     }
 }

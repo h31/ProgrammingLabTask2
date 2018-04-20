@@ -6,28 +6,29 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 class TailTest {
+    // Тест парсера
     TailTest() throws IOException {
     }
-    private Tail tailSt = new Tail("Files/TestFile",
-            true);
-    private Tail tailCh = new Tail("Files/TestFile",
-            false);
-    private ArrayList<String> outputStrings;
-    private ArrayList<String> outputStringsAssert;
-    private ArrayList<String> outputCharacters;
-    private ArrayList<String> outputCharactersAssert;
+    private Tail tailStringWithFile = new Tail(Tail.TypeOfInput.File, true, "Files/TestFile");
+    private Tail tailCharactersWithFile = new Tail(Tail.TypeOfInput.File, false, "Files/TestFile");
+    private List<String> outputStrings;
+    private List<String> outputStringsAssert;
+    private List<String> outputCharacters;
+    private List<String> outputCharactersAssert;
 
     @Test
-    void flagN() {
-        tailSt.flagN(10, "Files/OutputStrings");
+    void valueN() throws IOException {
+        tailStringWithFile.selectText(true,"Files/OutputStrings", 10,
+                true, null);
         try {
-            outputStrings = (ArrayList<String>) Files.readAllLines
+            outputStrings = Files.readAllLines
                     (Paths.get("Files/OutputStrings"));
-            outputStringsAssert = (ArrayList<String>) Files.readAllLines
+            outputStringsAssert = Files.readAllLines
                     (Paths.get("Files/OutputStringsAssert"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,18 +36,17 @@ class TailTest {
         assertEquals(outputStrings,outputStringsAssert);
     }
     @Test
-    void flagC() {
-        tailCh.flagC(30, "Files/OutputCharacters");
+    void valueC() {
+        tailCharactersWithFile.selectText(false, "Files/OutputCharacters", 30,
+                true, null);
         try {
-            outputCharacters = (ArrayList<String>) Files.readAllLines
+            outputCharacters = Files.readAllLines
                     (Paths.get("Files/OutputCharacters"));
-            outputCharactersAssert = (ArrayList<String>) Files.readAllLines
+            outputCharactersAssert = Files.readAllLines
                     (Paths.get("Files/OutputCharactersAssert"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         assertEquals(outputCharacters,outputCharactersAssert);
-
-        tailCh.flagC(30, "Files/OutputCharacters");
     }
 }

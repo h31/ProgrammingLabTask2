@@ -15,63 +15,18 @@ public class UI {
         Matcher matcher = pattern.matcher(command);
         if (matcher.matches()) {
             Parser parser = new Parser(command);
-            if (parser.getInputName() != null) { //Входной файл один
-                if (!parser.getOutputName().equals("Нет") && parser.flagIsC()) { //Есть выходной файл и флаг С
-                    Tail tail = new Tail(parser.getInputName(), false);
-                    tail.flagC(parser.getNum(), parser.getOutputName(), parser.getInputName(), true);
-                }
-                if (!parser.getOutputName().equals("Нет") && !parser.flagIsC()) { //Есть выходной файл и флаг N
-                    Tail tail = new Tail(parser.getInputName(), true);
-                    tail.flagN(parser.getNum(), parser.getOutputName());
-                }
-                if (parser.getOutputName().equals("Нет") && parser.flagIsC()) { //Нет выходного файла и флаг С
-                    Tail tail = new Tail(parser.getInputName(), false);
-                    tail.flagC(parser.getNum(), parser.getInputName(), true);
-                }
-                if (parser.getOutputName().equals("Нет") && !parser.flagIsC()) { //Нет выходного файла и флаг N
-                    Tail tail = new Tail(parser.getInputName(), true);
-                    tail.flagN(parser.getNum());
-                }
-            }
-
-            if (parser.getInputName() == null && !parser.getInputNames().get(0).equals("Нет")) { // Входной файл не один
+            if (parser.getInputNames() != null) {
                 for (int i = 0; i < parser.getInputNames().size(); i++) {
-                    if (!parser.getOutputName().equals("Нет") && !parser.flagIsC()) { //Есть выходной файл и флаг N
-                        Tail tail = new Tail(parser.getInputNames().get(i), true);
-                        tail.flagN(parser.getNum(), parser.getOutputName(), parser.getInputNames().get(i), false);
-                    }
-                    if (parser.getOutputName().equals("Нет") && !parser.flagIsC()) { //Нет выходного файла и флаг N
-                        Tail tail = new Tail(parser.getInputNames().get(i), true);
-                        tail.flagN(parser.getNum(), parser.getInputNames().get(i), false);
-                    }
-                    if (!parser.getOutputName().equals("Нет") && parser.flagIsC()) { //Есть выходной файл и флаг С
-                        Tail tail = new Tail(parser.getInputNames().get(i), false);
-                        tail.flagC(parser.getNum(), parser.getOutputName(), parser.getInputNames().get(i), false);
-                    }
-                    if (!parser.getOutputName().equals("Нет") && parser.flagIsC()) { //Нет выходного файла и флаг С
-                        Tail tail = new Tail(parser.getInputNames().get(i), false);
-                        tail.flagC(parser.getNum(), parser.getInputNames().get(i), false);
-                    }
+                    boolean oneFile = parser.getInputNames().size() <= 1;
+                    Tail tail = new Tail(Tail.TypeOfInput.File, parser.flagIsN(), parser.getInputNames().get(i));
+                    tail.selectText(parser.flagIsN(), parser.getOutputName(), parser.getNum(),
+                            oneFile, parser.getInputNames().get(i));
                 }
             }
-
-            if (parser.getOutputName() == null && parser.getInputNames().get(0).equals("Нет")) { // Нет входных файлов
-                if (!parser.getOutputName().equals("Нет") && parser.flagIsC()) { //Есть выходной файл и флаг С
-                    Tail tail = new Tail(false);
-                    tail.flagC(parser.getNum(), parser.getOutputName());
-                }
-                if (!parser.getOutputName().equals("Нет") && !parser.flagIsC()) { //Есть выходной файл и флаг N
-                    Tail tail = new Tail(true);
-                    tail.flagN(parser.getNum(), parser.getOutputName());
-                }
-                if (parser.getOutputName().equals("Нет") && parser.flagIsC()) { //Нет выходного файла и флаг С
-                    Tail tail = new Tail(false);
-                    tail.flagC(parser.getNum());
-                }
-                if (parser.getOutputName().equals("Нет") && !parser.flagIsC()) { //Нет выходного файла и флаг N
-                    Tail tail = new Tail(true);
-                    tail.flagN(parser.getNum());
-                }
+            if (parser.getInputNames() == null) {
+                Tail tail = new Tail(Tail.TypeOfInput.Console, parser.flagIsN(), null);
+                tail.selectText(parser.flagIsN(), parser.getOutputName(), parser.getNum(),
+                        true,null);
             }
         }
     }
