@@ -21,15 +21,14 @@ public class Tail {
                 while ((line = reader.readLine()) != null) {
                     lines.add(line);
                 }
-                reader.close();
             } else {
                 characters = new ArrayList<>();
                 int c;
                 while ((c = reader.read()) != -1) {
                     characters.add((char) c);
                 }
-                reader.close();
             }
+            reader.close();
         }
         if (type == TypeOfInput.File) {
             BufferedReader reader =  new BufferedReader(new FileReader(new File(inputFile)));
@@ -39,21 +38,21 @@ public class Tail {
                 while ((line = reader.readLine()) != null) {
                     lines.add(line);
                 }
-                reader.close();
             } else {
                 characters = new ArrayList<>();
                 int c;
                 while ((c = reader.read()) != -1) {
                     characters.add((char) c);
                 }
-                reader.close();
             }
+            reader.close();
         }
     }
 
     public void selectText(boolean queryValue, String outputFile, int num, boolean oneFile, String inputFile) {
         if (!(outputFile == null)) {
-            try (FileWriter writer = new FileWriter(outputFile)) {
+            try {
+                FileWriter writer = new FileWriter(outputFile, true);
                 if (!oneFile) writer.write(inputFile + '\n');
                 if (queryValue) {
                     if (num > lines.size()) throw new IllegalArgumentException("Num больше количества строк файла");
@@ -75,7 +74,9 @@ public class Tail {
                         numberOfChar++;
                         counter++;
                     }
+                    writer.write('\n');
                 }
+                writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
