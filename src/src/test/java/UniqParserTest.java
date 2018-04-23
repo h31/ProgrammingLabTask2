@@ -70,52 +70,5 @@ public class UniqParserTest {
         assertEquals(parser.getInputFileName(), "file.txt");
         assertEquals(parser.getOutputFileName(), "output.txt");
     }
-  /*  private static File textFile;
-    private static File outFile;
-
-
-    private static FileWriter outWriter;
-
-
-    private void assertFileContent(String expectedContent, File file) throws FileNotFoundException {
-        String reader = new BufferedReader(new FileReader(file)).lines().collect(Collectors.joining("\n"));
-        assertEquals(expectedContent, reader);
-    }
-
-    private void ready() throws IOException {
-        textFile = new File("input/file.txt");
-        FileReader testReader = new FileReader(textFile);
-
-        outFile = new File("src/test/java/task2/out.txt");
-        outWriter = new FileWriter(outFile);
-    }
-
-    public void After() throws IOException {
-        System.gc();
-        outFile.delete();
-    }
-
-
-    @Test
-    private void countSameLines() {
-
-
-    }
-
-    @Test
-    private void chooseDifferentLines() {
-
-    }
-
-    @Test
-    private void ignoreCharacters() {
-
-    }
-
-    @Test
-    private void caseInsensetive() {
-
-    }*/
-
 
 }
