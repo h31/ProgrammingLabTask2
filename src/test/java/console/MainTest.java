@@ -10,24 +10,24 @@ public class MainTest {
     @Test
     public void exceptionTest() {
         try {
-            main("-r", "-d", "C:\\users");
+            main("-r", "-d", "testDir");
         } catch (IllegalArgumentException e) {
             assertEquals("please, enter a file name!", e.getMessage());
         }
         try {
-            main("-r", "-d", "C:\\users\\gggfffg", "file.txt");
+            main("-r", "-d", "some dir", "testFile.txt");
         } catch (IllegalArgumentException e) {
             assertEquals("this directory doesn't exist", e.getMessage());
         }
         try {
-            main("-r", "-d", "C:\\users", "file.txt", "file.txt");
+            main("-r", "-d", "testDir", "testFile.txt", "testFile.txt");
         } catch (IllegalArgumentException e) {
             assertEquals("please, enter a ONE file name!", e.getMessage());
         }
         try {
-            main("-d", "C:\\users", "file.txt");
+            main("-d", "testDir/testDir2", "testFile.txt");
         } catch (IllegalArgumentException e) {
-            assertEquals("no results for: file.txt", e.getMessage());
+            assertEquals("no results for: testFile.txt", e.getMessage());
         }
     }
 
