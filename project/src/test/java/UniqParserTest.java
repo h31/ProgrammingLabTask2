@@ -1,10 +1,9 @@
 import org.junit.Test;
-
 import java.io.FileNotFoundException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
 
 public class UniqParserTest {
     Parser parser = new Parser();
@@ -12,8 +11,8 @@ public class UniqParserTest {
 
     @Test
     public void test() throws FileNotFoundException {
-         parser = new Parser();
-         args = new String[]{"-i", "-u", "-c", "-s", "2", "-o", "outputFile.txt", "file.txt"};
+        parser = new Parser();
+        args = new String[]{"-i", "-u", "-c", "-s", "2", "-o", "outputFile.txt", "file.txt"};
 
         parser.analyzeArgs(args);
 
@@ -28,8 +27,8 @@ public class UniqParserTest {
 
     @Test
     public void hasNoFileName() throws Exception {
-         parser = new Parser();
-         args = new String[]{"-i", "-u", "-c", "-s", "2"};
+        parser = new Parser();
+        args = new String[]{"-i", "-u", "-c", "-s", "2"};
         parser.analyzeArgs(args);
 
         assertTrue(parser.isCaseInsensetive());
@@ -44,7 +43,7 @@ public class UniqParserTest {
     @Test
     public void onlyHasOutputFileName() throws FileNotFoundException {
         parser = new Parser();
-         args = new String[]{"-i", "-u", "-c", "-o", "output.txt"};
+        args = new String[]{"-i", "-u", "-c", "-o", "output.txt"};
 
         parser.analyzeArgs(args);
 
@@ -59,7 +58,7 @@ public class UniqParserTest {
     @Test
     public void test4() throws FileNotFoundException {
         parser = new Parser();
-         args = new String[]{ "-u", "-c", "-o", "output.txt", "file.txt"};
+        args = new String[]{"-u", "-c", "-o", "output.txt", "file.txt"};
 
         parser.analyzeArgs(args);
 
