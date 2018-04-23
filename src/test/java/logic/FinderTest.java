@@ -12,10 +12,8 @@ public class FinderTest {
     public void findTest() {
         Finder finder = new Finder();
         assertEquals(
-                new File("C:\\Users\\evgen\\IdeaProjects\\" +
-                        "ProgrammingLabTask2\\pom.xml"),
-                finder.find(true, new File("C:\\Users\\evgen\\IdeaProjects\\" +
-                        "ProgrammingLabTask2"), "pom.xml"));
+                new File("testDir/testFile"),
+                finder.find(true, new File("testDir"), "testFile"));
     }
 
 }
