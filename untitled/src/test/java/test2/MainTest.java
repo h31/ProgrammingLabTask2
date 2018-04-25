@@ -63,7 +63,7 @@ public class MainTest {
         FileCoder code2 = new FileCoder("abcd");
         code2.transform("src/test/java/test2/out.txt", "src/test/java/test2/returnOut");
         FileInputStream file1 = new FileInputStream("src/test/java/test2/in.txt");
-        FileInputStream file2 = new FileInputStream("src/test/java/test2/returnOut.txt");
+        FileInputStream file2 = new FileInputStream("src/test/java/test2/returnOut");
         int b1, b2;
         while ((b1 = file1.read()) != -1) {
             b2 = file2.read();
