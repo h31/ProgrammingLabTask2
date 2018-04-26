@@ -8,31 +8,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class interfaceTail {
+public class launcherTail {
     private parserTail parser;
 
-    interfaceTail(String cmdLine) {
-        String[] args = cmdLine.split(" ");
+    launcherTail(String[] args) {
+        //String[] args = cmdLine.split(" ");
         this.parser = new parserTail(args);
     }
 
-    public List<String> read() throws FileNotFoundException {
-        List<String> listOfInputs = parser.getInputFileName();
-        FileReader reader;
-        Scanner scanner;
+    public List<String> read() throws IOException {
+        Scanner scanner = null;
         List<String> text = new ArrayList<>();
+        List<String> listOfInputs = parser.getInputFileName();
+        FileReader reader = null;
         for (String listOfInput : listOfInputs) {
             reader = new FileReader(listOfInput);
             scanner = new Scanner(reader);
             while (scanner.hasNextLine())
                 text.add(scanner.nextLine());
         }
+        reader.close();
+        scanner.close();
         return text;
     }
 
     public void write(List<String> text) throws IOException {
-        FileWriter writer = new FileWriter(parser.getOutputFileName());
-        for (String aText : text)
-            writer.write(aText);
+        if (parser.isOutputFile()) {
+            FileWriter writer = new FileWriter(parser.getOutputFileName());
+            for (String aText : text)
+                writer.write(aText + "\n");
+            writer.close();
+        } else {
+            for (String aText : text)
+                System.out.println(aText + "\n");
+        }
     }
 }

@@ -65,13 +65,13 @@ public class parserTail {
 
     public List<String> getInputFileName() throws FileNotFoundException {
         for (String anInputFileName : inputFileName)
-            if (!anInputFileName.matches("^*.txt$") && inputFile)
+            if (!anInputFileName.matches("^*.txt$") && !inputFile)
                 throw new FileNotFoundException("Incorrect name of input file");
         return inputFileName;
     }
 
     public String getOutputFileName() throws FileNotFoundException {
-        if (!outputFileName.matches("^*.txt$") && outputFile)
+        if (!outputFileName.matches("^*.txt$") && !outputFile)
             throw new FileNotFoundException("Incorrect name of output file");
         return outputFileName;
     }
