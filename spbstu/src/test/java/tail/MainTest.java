@@ -32,31 +32,26 @@ public class MainTest {
 
     @Test
     public void testC() throws IOException {
-        String[] args = {"tail", "-c", "50", "-o", "/Users/molkos/IdeaProjects/ProgrammingLabTask2/spbstu/src/main/java/Output.txt",
-                "/Users/molkos/IdeaProjects/ProgrammingLabTask2/spbstu/src/main/java/Text1.txt"};
+        String[] args = {"tail", "-c", "50", "-o", "Output.txt", "Text1.txt"};
         Main.main(args, input);
-        assertFileContent("/Users/molkos/IdeaProjects/ProgrammingLabTask2/spbstu/src/main/java/Output.txt",
-                "/Users/molkos/IdeaProjects/ProgrammingLabTask2/spbstu/src/main/java/Expected1.txt");
+        assertFileContent("Output.txt", "Expected1.txt");
     }
 
     @Test
     public void testN() throws IOException {
-        String[] args = {"tail", "-n", "10", "-o", "/Users/molkos/IdeaProjects/ProgrammingLabTask2/spbstu/src/main/java/Output.txt",
-                "/Users/molkos/IdeaProjects/ProgrammingLabTask2/spbstu/src/main/java/Text2.txt"};
+        String[] args = {"tail", "-n", "10", "-o", "Output.txt", "Text2.txt"};
         Main.main(args, input);
-        assertFileContent("/Users/molkos/IdeaProjects/ProgrammingLabTask2/spbstu/src/main/java/Output.txt",
-                "/Users/molkos/IdeaProjects/ProgrammingLabTask2/spbstu/src/main/java/Expected2.txt");
+        assertFileContent("Output.txt", "Expected2.txt");
     }
 
     @Test
     public void testFromCmdToFile() throws IOException {
-        String[] args = {"tail", "-c", "36", "-o", "/Users/molkos/IdeaProjects/ProgrammingLabTask2/spbstu/src/main/java/Output.txt"};
+        String[] args = {"tail", "-c", "36", "-o", "Output.txt"};
         input = new Scanner("Я б навеки забыл кабаки\n" +
                 "И стихи бы писать забросил.\n" +
                 "Только б тонко касаться руки\n" +
                 "И волос твоих цветом в осень.");
         Main.main(args, input);
-        assertFileContent("/Users/molkos/IdeaProjects/ProgrammingLabTask2/spbstu/src/main/java/Output.txt",
-                "/Users/molkos/IdeaProjects/ProgrammingLabTask2/spbstu/src/main/java/Expected3.txt");
+        assertFileContent("Output.txt", "Expected3.txt");
     }
 }
