@@ -1,0 +1,1 @@
+java -jar task2.jar fileToCollect1.txt fileToCollect2.txt fileToCollect3.txt fileToCollect4.txt fileToCollect5.txt -out collectedFile.txt
