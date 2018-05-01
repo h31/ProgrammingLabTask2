@@ -22,13 +22,7 @@ public class Creator {
             System.out.println(ex.getMessage());
         }
     }
-    public void createNewFile(){
-        try {
-            File file = new File(pathDir + name);
-            file.createNewFile();
-        } catch (IOException ex){
-            System.out.println(ex.getMessage());
-        }
+    public void createNewFile() {
+        createNewFile(pathDir, name);
     }
-
 }

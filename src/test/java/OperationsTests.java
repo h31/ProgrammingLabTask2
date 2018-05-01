@@ -1,92 +1,57 @@
-import logic.Files.Deleter;
-import logic.Files.Reader;
-import logic.Operations.Collector;
-import logic.Operations.Separator;
 import org.junit.Test;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Logger;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
+import static logic.Operations.Collector.collectFiles;
+import static logic.Operations.Separator.separateFile;
 import static org.junit.Assert.assertEquals;
 
 public class OperationsTests {
-    private static Logger log = Logger.getLogger(OperationsTests.class.getName());
-    File home = new File("");
-    Deleter deleter = new Deleter();
-    private final String projectResourcesPath = home.getAbsolutePath() + "/src/test/java/resources/";
 
-    private String actualCollectedFilePathPattern = projectResourcesPath + "Collect/fileToCollect";
-    private File correctlyCollectledFile = new File(projectResourcesPath + "Collect/Expected/correctlyCollectedFile.txt");
-    private File fileToCollect1 = new File(actualCollectedFilePathPattern + "1.txt");
-    private File fileToCollect2 = new File(actualCollectedFilePathPattern + "2.txt");
-    private File fileToCollect3 = new File(actualCollectedFilePathPattern + "3.txt");
-    private File fileToCollect4 = new File(actualCollectedFilePathPattern + "4.txt");
-    private File fileToCollect5 = new File(actualCollectedFilePathPattern + "5.txt");
-    private List<File> filesToCollect = Arrays.asList(fileToCollect1, fileToCollect2, fileToCollect3, fileToCollect4, fileToCollect5);
+    private final String projectResourcesPath = "src/test/java/resources";
 
+    // For collector
+    private Path expectedCollectledFile = Paths.get(projectResourcesPath + "/Collect/Expected/correctlyCollectedFile.txt");
+    private String actualCollectedFilePathPattern = projectResourcesPath + "/Collect/fileToCollect";
+    private List<Path> filesToCollect = Arrays.asList(Paths.get(actualCollectedFilePathPattern + "1.txt"), Paths.get(actualCollectedFilePathPattern + "2.txt"), Paths.get(actualCollectedFilePathPattern + "3.txt"),
+            Paths.get(actualCollectedFilePathPattern + "4.txt"), Paths.get(actualCollectedFilePathPattern + "5.txt"));
 
-    private Reader reader = new Reader();
-    private List<String> correctlyCollectedLines = reader.getLines(correctlyCollectledFile);
-    private File testCollectedFile = new File(projectResourcesPath + "Collect/Actual/testCollectedFile.txt");
-    private final String actualSplitFilePathPattern = projectResourcesPath + "Separate/Actual/testSplitFile";
-    private final String expectedSplitFilePathPattern = projectResourcesPath + "Separate/Expected/splitFile";
-    private File fileToSeparate = new File(projectResourcesPath + "Separate/fileToSeparate.txt");
-    private File splitFile1 = new File(expectedSplitFilePathPattern + "1.txt");
-    private File splitFile2 = new File(expectedSplitFilePathPattern + "2.txt");
-    private File splitFile3 = new File(expectedSplitFilePathPattern + "3.txt");
-    private File splitFile4 = new File(expectedSplitFilePathPattern + "4.txt");
-    private File splitFile5 = new File(expectedSplitFilePathPattern + "5.txt");
-
-    private List<String> actualFileLines1 = reader.getLines(splitFile1);
-    private List<String> actualFileLines2 = reader.getLines(splitFile2);
-    private List<String> actualFileLines3 = reader.getLines(splitFile3);
-    private List<String> actualFileLines4 = reader.getLines(splitFile4);
-    private List<String> actualFileLines5 = reader.getLines(splitFile5);
-    private List<List<String>> actualFilesList = new ArrayList<>(Arrays.asList(actualFileLines1, actualFileLines2,
-            actualFileLines3, actualFileLines4, actualFileLines5));
-
-    private File testSplitFile1 = new File(actualSplitFilePathPattern + "1.txt");
-    private File testSplitFile2 = new File(actualSplitFilePathPattern + "2.txt");
-    private File testSplitFile3 = new File(actualSplitFilePathPattern + "3.txt");
-    private File testSplitFile4 = new File(actualSplitFilePathPattern + "4.txt");
-    private File testSplitFile5 = new File(actualSplitFilePathPattern + "5.txt");
-    private List<File> testSplitFiles = new ArrayList<>(Arrays.asList(testSplitFile1, testSplitFile2, testSplitFile3,
-            testSplitFile4, testSplitFile5));
+    // For separator
+    private String expectedFilesPathPattern = projectResourcesPath + "/Separate/Expected/splitFile";
+    private List<Path> expectedSeparatedFiles = Arrays.asList(Paths.get(expectedFilesPathPattern + "1.txt"), Paths.get(expectedFilesPathPattern + "2.txt"), Paths.get(expectedFilesPathPattern + "3.txt"),
+            Paths.get(expectedFilesPathPattern + "4.txt"), Paths.get(expectedFilesPathPattern + "5.txt"));
+    private Path fileToSeparate = Paths.get(projectResourcesPath + "/Separate/fileToSeparate.txt");
+    private String actualFilesPathPattern = projectResourcesPath + "/Separate/Actual/separatedFile";
+    private List<Path> actualSeparatedFiles = Arrays.asList(Paths.get(actualFilesPathPattern + "1.txt"), Paths.get(actualFilesPathPattern + "2.txt"), Paths.get(actualFilesPathPattern + "3.txt"),
+            Paths.get(actualFilesPathPattern + "4.txt"), Paths.get(actualFilesPathPattern + "5.txt"));
 
 
     @Test
-    public void collectFile() {
-        Collector collector = new Collector();
-        log.info("Collector инициализирован!");
-        collector.collectFile(filesToCollect, "testCollectedFile.txt", projectResourcesPath + "Collect/Actual/");
-        log.info("Файлы " + filesToCollect.toString() + " успешно собраны в файл " + projectResourcesPath + "Collect/Actual/testCollectedFile.txt");
-        List<String> testCollectedLines = reader.getLines(testCollectedFile);
-        deleter.deleteFile(new File(projectResourcesPath + "Collect/Actual/testCollectedFile.txt"));
-        log.info("Файл " + projectResourcesPath + "Collect/Actual/testCollectedFile.txt" + " удален");
-
-        assertEquals(correctlyCollectedLines, testCollectedLines);
+    public void collectFilesTest() throws IOException {
+        collectFiles(filesToCollect, Paths.get("src/test/java/resources/Collect/Actual/testCollectedFile.txt"));
+        List<String> expectedLines = Files.readAllLines(expectedCollectledFile);
+        List<String> actualLines = Files.readAllLines(Paths.get("src/test/java/resources/Collect/Actual/testCollectedFile.txt"));
+        assertEquals(expectedLines, actualLines);
     }
 
     @Test
-    public void separateFile() {
-        Separator separator = new Separator();
-        log.info("Separator инициализирован!");
-        separator.separateFile(fileToSeparate, projectResourcesPath + "Separate/Actual/", "testSplitFile");
-        log.info("Файл " + fileToSeparate.toString() + " успешно поделен на файлы " + testSplitFiles);
-        List<String> testFileLines1 = reader.getLines(testSplitFile1);
-        List<String> testFileLines2 = reader.getLines(testSplitFile2);
-        List<String> testFileLines3 = reader.getLines(testSplitFile3);
-        List<String> testFileLines4 = reader.getLines(testSplitFile4);
-        List<String> testFileLines5 = reader.getLines(testSplitFile5);
-        deleter.deleteFiles(testSplitFiles);
-        log.info("Файлы " + testSplitFiles + " удалены");
-        List<List<String>> testFilesList = new ArrayList<>(Arrays.asList(testFileLines1, testFileLines2,
-                testFileLines3, testFileLines4, testFileLines5));
+    public void separateFileTest() throws IOException {
+        separateFile(fileToSeparate, Paths.get(projectResourcesPath + "/Separate/Actual/"));
+        List<String> expectedLinesForCompare = new ArrayList<>();
+        for(Path path : expectedSeparatedFiles){
+            expectedLinesForCompare.addAll(Files.readAllLines(path));
+        }
 
-        assertEquals(actualFilesList, testFilesList);
+        List<String> actualLinesForCompare = new ArrayList<>();
+        for (Path path : actualSeparatedFiles){
+            actualLinesForCompare.addAll(Files.readAllLines(path));
+        }
+        System.out.println(actualLinesForCompare);
+        assertEquals(expectedLinesForCompare, actualLinesForCompare);
+
     }
-
 }

@@ -1,4 +1,4 @@
-import UI.Parsers.Args;
+import ui.Parsers.Args;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -42,7 +42,7 @@ public class ParserTests {
         String[] args = arguments.split(" |\n");
         Args avhs = new Args(args);
         avhs.getTask();
-        assertTrue(avhs.taskFlag());
+        assertTrue(avhs.getTaskFlag());
         assertEquals(avhs.getCollectionFile(), testCollectedFile);
         assertEquals(avhs.getFilesToCollect(), filesToCollectList);
         String arguments_ex = "/ 23 /232i f d";
@@ -54,7 +54,7 @@ public class ParserTests {
         args = short_arguments.split(" |\n");
         Args avhs_short = new Args(args);
         avhs_short.getTask();
-        assertTrue(avhs_short.taskFlag());
+        assertTrue(avhs_short.getTaskFlag());
         assertEquals(avhs_short.getCollectionFile(), short_testCollectedFile);
         assertEquals(avhs_short.getFilesToCollect(), short_filesToCollectList);
     }
@@ -65,14 +65,14 @@ public class ParserTests {
         String[] args = arguments.split(" |\n");
         Args avhs = new Args(args);
         avhs.getTask();
-        assertFalse(avhs.taskFlag());
+        assertFalse(avhs.getTaskFlag());
         assertEquals(avhs.getFileToSeparate(), testFileToSeparate);
 
         String arguments_short = "-u fileToSeparate.txt";
         args = arguments_short.split(" |\n");
         Args avhs_short = new Args(args);
         avhs_short.getTask();
-        assertFalse(avhs_short.taskFlag());
+        assertFalse(avhs_short.getTaskFlag());
         assertEquals(avhs_short.getFileToSeparate(), short_testFileToSeparate);
 
         String arguments_ex = "-  /cxzask2/task2/src/main/resources/fileToSeparate.txt";

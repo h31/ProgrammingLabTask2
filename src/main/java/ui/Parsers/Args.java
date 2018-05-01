@@ -1,4 +1,4 @@
-package UI.Parsers;
+package ui.Parsers;
 
 
 import java.io.File;
@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Args {
     private List<String> arguments = new ArrayList<>();
-    boolean pack;
+    boolean isPacking;
     List<File> filesToCollect = new ArrayList<>();
     File collectionFile;
 
@@ -27,7 +27,7 @@ public class Args {
                     File home = new File("");
                     fileToSeparate = new File(home.getAbsolutePath() + "/" + arguments.get(1));
                 }
-                pack = false;
+                isPacking = false;
 
             } else {
                 int i = 0;
@@ -47,15 +47,15 @@ public class Args {
                     File home = new File("");
                     collectionFile = new File(home.getAbsolutePath() + "/" + arguments.get(i + 1));
                 }
-                pack = true;
+                isPacking = true;
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
             throw ex;
         }
     }
 
-    public boolean taskFlag() {
-        return pack;
+    public boolean getTaskFlag() {
+        return isPacking;
     }
 
     public File getCollectionFile() {
