@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class LogicTest {
+class transposeTest {
     @Test
     void transpose() {
         Transpose t = new Transpose(true, true, 4, "");

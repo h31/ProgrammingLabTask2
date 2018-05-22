@@ -36,25 +36,28 @@ public class Transpose {
         List<List<String>> output = new ArrayList<>();
         for (String line:text) {
             String[] words = line.split("[\\s]+");
-            if (num != 0) {
-                for (int i = 0; i < words.length; i++) {
+            if ((num == 0) & ((isRightSide) | (isCut))){
+                num = 10;
+            }
+            for (int i = 0; i < words.length; i++) {
+                if (num != 0) {
                     if (num > words[i].length()){
                         int first = words[i].length();
                         for (int j = first; j < num; j++){
-                            if (isRightSide = true) {
+                            if (isRightSide) {
                                 words[i] = " " + words[i];
                             }
                             else words[i] += " ";
                         }
                     }
-                    else if (isCut = true) {
+                    else if (isCut) {
                         words[i] = words[i].substring(0, num);
                     }
                 }
             }
             List<String> l = new ArrayList<>();
             for (String w : words) {
-                if (w.equals("")) {
+                if (!w.equals("")) {
                     l.add(w);
                 }
             }
