@@ -31,28 +31,26 @@ public class Transpose {
         }
     }
 
+
     public List<List<String>> format(List<String> text) {
         List<List<String>> output = new ArrayList<>();
         for (String line:text) {
             String[] words = line.split("[\\s]+");
-            if (num >= -1) {
-                for (int i = 0; i < line.length(); i++) {
-                    if (words[i].length() < num) {
-                        for (int j = 0; j < num; j++) {
-                            if (isRightSide = true) {
-                                words[i] = " " + words[i];
-                            }
-                            else words[i] = words[i] + " ";
+            if (num != 0) {
+                if (words[0].length() < num) {
+                    for (int j = words[0].length(); j < num; j++) {
+                        if (isRightSide = true) {
+                            words[0] = " " + words[0];
                         }
+                            else words[0] = words[0] + " ";
                     }
                 }
-                if (isCut = true) {
-                    for (int i = 0; i < line.length(); i++) {
-                        for (int j = 0; j < num; j++)
-                            words[j] = words[j].substring(0, words[j].length() - 1);
-                    }
+                else if (isCut = true) {
+                    words[0] = words[0].substring(0, num);
                 }
             }
+            /*System.out.print(num + " ");
+            System.out.println(words[0] + ";");*/
             List<String> l = new ArrayList<>();
             for (String w : words) {
                 if (w.equals("")) {
@@ -60,6 +58,8 @@ public class Transpose {
                 }
             }
             output.add(l);
+            System.out.println(output);
+
         }
         return output;
     }
@@ -76,7 +76,15 @@ public class Transpose {
                 output.set(i, s);
             }
         }
-        return output;
+        /*System.out.println(output);*/
+        List<List<String>> temp = new ArrayList<>();
+        for (List<String> l: output) {
+            for (int i = 0; i < l.size(); i++) {
+                temp.add(format(l).get(i));
+            }
+        }
+        System.out.println(temp);
+        return temp;
     }
 }
 
