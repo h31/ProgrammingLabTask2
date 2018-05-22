@@ -37,20 +37,21 @@ public class Transpose {
         for (String line:text) {
             String[] words = line.split("[\\s]+");
             if (num != 0) {
-                if (words[0].length() < num) {
-                    for (int j = words[0].length(); j < num; j++) {
-                        if (isRightSide = true) {
-                            words[0] = " " + words[0];
+                for (int i = 0; i < words.length; i++) {
+                    if (num > words[i].length()){
+                        int first = words[i].length();
+                        for (int j = first; j < num; j++){
+                            if (isRightSide = true) {
+                                words[i] = " " + words[i];
+                            }
+                            else words[i] += " ";
                         }
-                            else words[0] = words[0] + " ";
+                    }
+                    else if (isCut = true) {
+                        words[i] = words[i].substring(0, num);
                     }
                 }
-                else if (isCut = true) {
-                    words[0] = words[0].substring(0, num);
-                }
             }
-            /*System.out.print(num + " ");
-            System.out.println(words[0] + ";");*/
             List<String> l = new ArrayList<>();
             for (String w : words) {
                 if (w.equals("")) {
@@ -58,7 +59,6 @@ public class Transpose {
                 }
             }
             output.add(l);
-            System.out.println(output);
 
         }
         return output;
@@ -76,15 +76,7 @@ public class Transpose {
                 output.set(i, s);
             }
         }
-        /*System.out.println(output);*/
-        List<List<String>> temp = new ArrayList<>();
-        for (List<String> l: output) {
-            for (int i = 0; i < l.size(); i++) {
-                temp.add(format(l).get(i));
-            }
-        }
-        System.out.println(temp);
-        return temp;
+        return output;
     }
 }
 
