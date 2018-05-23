@@ -1,8 +1,6 @@
 package ru.spbstu.kspt.task2.logic;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,16 +18,34 @@ public class Transpose {
         this.num = num;
     }
 
-    public List<List<String>> allLogic(Path inputFile) {
+    /*public List<List<String>> allLogic(Path inputFile) {
         return transpose(format(reader(inputFile)));
-    }
+    }*/
 
-    public List<String> reader(Path inputFile) {
+    public List<String> reader(String inputFile) {
+        List<String> l = new ArrayList<>();
         try {
-            return (Files.readAllLines(inputFile));
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            File file = new File(inputFile);
+            //создаем объект FileReader для объекта File
+            FileReader fr = new FileReader(file);
+            //создаем BufferedReader с существующего FileReader для построчного считывания
+            BufferedReader readeR = new BufferedReader(fr);
+            // считаем сначала первую строку
+            String line = readeR.readLine();
+            l.add(line);
+            while (line != null) {
+                // считываем остальные строки в цикле
+                line = readeR.readLine();
+                l.add(line);
+            }
+            l.remove(l.size() - 1);
         }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return l;
     }
 
     public List<List<String>> format(List<String> text) {
@@ -81,5 +97,25 @@ public class Transpose {
         }
         return output;
     }
+
+    /*public List<String> writerito(String outputFile) {
+        public static void main(String[] args) {
+            try(FileWriter writer = new FileWriter(outputFile, false))
+            {
+                // запись всей строки
+                String text = "Hello Gold!";
+                writer.write(text);
+                // запись по символам
+                writer.append('\n');
+                writer.append('E');
+
+                writer.flush();
+            }
+            catch(IOException ex){
+
+                System.out.println(ex.getMessage());
+            }
+        }
+    }*/
 }
 

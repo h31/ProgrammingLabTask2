@@ -1,15 +1,4 @@
-import org.junit.jupiter.api.Test;
-import ru.spbstu.kspt.task2.logic.Transpose;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-
-class launcherTest {
+/*class launcherTest {
     @Test
     public void Test1() {
         Path inputFile = Paths.get("src/test/java/inputFile.txt");
@@ -23,4 +12,4 @@ class launcherTest {
         l = Arrays.asList(expected1, expected2, expected3, expected4, expected5);
         assertEquals(l, matrix.allLogic(inputFile));
     }
-}
+}*/

@@ -6,12 +6,10 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import ru.spbstu.kspt.task2.logic.Transpose;
 
-import java.nio.file.Path;
-
 public class TransposeLauncher {
 
     @Argument(required = true)
-    private Path inputFile;
+    private String inputFile;
 
     @Option(name = "-o")
     private String outputFile;
@@ -39,6 +37,6 @@ public class TransposeLauncher {
             return;
         }
         Transpose t = new Transpose(isRightSide, isCut, num, outputFile);
-        t.allLogic(inputFile);
+        /*t.allLogic(inputFile);*/
     }
 }
