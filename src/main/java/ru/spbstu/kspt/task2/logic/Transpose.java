@@ -18,11 +18,12 @@ public class Transpose {
         this.num = num;
     }
 
-    /*public List<List<String>> allLogic(Path inputFile) {
+    public List<List<String>> allLogic(String inputFile) {
         return transpose(format(reader(inputFile)));
-    }*/
+        writer(transpose(format(reader(inputFile))));
+    }
 
-    public List<String> reader(String inputFile) {
+    public List<String> reader(this.inputFile) {
         List<String> l = new ArrayList<>();
         try {
             File file = new File(inputFile);
@@ -98,24 +99,23 @@ public class Transpose {
         return output;
     }
 
-    /*public List<String> writerito(String outputFile) {
-        public static void main(String[] args) {
-            try(FileWriter writer = new FileWriter(outputFile, false))
-            {
-                // запись всей строки
-                String text = "Hello Gold!";
-                writer.write(text);
-                // запись по символам
-                writer.append('\n');
-                writer.append('E');
-
-                writer.flush();
-            }
-            catch(IOException ex){
-
-                System.out.println(ex.getMessage());
+    public void writer(String outputFile) {
+        try {
+            List<List<String>> list = new ArrayList<>();
+            for (List<String> line: list){
+                for (int i = 0; i < line.size(); i++) {
+                    FileWriter fstream = new FileWriter(outputFile);
+                    BufferedWriter out = new BufferedWriter(fstream);
+                    String s = line.toString();
+                    out.write(s+"\r\n");
+                    out.newLine();
+                    out.close();
+                }
             }
         }
-    }*/
+        catch(IOException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
 }
 
