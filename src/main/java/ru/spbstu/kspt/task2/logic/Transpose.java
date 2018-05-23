@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Transpose {
     boolean isRightSide;
     boolean isCut;
@@ -19,8 +20,8 @@ public class Transpose {
         this.num = num;
     }
 
-    public void allLogic(Path inputFile) {
-        this.transpose(this.format(this.reader(inputFile)));
+    public List<List<String>> allLogic(Path inputFile) {
+        return transpose(format(reader(inputFile)));
     }
 
     public List<String> reader(Path inputFile) {
@@ -30,7 +31,6 @@ public class Transpose {
             throw new IllegalArgumentException(e.getMessage());
         }
     }
-
 
     public List<List<String>> format(List<String> text) {
         List<List<String>> output = new ArrayList<>();
