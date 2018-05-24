@@ -20,10 +20,9 @@ public class Transpose {
 
     public List<List<String>> allLogic(String inputFile) {
         return transpose(format(reader(inputFile)));
-        writer(transpose(format(reader(inputFile))));
     }
 
-    public List<String> reader(this.inputFile) {
+    public List<String> reader(String inputFile) {
         List<String> l = new ArrayList<>();
         try {
             File file = new File(inputFile);
@@ -99,19 +98,18 @@ public class Transpose {
         return output;
     }
 
-    public void writer(String outputFile) {
+    public void writer(String inputFile) {
         try {
             List<List<String>> list = new ArrayList<>();
+            list = allLogic(inputFile);
+            FileWriter fstream = new FileWriter(isOutputFile);
+            BufferedWriter out = new BufferedWriter(fstream);
             for (List<String> line: list){
-                for (int i = 0; i < line.size(); i++) {
-                    FileWriter fstream = new FileWriter(outputFile);
-                    BufferedWriter out = new BufferedWriter(fstream);
-                    String s = line.toString();
-                    out.write(s+"\r\n");
-                    out.newLine();
-                    out.close();
-                }
+                String s = line.toString();
+                out.write(s + "\r\n");
+                /*out.newLine();*/
             }
+            out.close();
         }
         catch(IOException ex){
             System.out.println(ex.getMessage());
