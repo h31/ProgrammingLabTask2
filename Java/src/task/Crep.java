@@ -1,4 +1,4 @@
-
+package task;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,10 +6,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Crep {
-    private CrepReader reader;
+    private task.CrepReader reader;
     File fileName = new File("input.txt");
     BufferedReader readfile;
-
     {
         try {
             readfile = new BufferedReader(new FileReader(fileName));
@@ -17,10 +16,8 @@ public class Crep {
             System.out.println("Файл не был найден!!");
         }
     }
-
     public List<String> word(String word) throws IOException {
-        List<String> output = new ArrayList<>() {
-        };
+        List<String> output = new ArrayList<>() {};
         String line;
         while ((line = readfile.readLine()) != null) {
             if (line.contains(word)) {
