@@ -100,14 +100,15 @@ public class Transpose {
 
     public void writer(String inputFile) {
         try {
-            List<List<String>> list = new ArrayList<>();
-            list = allLogic(inputFile);
+            List<List<String>> list = allLogic(inputFile);
             FileWriter fstream = new FileWriter(isOutputFile);
             BufferedWriter out = new BufferedWriter(fstream);
             for (List<String> line: list){
-                String s = line.toString();
-                out.write(s + "\r\n");
-                /*out.newLine();*/
+                String s = String.join(" ", line);
+                if (!list.get(list.size() - 1).equals(line)) {
+                    out.write(s + "\r\n");
+                }
+                else out.write(s);
             }
             out.close();
         }
