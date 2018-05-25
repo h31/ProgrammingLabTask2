@@ -4,7 +4,7 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-import ru.spbstu.kspt.task2.logic.Transpose;
+import ru.spbstu.kspt.task2.logic.Transposition;
 
 public class TransposeLauncher {
 
@@ -36,7 +36,6 @@ public class TransposeLauncher {
             parser.printUsage(System.err);
             return;
         }
-        Transpose t = new Transpose(isRightSide, isCut, num, outputFile);
-        /*t.allLogic(inputFile);*/
+        Transposition t = new Transposition(isRightSide, isCut, num, outputFile);
     }
 }

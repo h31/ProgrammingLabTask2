@@ -1,23 +1,29 @@
 import org.junit.jupiter.api.Test;
-import ru.spbstu.kspt.task2.logic.Transpose;
+import ru.spbstu.kspt.task2.logic.Transposition;
 
 
 class GeneralTest {
     @Test
     void readerTest() {
-        Transpose t = new Transpose(true, true, 4, "src/test/java/outputFile.txt");
+        Transposition t = new Transposition(true, true, 4, "src/test/java/outputFile.txt");
         System.out.println(t.reader("src/test/java/inputFile.txt"));
     }
 
     @Test
     void allLogicTest() {
-        Transpose t = new Transpose(true, true, 4, "src/test/java/outputFile.txt");
+        Transposition t = new Transposition(true, true, 4, "src/test/java/outputFile.txt");
         System.out.println(t.allLogic("src/test/java/inputFile.txt"));
     }
 
     @Test
     void writerTest() {
-        Transpose t = new Transpose(true, true, 4, "src/test/java/outputFile.txt");
+        Transposition t = new Transposition(true, true, 4, "src/test/java/outputFile.txt");
+        t.writer("src/test/java/inputFile.txt");
+    }
+
+    @Test
+    void exceptionTest() {
+        Transposition t = new Transposition(true, false, 0, "src/test/java/outputFile.txt");
         t.writer("src/test/java/inputFile.txt");
     }
 }
