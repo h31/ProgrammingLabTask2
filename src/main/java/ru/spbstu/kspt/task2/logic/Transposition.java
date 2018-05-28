@@ -95,15 +95,17 @@ public class Transposition {
 
     public void writer(String inputFile) {
         try {
+            if (isOutputFile == "")
+                System.out.print(allLogic(inputFile));
             List<List<String>> transposedText = allLogic(inputFile);
             FileWriter stream = new FileWriter(isOutputFile);
             BufferedWriter out = new BufferedWriter(stream);
             for (List<String> line: transposedText){
-                String s = String.join(" ", line);
+                String listToString = String.join(" ", line);
                 if (!transposedText.get(transposedText.size() - 1).equals(line)) {
-                    out.write(s + "\r\n");
+                    out.write(listToString + "\r\n");
                 }
-                else out.write(s);
+                else out.write(listToString);
             }
             out.close();
         }
