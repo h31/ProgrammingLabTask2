@@ -2,72 +2,73 @@ package task2;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 
 class FileSize {
 
-    private boolean h;
-    private boolean c;
-    private boolean si;
-    private long sum = 0;
+    private boolean readable;
+    private boolean totalSize;
+    private boolean baseThousand;
 
-    FileSize(boolean h, boolean c, boolean si) {
-        this.h = h;
-        this.c = c;
-        this.si = si;
+    FileSize(boolean readable, boolean totalSize, boolean baseThousand) {
+        this.readable = readable;
+        this.totalSize = totalSize;
+        this.baseThousand = baseThousand;
     }
 
-    private long fileSize(File fileN) {
-        if (fileN.isFile()) return fileN.length();
+    private long fileSize(File path) {
+        long sum = 0;
+        if (path.isFile()) return path.length();
         else {
-            File[] list = fileN.listFiles();
-            if (list != null) {
-                for (File i : list) {
-                    if (i.isDirectory()) sum += fileSize(i);
-                    else sum += i.length();
-                }
+            File[] list = path.listFiles();
+            if (list == null) return path.length();
+            for (File i : list) {
+                if (i.isDirectory()) sum += fileSize(i);
+                else sum += i.length();
             }
             return sum;
         }
     }
 
-    List print(String[] args) {
-        int base = 1024;
-        if (si) base = 1000;
-        int type = 0;
-        String[] list = {"B", "KB", "MB", "GB"};
-        List<String> res = new LinkedList<>();
+    List getSize(List<String> args) {
+        long fullSize = 0;
+        String[] sizeList = {"B", "KB", "MB", "GB"};
+        List<String> res = new ArrayList<>();
         for (String i : args) {
-            File file = new File(i);
+            int sizeType = 0;
+            File file = new File(String.valueOf(i));
             if (!file.exists()) throw new IllegalArgumentException("no such file or directory");
-            if (c) sum += fileSize(file);
+            if (totalSize) fullSize += fileSize(file);
             else {
+                int base = 1024;
+                if (baseThousand) base = 1000;
                 long size = fileSize(file);
-                if (h) {
+                if (readable) {
                     if (size / base > 0) {
                         size /= base;
-                        type++;
+                        sizeType++;
                     }
-                    res.add("Size of" + " " + i + " " + "equals" + " " + size + " " + list[type]);
+                    res.add("Size of" + " " + i + " " + "equals" + " " + size + " " + sizeList[sizeType]);
                 } else {
                     size /= base;
                     res.add("Size of" + " " + i + " " + "equals" + " " + size);
                 }
             }
-            type = 0;
         }
-        if (c) {
-            if (h) {
-                if (sum / base > 0) {
-                    sum /= base;
-                    type++;
+        if (totalSize) {
+            int base = 1024;
+            if (baseThousand) base = 1000;
+            if (readable) {
+                int sizeType = 0;
+                if (fullSize / base > 0) {
+                    fullSize /= base;
+                    sizeType++;
                 }
-                res.add("Full size of files equals" + " " + sum + " " + list[type]);
+                res.add("Full size of files equals" + " " + fullSize + " " + sizeList[sizeType]);
             } else {
-                sum /= base;
-                res.add("Full size of files equals" + " " + sum);
+                fullSize /= base;
+                res.add("Full size of files equals" + " " + fullSize);
             }
         }
         return res;

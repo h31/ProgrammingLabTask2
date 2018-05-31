@@ -10,24 +10,24 @@ import java.util.List;
 
 class FileSizeLauncher {
     @Option(name = "-h", usage = "readable format for a person")
-    private boolean h;
+    private boolean readable;
 
     @Option(name = "-c", usage = "total size")
-    private boolean c;
+    private boolean totalSize;
 
     @Option(name = "--si", usage = "base = 1000")
-    private boolean si;
+    private boolean baseThousand;
 
     @Argument(usage = "Input file names")
-    private String[] fileN;
+    private List<String> fileN;
 
-    static void main(String[] args) {
+    static void main(List<String> args) {
         new FileSizeLauncher().launch(args);
     }
 
     static List list = new ArrayList();
 
-    private void launch(String[] args) {
+    private void launch(List<String> args) {
         CmdLineParser parser = new CmdLineParser(this);
 
         try {
@@ -38,8 +38,10 @@ class FileSizeLauncher {
             parser.printUsage(System.err);
             return;
         }
-        FileSize du = new FileSize(h, c, si);
-        list = du.print(fileN);
-        System.out.println(list.get(0));
+        FileSize du = new FileSize(readable, totalSize, baseThousand);
+        list = du.getSize(fileN);
+        for (Object i : list) {
+            System.out.println(i);
+        }
     }
 }
