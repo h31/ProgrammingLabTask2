@@ -1,8 +1,3 @@
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 public class Cryptor {
     private String key;
     private byte[] msg;
@@ -19,7 +14,7 @@ public class Cryptor {
     public String crypt() {
         StringBuilder res = new StringBuilder();
             for (int i = 0; i < msg.length; i++)
-                res.append((char) (msg[i % key.length()] ^ key.charAt(i)));
+                res.append((char) (msg[i] ^ key.charAt(i % key.length())));
         return res.toString();
     }
 }
