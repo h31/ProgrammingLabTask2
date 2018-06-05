@@ -6,36 +6,28 @@ import org.kohsuke.args4j.Option;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Main {
     private static Cli c = new Cli();
 
     public static void main(String args[]) {
-        Program prg = c.parse(args);
-        if (c.output != null) {
-            try {
-                if (!new File(c.output).exists()) {
-                    new File(c.output).createNewFile();
-                }
-                PrintWriter out = new PrintWriter(c.output);
-                out.println(prg.work());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                System.out.println(prg.work());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        Cryptor prg = c.parse(args);
+        try {
+            prg.setMsg(Files.readAllBytes(Paths.get(c.input)));
+            PrintWriter out = new PrintWriter(c.output);
+            out.print(prg.crypt());
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
         }
     }
 
-    static class Cli{
+    static class Cli {
         @Option(name = "-c", usage = "Encrypt file with key")
         private String ckey = null;
 
-        @Option(name = "-d", usage = "Decrypt ile with key")
+        @Option(name = "-d", usage = "Decrypt file with key")
         private String dkey = null;
 
         @Argument
@@ -44,27 +36,25 @@ public class Main {
         @Option(name = "-o", usage = "Output file")
         private String output;
 
-        public Program parse(final String[] args) {
+        Cryptor parse(final String[] args) {
             CmdLineParser cmd = new CmdLineParser(this);
-            if (args.length >= 1) {
+            if (args.length >= 1 && (!new File(input).isFile() || (ckey == null && dkey == null))) {
                 try {
                     cmd.parseArgument(args);
                 } catch (CmdLineException e) {
-                    System.out.println("ERROR: Unable to parse command-line options: " + e);
+                    System.err.println("ERROR: Unable to parse command-line options: " + e);
                 }
             } else {
                 cmd.printUsage(System.out);
                 System.exit(-1);
             }
-            if (!new File(input).isFile() || (ckey == null && dkey == null)) {
-                cmd.printUsage(System.out);
-                System.exit(-1);
+            if (c.output == null)
+                c.output = c.input + ".cry";
+            if (dkey == null) {
+                return new Cryptor(ckey);
+            } else {
+                return new Cryptor(dkey);
             }
-                if (dkey == null) {
-                    return new Program(ckey, input);
-                } else {
-                    return new Program(dkey, input);
-                }
         }
     }
 }
