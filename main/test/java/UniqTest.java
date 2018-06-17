@@ -21,8 +21,8 @@ public class UniqTest {
 
     @Test
     public void writeUniqTest() throws Exception {
-        String[] lines = {"aa", "aa", "bb"};
-        String[] expectedLines = { "bb"};
+        String[] lines = {"aa", "bb", "bb"};
+        String[] expectedLines = {"aa"};
         generateInputFile(lines);
         Uniq u = new Uniq(true, false, 0, false);
         u.writeUniq(inputName, outputName);
@@ -31,7 +31,7 @@ public class UniqTest {
 
     @Test
     public void writeUniqTest2() throws Exception {
-        String[] lines = {"aa", "Aa", "bb"};
+        String[] lines = {"aA", "Aa", "bb"};
         String[] expectedLines = {"2\taa", "1\tbb"};
         generateInputFile(lines);
         Uniq u = new Uniq(false, true, 0, true);
@@ -41,7 +41,7 @@ public class UniqTest {
 
     @Test
     public void writeUniqTest3() throws Exception {
-        String[] lines = {"gspppppp","qWpppPPp", "aab","aab"};
+        String[] lines = {"gspppppp", "qWpppPPp", "aAb", "aab"};
         String[] expectedLines = {"gspppppp", "aab"};
         generateInputFile(lines);
         Uniq u = new Uniq(false, false, 2, true);
@@ -51,8 +51,8 @@ public class UniqTest {
 
     @Test
     public void writeUniqTest4() throws Exception {
-        String[] lines = {"aaa","aaa", "aab","aab","xy","Xy"};
-        String[] expectedLines = {"aaa", "aab","xy","Xy"};
+        String[] lines = {"aaa", "aAa", "abb", "abb", "xy", "Xy"};
+        String[] expectedLines = {"aaa", "aAa", "abb", "xy", "Xy"};
         generateInputFile(lines);
         Uniq u = new Uniq(false, false, 1, false);
         u.writeUniq(inputName, outputName);
@@ -61,7 +61,7 @@ public class UniqTest {
 
     @Test
     public void writeUniqTest5() throws Exception {
-        String[] lines = {"aaa","bAA","aab"};
+        String[] lines = {"aaa", "bAA", "aab"};
         String[] expectedLines = {"1\taab"};
         generateInputFile(lines);
         Uniq u = new Uniq(true, true, 1, true);
