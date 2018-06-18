@@ -15,11 +15,11 @@ class Uniq {
 
     void writeUniq(String inputFile, String outputFile) throws IOException {
         try (
-                InputStream inputStream = (inputFile == null) ? System.in : new FileInputStream(inputFile);
-                OutputStream outputStream = (outputFile == null) ? System.out : new FileOutputStream(outputFile)
+                InputStream inputStream =  new FileInputStream(inputFile);
+                OutputStream outputStream = new FileOutputStream(outputFile)
         ) {
                 writeUniq(inputStream, outputStream);
-            }
+        }
     }
 
 
