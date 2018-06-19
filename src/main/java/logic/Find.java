@@ -24,15 +24,17 @@ public class Find {
                     else pathToTheFile = currentDirectory + "/" + directories[i];
                     if (new File(pathToTheFile + "/" + fileToFind).isFile())
                         return new File(pathToTheFile + "/" + fileToFind);
-                    pathToTheFile = search(pathToTheFile, fileToFind).toString();
-                    if (new File(pathToTheFile).isFile()) return new File(pathToTheFile);
+                    if (search(pathToTheFile, fileToFind) != null) {
+                        pathToTheFile = search(pathToTheFile, fileToFind).toString();
+                        if (new File(pathToTheFile).isFile()) return new File(pathToTheFile);
+                    }
                 }
             }
         }
         if (currentDirectory.equals(directoryToSearch)) {
             throw new Exception("File does not exist");
         }
-        return new File("");
+        return null;
     }
 
     public File find(String fileToFind) throws Exception {

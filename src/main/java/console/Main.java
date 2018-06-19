@@ -8,6 +8,6 @@ public class Main {
 
     public void main(String[] args) throws Exception {
         FindLauncher findLauncher = new FindLauncher(args);
-        file = findLauncher.commandLine();
+        file = findLauncher.commandLineChecking();
     }
 }

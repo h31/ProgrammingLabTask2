@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FindTest {
 
+    private Throwable exception;
+
     @Test
     void test1() throws Exception {
         Find path = new Find("src", true);
@@ -23,15 +25,10 @@ class FindTest {
     }
 
     @Test
-    void test3(){
+    void test3() {
         Find path = new Find("src", false);
-        String messsage = "";
-        try{
-            path.find("test1.txt");
-        }catch (Exception e){
-            messsage = e.getMessage();
-        }
-        assertEquals("File does not exist", messsage);
+        exception = assertThrows(Exception.class, () -> path.find("test1.txt"));
+        assertEquals("File does not exist", exception.getMessage());
     }
 
     @Test
@@ -42,14 +39,10 @@ class FindTest {
     }
 
     @Test
-    void test5() throws Exception {
+    void test5() {
         Find path = new Find("src/test", true);
-        String messsage = "";
-        try{
-            path.find("test3.txt");
-        }catch (Exception e){
-            messsage = e.getMessage();
-        }
-        assertEquals("File does not exist", messsage);
+        exception = assertThrows(Exception.class, () -> path.find("test3.txt"));
+        assertEquals("File does not exist", exception.getMessage());
     }
+
 }

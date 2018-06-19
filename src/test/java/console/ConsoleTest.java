@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ConsoleTest {
 
+    private Throwable exception;
+
     @Test
     void test1() throws Exception {
         Main path = new Main();
@@ -16,15 +18,10 @@ class ConsoleTest {
     }
 
     @Test
-    void test2() throws Exception {
+    void test2() {
         Main path = new Main();
-        String message = "";
-        try {
-            path.main(new String[]{"test2.txt"});
-        } catch (Exception e) {
-            message = e.getMessage();
-        }
-        assertEquals("File does not exist", message);
+        exception = assertThrows(Exception.class, () -> path.main(new String[]{"test2.txt"}));
+        assertEquals("File does not exist", exception.getMessage());
     }
 
     @Test
@@ -35,14 +32,9 @@ class ConsoleTest {
     }
 
     @Test
-    void test4() throws Exception {
+    void test4() {
         Main path = new Main();
-        String message = "";
-        try {
-            path.main(new String[]{"-r", "-d", "src", "test3.txt"});
-        } catch (Exception e) {
-            message = e.getMessage();
-        }
-        assertEquals("File does not exist", message);
+        exception = assertThrows(Exception.class, () -> path.main(new String[]{"-r", "-d", "src", "test3.txt"}));
+        assertEquals("File does not exist", exception.getMessage());
     }
 }
