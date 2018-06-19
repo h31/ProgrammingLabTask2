@@ -1,0 +1,1 @@
+java -classpath src/main/java console.Main %*
