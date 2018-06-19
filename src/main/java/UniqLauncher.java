@@ -4,22 +4,22 @@ import java.io.IOException;
 
 public class UniqLauncher {
     @Option(name = "-i", usage = "Not case-sensitive")
-    private boolean caseSensitive = false;
+    private boolean caseSensitive;
 
     @Option(name = "-u", usage = "Uniq lines only")
-    private boolean uniqLines = false;
+    private boolean uniqLines;
 
     @Option(name = "-c", usage = "Number of equal strings")
-    private boolean countLines = false;
+    private boolean countLines;
 
     @Option(name = "-o", metaVar = "outputFile", usage = "Output file name")
-    private String outputFileName = null;
+    private String outputFileName;
 
     @Option(name = "-s", usage = "Ignore first N characters")
-    private int ignoreSymbols = 0;
+    private int ignoreSymbols;
 
     @Argument(required = true, metaVar = "InputName", usage = "Input file name")
-    private String inputFileName = null;
+    private String inputFileName;
 
     public static void main(String[] args) {
         new UniqLauncher().launch(args);
