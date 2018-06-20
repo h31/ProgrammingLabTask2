@@ -4,7 +4,6 @@ import java.io.*;
 
 import static org.junit.Assert.assertEquals;
 
-
 public class UniqTest {
 
     private String inputName = "input.txt";

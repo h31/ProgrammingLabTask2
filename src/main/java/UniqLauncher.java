@@ -2,6 +2,7 @@ import org.kohsuke.args4j.*;
 
 import java.io.IOException;
 
+
 public class UniqLauncher {
     @Option(name = "-i", usage = "Not case-sensitive")
     private boolean caseSensitive;

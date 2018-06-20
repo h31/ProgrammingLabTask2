@@ -22,7 +22,6 @@ class Uniq {
         }
     }
 
-
     private void writeUniq(InputStream inputStream, OutputStream outputStream) throws IOException {
         String pastLine = null;
         try (
