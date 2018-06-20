@@ -12,7 +12,6 @@ public class launcherTail {
     private parserTail parser;
 
     launcherTail(String[] args) {
-        //String[] args = cmdLine.split(" ");
         this.parser = new parserTail(args);
     }
 

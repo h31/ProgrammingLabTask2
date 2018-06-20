@@ -32,26 +32,25 @@ public class MainTest {
 
     @Test
     public void testC() throws IOException {
-        String[] args = {"tail", "-c", "50", "-o", "Output.txt", "Text1.txt"};
-        Main.main(args, input);
+        String[] args = {"-c", "50", "-o", "Output.txt", "Text1.txt"};
+        Main.main(args);
         assertFileContent("Output.txt", "Expected1.txt");
     }
 
     @Test
     public void testN() throws IOException {
-        String[] args = {"tail", "-n", "10", "-o", "Output.txt", "Text2.txt"};
-        Main.main(args, input);
+        String[] args = {"-n", "10", "-o", "Output.txt", "Text2.txt"};
+        Main.main(args);
         assertFileContent("Output.txt", "Expected2.txt");
     }
 
     @Test
     public void testFromCmdToFile() throws IOException {
-        String[] args = {"tail", "-c", "36", "-o", "Output.txt"};
-        input = new Scanner("Я б навеки забыл кабаки\n" +
+        String[] args = {"-c", "36", "-o", "Output.txt", "Я б навеки забыл кабаки\n" +
                 "И стихи бы писать забросил.\n" +
                 "Только б тонко касаться руки\n" +
-                "И волос твоих цветом в осень.");
-        Main.main(args, input);
+                "И волос твоих цветом в осень."};
+        Main.main(args);
         assertFileContent("Output.txt", "Expected3.txt");
     }
 }

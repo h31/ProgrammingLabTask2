@@ -8,7 +8,7 @@ public class logicTail {
     logicTail() {
     }
 
-    public List<String> c(int amountOfSymbols, List<String> linesFromFile) {
+    public List<String> flagC(int amountOfSymbols, List<String> linesFromFile) {
 
         int symbols = 0;
         int i = linesFromFile.size() - 1;
@@ -24,7 +24,7 @@ public class logicTail {
         return result;
     }
 
-    public List<String> n(int amountOfLines, List<String> linesFromFile) {
+    public List<String> flagN(int amountOfLines, List<String> linesFromFile) {
         for (int i = linesFromFile.size() - amountOfLines; i < linesFromFile.size(); i++)
             result.add(linesFromFile.get(i));
         return result;

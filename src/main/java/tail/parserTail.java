@@ -7,48 +7,67 @@ import java.util.List;
 public class parserTail {
     private List<String> inputFileName = new ArrayList<>();
     private String outputFileName;
-    private boolean workWithSymbols = false;
+    private boolean processSymbols = false;
     private int numberOfSymbols = 0;
-    private boolean workWithLines = false;
+    private boolean processLines = false;
     private int numberOfLines = 0;
     private boolean outputFile = false;
     private boolean inputFile = false;
+    List<String> inputText = new ArrayList<>();
 
     parserTail(String[] args) {
         for (int i = 0; i < args.length; i++) {
             switch (args[i]) {
                 case "-c":
-                    workWithSymbols = true;
-                    numberOfSymbols = Integer.parseInt(args[++i]);
+                    processSymbols = true;
+                    try {
+                        numberOfSymbols = Integer.parseInt(args[++i]);
+                    }
+                    catch (IndexOutOfBoundsException e) {
+                        System.out.println("Incorrect command format");
+                    }
                     break;
                 case "-n":
-                    workWithLines = true;
-                    numberOfLines = Integer.parseInt(args[++i]);
+                    processLines = true;
+                    try {
+                        numberOfLines = Integer.parseInt(args[++i]);
+                    }
+                    catch (IndexOutOfBoundsException e) {
+                        System.out.println("Incorrect command format");
+                    }
                     break;
                 case "-o":
-                    outputFileName = args[++i];
-                    outputFile = true;
-                    break;
-                case "tail":
+                    try {
+                        outputFileName = args[++i];
+                        outputFile = true;
+                    }
+                    catch (IndexOutOfBoundsException e) {
+                        System.out.println("Incorrect command format");
+                    }
                     break;
                 default:
-                    inputFileName.add(args[i]);
-                    inputFile = true;
+                    if (args[i].matches("^*.*")) {
+                            inputFileName.add(args[i]);
+                            inputFile = true;
+                    }
+                    else inputText.add(args[i]);
+
+
             }
         }
-        if (workWithLines && workWithSymbols) throw new IllegalArgumentException("Incorrect command format");
+        if (processLines && processSymbols) throw new IllegalArgumentException("Incorrect command format");
     }
 
-    public boolean isWorkWithLines() {
-        return workWithLines;
+    public boolean isProcessLines() {
+        return processLines;
     }
 
     public int getNumberOfLines() {
         return numberOfLines;
     }
 
-    public boolean isWorkWithSymbols() {
-        return workWithSymbols;
+    public boolean isProcessSymbols() {
+        return processSymbols;
     }
 
     public int getNumberOfSymbols() {
@@ -64,15 +83,12 @@ public class parserTail {
     }
 
     public List<String> getInputFileName() throws FileNotFoundException {
-        for (String anInputFileName : inputFileName)
-            if (!anInputFileName.matches("^*.txt$") && !inputFile)
-                throw new FileNotFoundException("Incorrect name of input file");
+            if (!inputFile) throw new FileNotFoundException("Input file is not found");
         return inputFileName;
     }
 
     public String getOutputFileName() throws FileNotFoundException {
-        if (!outputFileName.matches("^*.txt$") && !outputFile)
-            throw new FileNotFoundException("Incorrect name of output file");
+        if (!outputFile) throw new FileNotFoundException("Output file is not found");
         return outputFileName;
     }
 }
