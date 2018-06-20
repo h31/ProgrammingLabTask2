@@ -1,11 +1,10 @@
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
 
 import static org.junit.Assert.assertEquals;
 
-
-public class UniqTest {
+class UniqTest {
 
     private String inputName = "input.txt";
     private String outputName = "output.txt";
@@ -20,7 +19,7 @@ public class UniqTest {
     }
 
     @Test
-    public void writeUniqTest() throws Exception {
+    void writeUniqTest() throws Exception {
         String[] lines = {"aa", "bb", "bb"};
         String[] expectedLines = {"aa"};
         generateInputFile(lines);
@@ -30,7 +29,7 @@ public class UniqTest {
     }
 
     @Test
-    public void writeUniqTest2() throws Exception {
+    void writeUniqTest2() throws Exception {
         String[] lines = {"aA", "Aa", "bb"};
         String[] expectedLines = {"2\taa", "1\tbb"};
         generateInputFile(lines);
@@ -40,7 +39,7 @@ public class UniqTest {
     }
 
     @Test
-    public void writeUniqTest3() throws Exception {
+    void writeUniqTest3() throws Exception {
         String[] lines = {"gspppppp", "qWpppPPp", "aAb", "aab"};
         String[] expectedLines = {"gspppppp", "aab"};
         generateInputFile(lines);
@@ -50,7 +49,7 @@ public class UniqTest {
     }
 
     @Test
-    public void writeUniqTest4() throws Exception {
+    void writeUniqTest4() throws Exception {
         String[] lines = {"aaa", "aAa", "abb", "abb", "xy", "Xy"};
         String[] expectedLines = {"aaa", "aAa", "abb", "xy", "Xy"};
         generateInputFile(lines);
@@ -60,7 +59,7 @@ public class UniqTest {
     }
 
     @Test
-    public void writeUniqTest5() throws Exception {
+    void writeUniqTest5() throws Exception {
         String[] lines = {"aaa", "bAA", "aab"};
         String[] expectedLines = {"1\taab"};
         generateInputFile(lines);
