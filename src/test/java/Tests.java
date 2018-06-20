@@ -26,7 +26,7 @@ public class Tests {
     }
 
     @Test
-    public void testC() {
+    public void testCutter() {
         List<String> newText0 = new ArrayList<>(cutter.cutter(text, 0, 100, true));
         assertEquals("[" + expected0.replaceAll("\n", ", ") + "]", newText0.toString());
 
@@ -38,10 +38,7 @@ public class Tests {
 
         List<String> newText3 = new ArrayList<>(cutter.cutter(text, 10, 100, true));
         assertEquals("[" + expected3.replaceAll("\n", ", ") + "]", newText3.toString());
-    }
 
-    @Test
-    public void testW() {
         List<String> newText4 = new ArrayList<>(cutter.cutter(text, 0, 100, false));
         assertEquals("[" + expected4.replaceAll("\n", ", ") + "]", newText4.toString());
 
