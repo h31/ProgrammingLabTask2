@@ -7,23 +7,27 @@ import java.io.File;
 
 public class Main {
 
-    public static void main(String... argv) {
+    public static void main(String... args) {
         Finder finder = new Finder();
-        Args args = new Args();
+        Args argv = new Args();
         JCommander jCommander = new JCommander();
-        if (argv.length > 4) {
+        if (args.length > 4) {
             throw new IllegalArgumentException("please, enter a ONE file name!");
         }
         try {
-            jCommander.addObject(args);
-            jCommander.parse(argv);
+            jCommander.addObject(argv);
+            jCommander.parse(args);
         } catch (Exception e) {
             throw new IllegalArgumentException("please, enter a file name!");
         }
-        String name = args.name.get(0).toString();
-        if (args.dPath != null) {
-            System.out.println(finder.find(args.r, new File(args.dPath), name));
+        String name = argv.name.get(0).toString();
+        if (argv.dPath != null) {
+            File result = finder.find(argv.r, new File(argv.dPath), name);
+            if (result != null) fileIsDetected = true;
+            System.out.println(result);
         }
     }
+
+    public static boolean fileIsDetected = false;
 
 }
