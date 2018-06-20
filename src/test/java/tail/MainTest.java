@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MainTest {
-    private Scanner input;
 
     private boolean assertFileContent(String actualOutputName, String expectedOutputName) throws FileNotFoundException {
         FileReader file1 = new FileReader(actualOutputName);
