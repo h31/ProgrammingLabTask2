@@ -27,31 +27,31 @@ public class Tests {
 
     @Test
     public void testC() {
-        List<String> newText0 = new ArrayList<>(cutter.cutterC(text, 0, 100));
+        List<String> newText0 = new ArrayList<>(cutter.cutter(text, 0, 100, true));
         assertEquals("[" + expected0.replaceAll("\n", ", ") + "]", newText0.toString());
 
-        List<String> newText1 = new ArrayList<>(cutter.cutterC(text, 4, 9));
+        List<String> newText1 = new ArrayList<>(cutter.cutter(text, 4, 9, true));
         assertEquals("[" + expected1.replaceAll("\n", ", ") + "]", newText1.toString());
 
-        List<String> newText2 = new ArrayList<>(cutter.cutterC(text, 0, 14));
+        List<String> newText2 = new ArrayList<>(cutter.cutter(text, 0, 14, true));
         assertEquals("[" + expected2.replaceAll("\n", ", ") + "]", newText2.toString());
 
-        List<String> newText3 = new ArrayList<>(cutter.cutterC(text, 10, 100));
+        List<String> newText3 = new ArrayList<>(cutter.cutter(text, 10, 100, true));
         assertEquals("[" + expected3.replaceAll("\n", ", ") + "]", newText3.toString());
     }
 
     @Test
     public void testW() {
-        List<String> newText4 = new ArrayList<>(cutter.cutterW(text, 0, 100));
+        List<String> newText4 = new ArrayList<>(cutter.cutter(text, 0, 100, false));
         assertEquals("[" + expected4.replaceAll("\n", ", ") + "]", newText4.toString());
 
-        List<String> newText5 = new ArrayList<>(cutter.cutterW(text, 4, 9));
+        List<String> newText5 = new ArrayList<>(cutter.cutter(text, 4, 9, false));
         assertEquals("[" + expected5.replaceAll("\n", ", ") + "]", newText5.toString());
 
-        List<String> newText6 = new ArrayList<>(cutter.cutterW(text, 0, 14));
+        List<String> newText6 = new ArrayList<>(cutter.cutter(text, 0, 14, false));
         assertEquals("[" + expected6.replaceAll("\n", ", ") + "]", newText6.toString());
 
-        List<String> newText7 = new ArrayList<>(cutter.cutterW(text, 10, 100));
+        List<String> newText7 = new ArrayList<>(cutter.cutter(text, 10, 100, false));
         assertEquals("[" + expected7.replaceAll("\n", ", ") + "]", newText7.toString());
     }
 }
