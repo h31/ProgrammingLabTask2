@@ -3,21 +3,25 @@ import java.util.List;
 
 public class Cut {
 
-    public List<String> cutter(String text, int n, int k, boolean spaces) {
+    public String cutter(String text, int n, int k, boolean spaces) {
         List<String> newText = new ArrayList<>();
-        String textWithOrWithoutSpaces = "";
+        String textWithOrWithoutSpaces;
+        String result;
+        String[] line;
         if (spaces) {
             textWithOrWithoutSpaces = text;
         } else {
             textWithOrWithoutSpaces = text.replaceAll(" ", "");
         }
-        for (String lines : textWithOrWithoutSpaces.split("\n")) {
-            if (k > lines.length()) {
-                k = lines.length();
+        line = textWithOrWithoutSpaces.split("\n");
+        for (int i = 0; i < line.length; i++) {
+            if (k > line[i].length()) {
+                k = line[i].length();
             }
-            String newLine = lines.substring(n, k);
+            String newLine = line[i].substring(n, k);
             newText.add(newLine);
         }
-        return newText;
+        result = newText.toString().replaceAll("\\[|\\]", "");
+        return result;
     }
 }

@@ -19,30 +19,33 @@ class Main {
         Scanner scanner = new Scanner(System.in);
 
 
-        for (String arg : args) {
-            int i = 0;
-            switch (arg) {
+        for (int i = 0; i < args.length; i++) {
+            switch (args[i]) {
                 case "-c": {
                     spaces = true;
                     break;
                 }
                 case "-o": {
-                    oldFileName = arg;
+                    oldFileName = args[++i];
                     break;
                 }
                 case "n-": {
-                    n = Integer.parseInt(arg);
-                    break;
+                    try {
+                        n = Integer.parseInt(args[++i]);
+                        break;
+                    }
+                    catch (IllegalArgumentException e) {
+                        System.out.println("Некорректный ввод");
+                    }
                 }
                 case "-k": {
-                    k = Integer.parseInt(arg);
-                    break;
-                }
-                case "n-k": {
-                    String[] argument = arg.split("-");
-                    n = Integer.parseInt(argument[0]);
-                    k = Integer.parseInt(argument[1]);
-                    break;
+                    try {
+                        k = Integer.parseInt(args[++i]);
+                        break;
+                    }
+                    catch (IllegalArgumentException e) {
+                        System.out.println("Некорректный ввод");
+                    }
                 }
             }
         }
@@ -56,14 +59,10 @@ class Main {
         if (k == 0) {
             k = scanner.nextInt();
         }
-        String content = new String(Files.readAllBytes(Paths.get("src/" + oldFileName + ".txt")));
-        try (FileWriter writer = new FileWriter("src/" + newFileName + ".txt", false)) {
-            List<String> newText = cutter.cutter(content, n, k, spaces);
-            String readyText = "";
-            for (String element : newText) {
-                readyText.join(element);
-            }
-            writer.write(readyText.replaceAll(", ", "\n"));
+        String content = new String(Files.readAllBytes(Paths.get(oldFileName)));
+        try (FileWriter writer = new FileWriter(newFileName, false)) {
+            String newText = cutter.cutter(content, n, k, spaces);
+            writer.write(newText.replaceAll(", ", "\n"));
         }
     }
 }

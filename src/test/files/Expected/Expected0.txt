@@ -1,3 +1,1 @@
-Some new text just for tests
-This program is useless
-Everybody hates me
+Some new text just for tests, This program is useless, Everybody hates me
