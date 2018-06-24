@@ -46,16 +46,15 @@ class Uniq {
 
     private boolean areEqual(String currentLine, String pastLine) {
         if (pastLine == null) return false;
-        boolean equal = false;
         currentLine = currentLine.substring(ignoreSymbols);
         pastLine = pastLine.substring(ignoreSymbols);
         if (currentLine.equals(pastLine))
-            equal = true;
+            return true;
         if (caseSensitive){
             if (currentLine.equalsIgnoreCase(pastLine))
-                equal = true;
+                return true;
         }
-        return equal;
+        return false;
     }
 
     private void printCountedLine(String str, int count, BufferedWriter bw) throws IOException {
