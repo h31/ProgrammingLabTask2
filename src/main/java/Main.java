@@ -47,22 +47,16 @@ class Main {
                         System.out.println("Некорректный ввод");
                     }
                 }
+                default: {
+                    newFileName = args[i];
+                }
             }
         }
-        if (Objects.equals(oldFileName, "")){
-            oldFileName = scanner.nextLine();
-            newFileName = scanner.nextLine();
-        }
-        if (n == -1) {
-            n = scanner.nextInt();
-        }
-        if (k == 0) {
-            k = scanner.nextInt();
-        }
+
         String content = new String(Files.readAllBytes(Paths.get(oldFileName)));
         try (FileWriter writer = new FileWriter(newFileName, false)) {
             String newText = cutter.cutter(content, n, k, spaces);
-            writer.write(newText.replaceAll(", ", "\n"));
+            writer.write(newText);
         }
     }
 }

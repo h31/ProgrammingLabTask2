@@ -1,8 +1,1 @@
-Some new text just for tests
-This program is useless
-Everybody hates me
-Hello it's me how are you?
-There is only one bug in this program
-This one won't work if there will be some commas in text
-I think it's not a big problem
-I don't know what else I could write here
+ new ,  prog, ybody

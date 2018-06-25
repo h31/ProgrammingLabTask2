@@ -27,6 +27,7 @@ public class Tests {
 
     @Test
     public void testCutter() {
+
         String newText0 = cutter.cutter(text, 0, 100, true);
         assertEquals(expected0, newText0);
 
@@ -50,5 +51,12 @@ public class Tests {
 
         String newText7 = cutter.cutter(text, 10, 100, false);
         assertEquals(expected7, newText7);
+    }
+    @Test
+    public void test() throws IOException {
+        String[] args = {"-c", "-o", "src/file.txt", "src/newFile.txt", "n-", "4", "-k", "9" };
+        Main.main(args);
+        String output = new String(Files.readAllBytes(Paths.get("src/newFile.txt")));
+        assertEquals(expected1, output);
     }
 }
