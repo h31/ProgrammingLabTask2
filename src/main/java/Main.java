@@ -25,6 +25,10 @@ class Main {
                     spaces = true;
                     break;
                 }
+                case "-w": {
+                    spaces = false;
+                    break;
+                }
                 case "-o": {
                     oldFileName = args[++i];
                     break;

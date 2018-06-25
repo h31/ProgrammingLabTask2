@@ -4,8 +4,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -52,11 +50,17 @@ public class Tests {
         String newText7 = cutter.cutter(text, 10, 100, false);
         assertEquals(expected7, newText7);
     }
+
     @Test
     public void test() throws IOException {
-        String[] args = {"-c", "-o", "src/file.txt", "src/newFile.txt", "n-", "4", "-k", "9" };
-        Main.main(args);
-        String output = new String(Files.readAllBytes(Paths.get("src/newFile.txt")));
-        assertEquals(expected1, output);
+        String[] args0 = {"-c", "-o", "src/file.txt", "src/newFile.txt", "n-", "4", "-k", "9"};
+        Main.main(args0);
+        String output0 = new String(Files.readAllBytes(Paths.get("src/newFile.txt")));
+        assertEquals(expected1, output0);
+
+        String[] args1 = {"-w", "-o", "src/file.txt", "src/newFile.txt", "n-", "4", "-k", "9"};
+        Main.main(args1);
+        String output1 = new String(Files.readAllBytes(Paths.get("src/newFile.txt")));
+        assertEquals(expected5, output1);
     }
 }
